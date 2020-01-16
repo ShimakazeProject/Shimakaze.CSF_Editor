@@ -15,7 +15,7 @@ namespace frg2089.CSF.Core
         /// <summary>
         /// 标签列表
         /// </summary>
-        IEnumerable<ILabel> Label { get; }
+        IEnumerable<ILabel> Labels { get; }
 
     }
 }
