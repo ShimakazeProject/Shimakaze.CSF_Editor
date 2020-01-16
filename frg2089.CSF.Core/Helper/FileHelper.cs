@@ -32,5 +32,6 @@ namespace frg2089.CSF.Core.Helper
             }
             return new FileHelper(iHeader, labels);
         }
+        public static IFile CreateFile(IEnumerable<byte> file) => CreateFile(file.Take(24), file.Skip(24));
     }
 }
