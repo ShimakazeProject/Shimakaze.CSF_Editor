@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IFile.cs" />
+    <Compile Include="IHeader.cs" />
     <Compile Include="IValue.cs" />
     <Compile Include="ILabel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
