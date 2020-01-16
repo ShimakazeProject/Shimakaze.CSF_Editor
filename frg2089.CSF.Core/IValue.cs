@@ -26,10 +26,10 @@ namespace frg2089.CSF.Core
         /// <summary>
         /// 额外值长度(ASCII)
         /// </summary>
-        int? ExtraValueLength { get; }
+        int? ExtraLength { get; }
         /// <summary>
         /// 额外值字符串
         /// </summary>
-        string ExtraValue { get; set; }
+        string ExtraString { get; set; }
     }
 }
