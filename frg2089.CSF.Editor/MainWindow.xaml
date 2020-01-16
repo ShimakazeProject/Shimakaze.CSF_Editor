@@ -1,12 +1,59 @@
-﻿<Window x:Class="frg2089.CSF.Editor.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:frg2089.CSF.Editor"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+﻿<Controls:MetroWindow x:Class="frg2089.CSF.Editor.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:frg2089.CSF.Editor"        
+                      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      mc:Ignorable="d"
+                      Title="CNC Strings File Editor" Height="450" Width="800">
     <Grid>
-        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <DataGrid x:Name="_dgTagList" Grid.Column="0"
+                      ItemsSource="{Binding Labels}"
+                      SelectedItem="{Binding SelectedLabel}"
+                      AutoGenerateColumns="False">
+                <DataGrid.ItemContainerStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Visibility" Value="Visible"/>
+                    </Style>
+                </DataGrid.ItemContainerStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn x:Name="dgtc_Label" Binding="{Binding Type}"
+                                        Header="类型" IsReadOnly="True" Width="*"/>
+                </DataGrid.Columns>
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="重载列表" Command="{Binding ReloadListCommand}"/>
+                        <!--<MenuItem Header="重载文件" Click="F5FileMenuItem_Click"/>-->
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+            </DataGrid>
+            <DataGrid x:Name="_dgValueList" Grid.Column="1" 
+                      AutoGenerateColumns="False">
+                <DataGrid.ItemContainerStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Visibility" Value="Visible"/>
+                    </Style>
+                </DataGrid.ItemContainerStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="标签" Binding="{Binding LabelString}" Width="150"/>
+                    <DataGridTextColumn Header="值" Width="*"/>
+                    <DataGridTextColumn Header="额外值" Binding="{Binding ExtraValue}" Width="100"/>
+                </DataGrid.Columns>
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="修改条目" Command="{Binding EditLabelCommand}"
+                                  CommandParameter="{Binding ElementName=_dgValueList,Path=SelectedItem}"/>
+                        <Separator/>
+                        <MenuItem Header="删除条目"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+            </DataGrid>
+        </Grid>
     </Grid>
-</Window>
+</Controls:MetroWindow>
