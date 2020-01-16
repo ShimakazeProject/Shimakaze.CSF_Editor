@@ -22,15 +22,15 @@ namespace frg2089.CSF.Core
         /// <summary>
         /// 标签数
         /// </summary>
-        int NumLabel { get; }
+        int LabelCount { get; }
         /// <summary>
         /// 字符串数
         /// </summary>
-        int NumString { get; }
+        int StringCount { get; }
         /// <summary>
         /// 额外信息 4字节
         /// </summary>
-        IEnumerable<byte> Message { get; }
+        IEnumerable<byte> Unknow { get; }
         /// <summary>
         /// 语言信息
         /// </summary>
