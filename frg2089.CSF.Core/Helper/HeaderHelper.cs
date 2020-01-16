@@ -34,12 +34,12 @@ namespace frg2089.CSF.Core.Helper
         {
             if (bytes.Count()==24)
             {
-                return new HeaderHelper(Encoding.ASCII.GetString(bytes.Take(0x00).Skip(4).ToArray()),
-                                        BitConverter.ToInt32(bytes.Take(0x04).Skip(4).ToArray(), 0),
-                                        BitConverter.ToInt32(bytes.Take(0x08).Skip(4).ToArray(), 0),
-                                        BitConverter.ToInt32(bytes.Take(0x0C).Skip(4).ToArray(), 0),
-                                        bytes.Take(0x10).Skip(4),
-                                        BitConverter.ToInt32(bytes.Take(0x14).Skip(4).ToArray(), 0));
+                return new HeaderHelper(Encoding.ASCII.GetString(bytes.Skip(0x00).Take(4).ToArray()),
+                                        BitConverter.ToInt32(bytes.Skip(0x04).Take(4).ToArray(), 0),
+                                        BitConverter.ToInt32(bytes.Skip(0x08).Take(4).ToArray(), 0),
+                                        BitConverter.ToInt32(bytes.Skip(0x0C).Take(4).ToArray(), 0),
+                                        bytes.Skip(0x10).Take(4),
+                                        BitConverter.ToInt32(bytes.Skip(0x14).Take(4).ToArray(), 0));
             }
             else
             {
