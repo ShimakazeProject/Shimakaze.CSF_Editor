@@ -41,6 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helper\FileHelper.cs" />
+    <Compile Include="Helper\HeaderHelper.cs" />
+    <Compile Include="Helper\LabelHelper.cs" />
+    <Compile Include="Helper\ValueHelper.cs" />
     <Compile Include="IFile.cs" />
     <Compile Include="IHeader.cs" />
     <Compile Include="IValue.cs" />
