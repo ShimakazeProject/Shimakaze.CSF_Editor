@@ -24,5 +24,20 @@ namespace frg2089.CSF.Editor
         {
             InitializeComponent();
         }
+
+        private void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            Flyout_Setting.IsOpen = true;
+        }
+
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            Flyout_About.IsOpen = true;
+        }
+
+        private void File_Click(object sender, RoutedEventArgs e)
+        {
+            Flyout_File.IsOpen = true;
+        }
     }
 }

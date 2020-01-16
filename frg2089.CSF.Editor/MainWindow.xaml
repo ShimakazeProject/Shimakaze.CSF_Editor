@@ -7,28 +7,82 @@
                   xmlns:aw="clr-namespace:MetroFluentWindow"
                   xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
                   mc:Ignorable="d"
-                  Title="CNC Strings File Editor 评估版本" Height="800" Width="1200"
+                  Height="800" Width="1200"
                   AllowsTransparency="True"
                   Background="#01000000"
                   BorderThickness="1"
                   GlowBrush="{DynamicResource AccentColorBrush}"
                   ResizeMode="CanResizeWithGrip"
+                  ShowTitleBar="True"
+                  Title="CNC Strings File Editor 评估版本"
                   >
-    
+    <Controls:MetroWindow.LeftWindowCommands>
+        <Controls:WindowCommands>
+            <!--<TextBlock Margin="10 0" Text="CNC Strings File Editor 评估版本" VerticalAlignment="Center" FontSize="16"/>-->
+            <StackPanel Orientation="Horizontal">
+                <Button Content="文件" Click="File_Click"/>
+            </StackPanel>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.LeftWindowCommands>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <TextBox Width="200"
+            <TextBox Width="200" VerticalContentAlignment="Center"
                      Controls:TextBoxHelper.Watermark="Search"
                      Controls:TextBoxHelper.ClearTextButton="True"/>
-            <Button 
+            <Button Click="Settings_Click"
                     ToolTip="软件设置"
-                    Content="设置" />
-            <Button 
+                    Content="设置" >
+            </Button>
+            <Button Click="About_Click"
                     ToolTip="软件信息"
                     Content="关于" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl>
+            <Controls:Flyout x:Name="Flyout_File" Position="Top" Height="200">
+                <!-- Your custom content here -->
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="打开" VerticalAlignment="Bottom" Height="150"/>
+                </StackPanel>
+            </Controls:Flyout>
+
+            <Controls:Flyout x:Name="Flyout_Setting" Header="设置" Position="Right" Width="300">
+                <!-- Your custom content here -->
+                <StackPanel>
+                    <Separator/>
+                    <TextBlock Text="搜索设置" Margin="10" FontSize="16"/>
+                    <StackPanel Margin="20 0">
+                        <Controls:ToggleSwitch Header="按标签" IsChecked="True"/>
+                        <Controls:ToggleSwitch Header="按值字符串"/>
+                        <Controls:ToggleSwitch Header="全字匹配"/>
+                        <Controls:ToggleSwitch Header="使用正则表达式"/>
+                    </StackPanel>
+                </StackPanel>
+            </Controls:Flyout>
+
+            <Controls:Flyout x:Name="Flyout_About" Header="关于" Position="Right" Width="300">
+                <!-- Your custom content here -->
+                <StackPanel>
+                    <Separator/>
+                    <TextBlock Margin="20 5" Text="CNC字符串编辑器" FontSize="24" FontWeight="Black"/>
+                    <TextBlock Margin="20 0" Text="CNC String File Editor" FontSize="16" HorizontalAlignment="Right"/>
+                    <TextBlock Margin="20 5" Text="Copyright © 2019 - 2020 舰队的偶像-岛风酱!" HorizontalAlignment="Right"/>
+                    <Separator/>
+                    <TextBlock Margin="20 10">
+                        <Run Text="此版本为"/><Run Text="评估版本" FontWeight="Bold"/>
+                        <Run Text=", 并非"/><Run Text="最终版本" FontWeight="Black"/>
+                        <Run Text=", 非最终效果"/>
+                    </TextBlock>
+                </StackPanel>
+            </Controls:Flyout>
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
+    
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" MaxWidth="200"/>
@@ -80,5 +134,8 @@
                 </DataGrid.ContextMenu>
             </DataGrid>
         </Grid>
+
+
+        <Controls:MetroProgressBar VerticalAlignment="Top" IsIndeterminate="True" Maximum="100" Value="0" />
     </Grid>
 </aw:AcrylicWindow>
