@@ -25,20 +25,8 @@ namespace frg2089.CSF.Core
         /// </summary>
         string LabelName { get; set; }
         /// <summary>
-        /// 字符串值标记 为" RTS"或"WRTS"
-        /// </summary>
-        string ValueTag { get; }
-        /// <summary>
         /// 字符串值集合
         /// </summary>
         IEnumerable<IValue> Values { get; set; }
-        /// <summary>
-        /// 额外值长度(ASCII)
-        /// </summary>
-        int? ExtraValueLength { get; }
-        /// <summary>
-        /// 额外值字符串
-        /// </summary>
-        string ExtraValue { get; set; }
     }
 }
