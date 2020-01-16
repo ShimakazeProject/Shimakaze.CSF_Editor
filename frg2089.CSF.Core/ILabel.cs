@@ -8,18 +8,18 @@ namespace frg2089.CSF.Core
 {
     public interface ILabel
     {
-        ///// <summary>
-        ///// 标签标记 始终为 " LBL"
-        ///// </summary>
-        //string LabelTag { get; }
+        /// <summary>
+        /// 标签标记 始终为 " LBL"
+        /// </summary>
+        string LabelTag { get; }
         /// <summary>
         /// 字符串数
         /// </summary>
-        int StringNum { get; }
+        int StringCount { get; }
         /// <summary>
         /// 标签名长度(ASCII)
         /// </summary>
-        int LabelLength { get; }
+        int NameLength { get; }
         /// <summary>
         /// 标签名字符串
         /// </summary>
@@ -28,5 +28,10 @@ namespace frg2089.CSF.Core
         /// 字符串值集合
         /// </summary>
         IEnumerable<IValue> Values { get; set; }
+        /// <summary>
+        /// 标签长度<para/>
+        /// <code>int Length => 0x0C + NameLength + (from value in Values select value.Length).Sum();</code>
+        /// </summary>
+        int Length { get; }
     }
 }

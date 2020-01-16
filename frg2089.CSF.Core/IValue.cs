@@ -31,5 +31,10 @@ namespace frg2089.CSF.Core
         /// 额外值字符串
         /// </summary>
         string ExtraString { get; set; }
+        /// <summary>
+        /// 值长度<para/>
+        /// <code>int Length => (ValueLength * 2) + 0x0C + ExtraLength ?? 0;</code>
+        /// </summary>
+        int Length { get; }
     }
 }
