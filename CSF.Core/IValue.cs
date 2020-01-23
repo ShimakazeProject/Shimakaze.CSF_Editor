@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace frg2089.CSF.Core
+namespace CSF.Core
 {
     /// <summary>
     /// 字符串 值

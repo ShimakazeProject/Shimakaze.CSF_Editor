@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace frg2089.CSF.Core.Helper
+namespace CSF.Core.Helper
 {
     public class FileHelper : IFile
     {
