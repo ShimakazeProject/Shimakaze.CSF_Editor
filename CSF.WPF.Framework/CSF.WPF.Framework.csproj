@@ -127,9 +127,9 @@
     <Resource Include="icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CSF.Core\CSF.Core.csproj">
-      <Project>{7605e37f-fc5f-4d91-9235-f9544c725b28}</Project>
-      <Name>CSF.Core</Name>
+    <ProjectReference Include="..\CSF.Model\CSF.Model.csproj">
+      <Project>{75fe8c8c-ef32-43da-a374-acafca4b69e2}</Project>
+      <Name>CSF.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
