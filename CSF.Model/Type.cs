@@ -14,6 +14,17 @@ namespace CSF.Model
         private string name;
         #endregion
 
+        #region Construction
+        public Type(Label label)
+        {
+            Visibility = true;
+            Labels = new Label[0];
+            var tag = label.LabelName.Split(new char[] { ':', '_' });
+            Name = tag.Length != 1 ? tag[0].ToUpper() : "(default)";
+            Add(label);
+        }
+        #endregion
+
         #region Property
         public bool Visibility
         {
@@ -41,7 +52,17 @@ namespace CSF.Model
         }
         #endregion
 
+        #region Event
         public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
+
+        #region Indexer
+        public Label this[int index]
+        {
+            get => labels[index];
+            set => labels[index] = value;
+        }
+        #endregion
 
         #region Method
         public virtual void Add(Label label)

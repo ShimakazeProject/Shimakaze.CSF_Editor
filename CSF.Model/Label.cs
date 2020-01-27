@@ -18,8 +18,23 @@ namespace CSF.Model
         private bool visibility;
         #endregion
 
+        #region Construction
+        public Label(string labelTag, int stringCount, int nameLength, string labelName, IEnumerable<Value> values)
+        {
+            Visibility = true;
+            LabelTag = labelTag;
+            StringCount = stringCount;
+            NameLength = nameLength;
+            LabelName = labelName;
+            Values = values;
+            foreach (var value in values)
+                value.PropertyChanged += (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Values)));
+        }
+        public Label(string nameLength, IEnumerable<Value> values) : this(" LBL", values.Count(), nameLength.Length, nameLength, values) { }
+        #endregion
+
         #region Property
-        public string LabelTag => " LBL";
+        public string LabelTag { get; private set; }
         public int StringCount
         {
             get => stringCount; private set

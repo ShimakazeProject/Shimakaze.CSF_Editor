@@ -20,16 +20,12 @@ namespace CSF.Model
         #endregion
 
         #region Construction
-        public Value()
-        {
-            ValueTag = " RTS";
-            Visibility = true;
-        }
-        public Value(string value)
+        public Value(string value,string evalue=null)
         {
             ValueTag = " RTS";
             ValueString = value;
             Visibility = true;
+            ExtraString = evalue;
         }
         #endregion
 
