@@ -27,7 +27,7 @@ namespace CSF.Core
         /// <summary>
         /// 字符串值集合
         /// </summary>
-        IEnumerable<IValue> Values { get; set; }
+        IValue[] Values { get; set; }
         /// <summary>
         /// 标签长度<para/>
         /// <code>int Length => 0x0C + NameLength + (from value in Values select value.Length).Sum();</code>

@@ -11,12 +11,12 @@ namespace CSF.Core.Helper
     {
         public IHeader Header { get; private set; }
 
-        public IEnumerable<ILabel> Labels { get; private set; }
+        public ILabel[] Labels { get; private set; }
 
         private FileHelper(IHeader header, IEnumerable<ILabel> labels)
         {
             Header = header;
-            Labels = labels;
+            Labels = labels.ToArray();
         }
 
         public static IFile CreateFile(IEnumerable<byte> header, IEnumerable<byte> body)

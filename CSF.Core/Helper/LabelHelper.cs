@@ -16,7 +16,7 @@ namespace CSF.Core.Helper
 
         public string LabelName { get; set; }
 
-        public IEnumerable<IValue> Values { get; set; }
+        public IValue[] Values { get; set; }
 
         public int Length => 0x0C + NameLength + (from value in Values select value.Length).Sum();
 
@@ -26,7 +26,7 @@ namespace CSF.Core.Helper
             StringCount = stringCount;
             NameLength = nameLength;
             LabelName = labelName;
-            Values = values;
+            Values = values.ToArray();
         }
 
         public static ILabel CreateLabel(IEnumerable<byte> label)

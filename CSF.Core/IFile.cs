@@ -15,7 +15,7 @@ namespace CSF.Core
         /// <summary>
         /// 标签列表
         /// </summary>
-        IEnumerable<ILabel> Labels { get; }
+        ILabel[] Labels { get; }
 
     }
 }
