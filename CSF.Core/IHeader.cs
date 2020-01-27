@@ -30,7 +30,7 @@ namespace CSF.Core
         /// <summary>
         /// 额外信息 4字节
         /// </summary>
-        IEnumerable<byte> Unknow { get; }
+        byte[] Unknow { get; }
         /// <summary>
         /// 语言信息
         /// </summary>
