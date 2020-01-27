@@ -30,8 +30,6 @@ namespace CSF.Model.Extension
                     string.Empty))
                 // 转换为JsonObject
                 as JsonObject;
-            var a=root["JsonVersion"];
-
 
             if (!root.TryGetValue("JsonVersion",out JsonValue jsonVersion))
             {
