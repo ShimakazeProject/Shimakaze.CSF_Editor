@@ -12,7 +12,7 @@ namespace CSF.Model
     {
         #region Field
         private string labelName;
-        private IEnumerable<IValue> values;
+        private Value[] values;
         private int nameLength;
         private int stringCount;
         private bool visibility;
@@ -62,7 +62,7 @@ namespace CSF.Model
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LabelName)));
             }
         }
-        public IEnumerable<IValue> Values
+        public IValue[] Values
         {
             get => values; set
             {
