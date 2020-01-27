@@ -15,6 +15,11 @@ namespace CSF.Model
         #endregion
 
         #region Construction
+        public Type()
+        {
+            Visibility = true;
+            Labels = new Label[0];
+        }
         public Type(Label label)
         {
             Visibility = true;
@@ -65,7 +70,7 @@ namespace CSF.Model
         #endregion
 
         #region Method
-        public virtual void Add(Label label)
+        public virtual void Add(Core.ILabel label)
         {
             label.PropertyChanged += (o, e) =>
             {

@@ -12,14 +12,14 @@ namespace CSF.Model
     {
         #region Field
         private string labelName;
-        private Value[] values;
+        private IValue[] values;
         private int nameLength;
         private int stringCount;
         private bool visibility;
         #endregion
 
         #region Construction
-        public Label(string labelTag, int stringCount, int nameLength, string labelName, IEnumerable<Value> values)
+        public Label(string labelTag, int stringCount, int nameLength, string labelName, Value[] values)
         {
             Visibility = true;
             LabelTag = labelTag;
@@ -30,7 +30,7 @@ namespace CSF.Model
             foreach (var value in values)
                 value.PropertyChanged += (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Values)));
         }
-        public Label(string nameLength, IEnumerable<Value> values) : this(" LBL", values.Count(), nameLength.Length, nameLength, values) { }
+        public Label(string nameLength, Value[] values) : this(" LBL", values.Count(), nameLength.Length, nameLength, values) { }
         #endregion
 
         #region Property
