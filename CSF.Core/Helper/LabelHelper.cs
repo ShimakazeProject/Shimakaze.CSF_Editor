@@ -39,7 +39,12 @@ namespace CSF.Core.Helper
             int start = 0x0C + nameLength;
             for (int i = 0; i < stringCount; i++)
             {
-                var value = ValueHelper.CreateValue(label.Skip(start).ToArray());
+                var bytes = label.Skip(start).ToArray();
+                if (bytes.Length < 1)
+                {
+                    throw new Exception();
+                }
+                var value = ValueHelper.CreateValue(bytes);
                 start += (value.ValueLength * 2) + 0x0C + (value.ExtraLength ?? 0);
                 values[i] = value;
             }

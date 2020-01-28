@@ -32,7 +32,7 @@ namespace CSF.Core.Helper
                     var label = LabelHelper.CreateLabel(bytes);
                     int vl = 0;
                     foreach (var item in label.Values)
-                        vl += (item.ValueLength * 2) + 0x0C + (item.ExtraLength ?? 0);
+                        vl += (item.ValueLength * 2) + 0x08 + (item.ExtraLength ?? 0) + (item.ExtraLength != null ? 4 : 0);
                     start += 0x0C + label.NameLength + vl;
                     labels[i] = label;
                 }
