@@ -7,16 +7,34 @@ namespace CSF.Model.Extension
 {
     public static class Import
     {
-        public static void FromCSF(this Type type, Core.IFile File)
+        public static void Add(this Type[] types, Label label)
         {
-            type = new Type();
-            foreach (var label in File.Labels)
-                type.Add(label);
+            var type = new Type(label);
+            for (int i = 0; i < types.Length; i++)
+            {
+                if (types[i].Name==type.Name)
+                {
+                    types[i].Add(label);
+                    return;
+                }
+            }
+            types.Concat(new Type[] { type });
         }
-        public static void FromCSF(this Type type, string path) => type.FromCSF(Core.Helper.FileHelper.CreateFile(System.IO.File.ReadAllBytes(path)));
+        public static void FromFile(this Type[] type, Core.IFile File)
+        {
+            foreach (var label in File.Labels)
+            {
+                type.Add(new Label(label));
+            }
+        }
+        public static void FromCSF(this Type[] type, string path)
+        {
+            var bytes = System.IO.File.ReadAllBytes(path);
+            type.FromFile(Core.Helper.FileHelper.CreateFile(bytes));
+        }
 
         // 从Json导入
-        public static void FromJson(this Type type, string path)
+        public static void FromJson(this Type[] type, string path)
         {
             // 获取 Json文件Root Object
             var root = JsonValue.Parse(
@@ -37,7 +55,7 @@ namespace CSF.Model.Extension
                 switch (version)
                 {
                     case 1:
-                        type.FromCSF(Json.Import.V1(root));
+                        type.FromFile(Json.Import.V1(root));
                         break;
                     default:
                         break;
@@ -45,7 +63,7 @@ namespace CSF.Model.Extension
             }            
         }
         // 从XML导入CSF
-        public static void FromXml(this Type type, string path)
+        public static void FromXml(this Type[] type, string path)
         {
             // 创建一个XML对象
             var xml = new XmlDocument();
@@ -65,7 +83,7 @@ namespace CSF.Model.Extension
             switch (Convert.ToInt32(root.GetAttribute("XmlVersion")))
             {
                 case 1:
-                    type.FromCSF(Xml.Import.V1(root));
+                    type.FromFile(Xml.Import.V1(root));
                     break;
                 default:
                     break;
