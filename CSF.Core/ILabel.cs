@@ -28,10 +28,10 @@ namespace CSF.Core
         /// 字符串值集合
         /// </summary>
         IValue[] Values { get; set; }
-        /// <summary>
-        /// 标签长度<para/>
-        /// <code>int Length => 0x0C + NameLength + (from value in Values select value.Length).Sum();</code>
-        /// </summary>
-        int Length { get; }
+        ///// <summary>
+        ///// 标签长度<para/>
+        ///// <code>int Length => 0x0C + NameLength + (from value in Values select value.Length).Sum();</code>
+        ///// </summary>
+        //int Length { get; }
     }
 }

@@ -9,7 +9,7 @@ namespace CSF.Core.Helper
     public class ValueHelper : IValue
     {
 
-        private ValueHelper(string valueTag,int valueLength,string valueString,int? extraLength,string extraString)
+        private ValueHelper(string valueTag, int valueLength, string valueString, int? extraLength = null, string extraString = null)
         {
             ValueTag = valueTag;
             ValueLength = valueLength;
@@ -28,17 +28,28 @@ namespace CSF.Core.Helper
 
         public string ExtraString { get; set; }
 
-        public int Length => (ValueLength * 2) + 0x0C + ExtraLength ?? 0;
+        //public int Length => (ValueLength * 2) + 0x0C + (ExtraLength ?? 0);
 
-        public static IValue CreateValue(IEnumerable<byte> value)
+        public static IValue CreateValue(byte[] value)
         {
-            var vlength = BitConverter.ToInt32(value.Skip(0x04).Take(4).ToArray(), 0);
-            var elength = BitConverter.ToInt32(value.Skip(0x08 + vlength * 2).Take(4).ToArray(), 0);
-            return new ValueHelper(Encoding.ASCII.GetString(value.Skip(0x00).Take(4).ToArray()),
-                                   vlength,
-                                   Encoding.Unicode.GetString(Decoding(vlength, value.Skip(0x08).Take(vlength * 2).ToArray())),
-                                   elength,
-                                   Encoding.ASCII.GetString(value.Skip(0x0C + (vlength * 2)).Take(elength).ToArray()));
+            var vl = value.Skip(0x04).Take(4).ToArray();
+            var vlength = BitConverter.ToInt32(vl, 0);
+            if (value[0] != 32)
+            {
+                var el = value.Skip(0x08 + vlength * 2).Take(4).ToArray();
+                var elength = BitConverter.ToInt32(el, 0);
+                return new ValueHelper(Encoding.ASCII.GetString(value.Skip(0x00).Take(4).ToArray()),
+                                       vlength,
+                                       Encoding.Unicode.GetString(Decoding(vlength, value.Skip(0x08).Take(vlength * 2).ToArray())),
+                                       elength,
+                                       Encoding.ASCII.GetString(value.Skip(0x0C + (vlength * 2)).Take(elength).ToArray()));
+            }
+            else
+            {
+                return new ValueHelper(Encoding.ASCII.GetString(value.Skip(0x00).Take(4).ToArray()),
+                                       vlength,
+                                       Encoding.Unicode.GetString(Decoding(vlength, value.Skip(0x08).Take(vlength * 2).ToArray())));
+            }
         }
         /// <summary>
         /// 编/解码

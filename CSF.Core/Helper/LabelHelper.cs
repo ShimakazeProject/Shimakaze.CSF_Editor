@@ -18,7 +18,7 @@ namespace CSF.Core.Helper
 
         public IValue[] Values { get; set; }
 
-        public int Length => 0x0C + NameLength + (from value in Values select value.Length).Sum();
+        //public int Length => 0x0C + NameLength + (from value in Values select value.Length).Sum();
 
         private LabelHelper(string labelTag, int stringCount, int nameLength, string labelName, IEnumerable<IValue> values)
         {
@@ -29,7 +29,7 @@ namespace CSF.Core.Helper
             Values = values.ToArray();
         }
 
-        public static ILabel CreateLabel(IEnumerable<byte> label)
+        public static ILabel CreateLabel(byte[] label)
         {
             var tag = Encoding.ASCII.GetString(label.Skip(0x00).Take(4).ToArray());
             var stringCount = BitConverter.ToInt32(label.Skip(0x04).Take(4).ToArray(), 0);
@@ -39,8 +39,8 @@ namespace CSF.Core.Helper
             int start = 0x0C + nameLength;
             for (int i = 0; i < stringCount; i++)
             {
-                var value = ValueHelper.CreateValue(label.Skip(start));
-                start += value.Length;
+                var value = ValueHelper.CreateValue(label.Skip(start).ToArray());
+                start += (value.ValueLength * 2) + 0x0C + (value.ExtraLength ?? 0);
                 values[i] = value;
             }
             return new LabelHelper(tag, stringCount, nameLength, labelName, values);
