@@ -48,7 +48,7 @@
                                             pu:ButtonHelper.HoverBrush="#EEEEEE"
                                             VerticalAlignment="Stretch"
                                             HorizontalAlignment="Stretch"
-                                            Command="{Binding OpenCommand}">
+                                            Click="Open_MenuItemClick">
                                         <StackPanel Orientation="Vertical"
                                                     VerticalAlignment="Center">
                                             <TextBlock Text="&#xF016;"
@@ -171,7 +171,7 @@
                             <MenuItem x:Name="_EnableSearch" Header="启用搜索" IsCheckable="True" IsChecked="True"/>
                         </MenuItem>
                     </MenuItem>
-                    <MenuItem Header="拓展"/>
+                    <MenuItem Header="扩展"/>
 
                     <MenuItem Header="帮助">
                         <MenuItem Header="关于">
@@ -219,11 +219,7 @@
         <avalonDock:DockingManager x:Name="manager">
             <avalonDock:LayoutRoot x:Name="layoutRoot">
                 <avalonDock:LayoutPanel>
-                    <avalonDock:LayoutDocumentPane x:Name="MainDocumentPane">
-                        <avalonDock:LayoutDocument Title="New File">
-                            <controls:Document/>
-                        </avalonDock:LayoutDocument>
-                    </avalonDock:LayoutDocumentPane>
+                    
                 </avalonDock:LayoutPanel>
             </avalonDock:LayoutRoot>
         </avalonDock:DockingManager>

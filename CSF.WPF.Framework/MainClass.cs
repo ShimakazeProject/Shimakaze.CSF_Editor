@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -79,7 +80,34 @@ namespace CSF.WPF.Framework
             }
             else // 当前有实例正在运行
             {
+                using (var pipeStream = new NamedPipeClientStream("CSF.WPF.Framework"))
+                using (StreamWriter writer = new StreamWriter(pipeStream))
+                {
+                    pipeStream.Connect(200);
+                    writer.AutoFlush = true;
 
+                    if (args.Length > 1)
+                    {
+                        for (int i = 1; i < args.Length; i++)
+                        {
+                            var arg = args[i];
+                            if (arg.StartsWith("--import", StringComparison.InvariantCultureIgnoreCase)) // 导入
+                            {
+                                arg = args[i].Remove(0, 8);
+                                if (arg.StartsWith("-csf=")) writer.WriteLine(string.Format(PipeConst.OpenCSF, arg.Remove(0, 5)));
+                                else if (arg.StartsWith("-xml=")) writer.WriteLine(string.Format(PipeConst.OpenXml, arg.Remove(0, 5)));
+                                else if (arg.StartsWith("-json=")) writer.WriteLine(string.Format(PipeConst.OpenJson, arg.Remove(0, 6)));
+                            }
+                        }
+                        writer.WriteLine(PipeConst.End);
+                    }
+                    else
+                    {
+                        writer.WriteLine(PipeConst.Activate);
+                        writer.WriteLine(PipeConst.End);
+                    }
+
+                }
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSF.Model.Extension;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,12 +24,12 @@ namespace CSF.WPF.Framework.Controls
         public Document()
         {
             InitializeComponent();
-            DataContext = new ViewModel.DocumentVM();
         }
-        public Document(ViewModel.DocumentVM vm)
+
+        public Document(ViewModel.DocumentVM viewModel)
         {
             InitializeComponent();
-            DataContext = vm;
+            DataContext = viewModel;
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +26,38 @@ namespace CSF.WPF.Framework
         public MainWindow()
         {
             InitializeComponent();
+            PipeServer();
+        }
+
+        private async void PipeServer()
+        {
+            await Task.Run(() =>
+            {
+                using (var pipeStream = new NamedPipeServerStream("CSF.WPF.Framework"))
+                using (StreamReader rdr = new StreamReader(pipeStream))
+                {
+                    pipeStream.WaitForConnection();
+                    string temp;
+                    while ((temp = rdr.ReadLine()) != PipeConst.End)
+                    {
+                        Console.WriteLine("{0}:{1}", DateTime.Now, temp);
+                        switch (temp)
+                        {
+                            case PipeConst.Activate:
+                                this.Activate();
+                                break;
+                            case PipeConst.Close:
+                                this.Close();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            });
+
+
+
         }
 
         private void NewTab_MenuItemClick(object sender, RoutedEventArgs e)
@@ -48,6 +82,50 @@ namespace CSF.WPF.Framework
                 {
                     layoutRoot.RootPanel.Children.Add(new LayoutDocumentPane(anchorable));
                     success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "[MainWindow][NewTab_MenuItemClick]");
+            }
+        }
+
+        private async void Open_MenuItemClick(object sender, RoutedEventArgs e)
+        {
+            //Command="{Binding OpenCommand}"
+            try
+            {
+                var ofd = new Microsoft.Win32.OpenFileDialog
+                {
+                    Filter = "红色警戒2字符串文件|*.csf",
+                    FileName = "ra2md.csf",
+                    Title = "打开文件"
+                };
+                if (ofd.ShowDialog() ?? false)
+                {
+                    var docVM = new ViewModel.DocumentVM();
+                    LayoutDocument anchorable = new LayoutDocument
+                    {
+                        Title = ofd.SafeFileName,
+                        Content = new Controls.Document(viewModel:docVM )
+                    };
+                    var child = layoutRoot.RootPanel.Children;
+                    bool success = false;
+                    for (int i = 0; i < child.Count; i++)
+                    {
+                        if (child[i].GetType() == typeof(LayoutDocumentPane))
+                        {
+                            (child[i] as LayoutDocumentPane).Children.Add(anchorable);
+                            success = true;
+                            break;
+                        }
+                    }
+                    if (!success)
+                    {
+                        layoutRoot.RootPanel.Children.Add(new LayoutDocumentPane(anchorable));
+                        success = true;
+                    }
+                    await docVM.OpenCsf(ofd.FileName);
                 }
             }
             catch (Exception ex)
