@@ -31,6 +31,23 @@ namespace CSF.Model
                 value.PropertyChanged += (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Values)));
         }
         public Label(string nameLength, Value[] values) : this(" LBL", values.Count(), nameLength.Length, nameLength, values) { }
+        public Label(ILabel label)
+        {
+            Visibility = true;
+            LabelTag = label.LabelTag;
+            StringCount = label.StringCount;
+            NameLength = label.NameLength;
+            LabelName = label.LabelName;
+            var convert = new Value[0];
+            foreach (var ivalue in label.Values)
+            {
+                var value = new Value(ivalue);
+                value.PropertyChanged += (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Values)));
+                convert.Concat(new Value[] { value });
+            }
+            Values = convert;
+
+        }
         #endregion
 
         #region Property
@@ -41,7 +58,7 @@ namespace CSF.Model
             {
                 stringCount = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StringCount)));
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Length)));
+                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Length)));
             }
         }
         public int NameLength
@@ -50,7 +67,7 @@ namespace CSF.Model
             {
                 nameLength = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NameLength)));
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Length)));
+                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Length)));
             }
         }
         public string LabelName
@@ -69,10 +86,10 @@ namespace CSF.Model
                 StringCount = value.Count();
                 values = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Values)));
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Length)));
+                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Length)));
             }
         }
-        public int Length => 0x0C + NameLength + (from value in Values select value.Length).Sum();
+        //public int Length => 0x0C + NameLength + (from value in Values select value.Length).Sum();
         public bool Visibility
         {
             get => visibility; set

@@ -70,7 +70,7 @@ namespace CSF.Model
         #endregion
 
         #region Method
-        public virtual void Add(Core.ILabel label)
+        public virtual void Add(Label label)
         {
             label.PropertyChanged += (o, e) =>
             {

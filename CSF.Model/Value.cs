@@ -27,6 +27,13 @@ namespace CSF.Model
             Visibility = true;
             ExtraString = evalue;
         }
+        public Value(Core.IValue value)
+        {
+            ValueTag = value.ValueTag;
+            ValueString = value.ValueString;
+            Visibility = true;
+            ExtraString = value.ExtraString;
+        }
         #endregion
 
         #region Property
@@ -82,7 +89,7 @@ namespace CSF.Model
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ExtraString)));
             }
         }
-        public int Length => ValueLength * 2 + 0x0C + ExtraLength ?? 0;
+        //public int Length => ValueLength * 2 + 0x0C + (ExtraLength ?? 0);
         public bool Visibility
         {
             get => visibility; set
