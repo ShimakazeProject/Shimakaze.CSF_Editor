@@ -1,40 +1,50 @@
 ﻿using System;
 using System.Json;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace CSF.Model.Extension
 {
     public static class Import
     {
-        public static void Add(this Type[] types, Label label)
+        public static async Task<Type[]> Add(this Type[] types, Label label)
         {
             var type = new Type(label);
-            for (int i = 0; i < types.Length; i++)
+            bool finished = false;
+            await Task.Run(() =>
             {
-                if (types[i].Name==type.Name)
+                for (int i = 0; i < types.Length; i++)
                 {
-                    types[i].Add(label);
-                    return;
+                    if (types[i].Name == type.Name)
+                    {
+                        types[i].Add(label);
+                        finished = true;
+                        return;
+                    }
                 }
-            }
-            types.Concat(new Type[] { type });
+            });
+            if (finished) return types;
+            else return types.Concat(new Type[] { type }).ToArray();
+
         }
-        public static void FromFile(this Type[] type, Core.IFile File)
+        public static async Task<Type[]> FromFile(Core.IFile File)
         {
+            var types = Array.Empty<Type>();
             foreach (var label in File.Labels)
             {
-                type.Add(new Label(label));
+                await types.Add(new Label(label));
             }
+            return types;
         }
-        public static void FromCSF(this Type[] type, string path)
+        public static async Task<Type[]> FromCSF(this Type[] types,string path)
         {
             var bytes = System.IO.File.ReadAllBytes(path);
-            type.FromFile(Core.Helper.FileHelper.CreateFile(bytes));
+            return await FromFile(Core.Helper.FileHelper.CreateFile(bytes));// 这里....要想办法分出来个线程
         }
 
         // 从Json导入
-        public static void FromJson(this Type[] type, string path)
+        public static async Task FromJson(this Type[] type, string path)
         {
             // 获取 Json文件Root Object
             var root = JsonValue.Parse(
@@ -55,7 +65,7 @@ namespace CSF.Model.Extension
                 switch (version)
                 {
                     case 1:
-                        type.FromFile(Json.Import.V1(root));
+                        type = await FromFile(Json.Import.V1(root));
                         break;
                     default:
                         break;
@@ -63,7 +73,7 @@ namespace CSF.Model.Extension
             }            
         }
         // 从XML导入CSF
-        public static void FromXml(this Type[] type, string path)
+        public static async Task FromXml(this Type[] type, string path)
         {
             // 创建一个XML对象
             var xml = new XmlDocument();
@@ -83,7 +93,7 @@ namespace CSF.Model.Extension
             switch (Convert.ToInt32(root.GetAttribute("XmlVersion")))
             {
                 case 1:
-                    type.FromFile(Xml.Import.V1(root));
+                    type = await FromFile(Xml.Import.V1(root));
                     break;
                 default:
                     break;
