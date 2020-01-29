@@ -8,6 +8,7 @@ using System.Windows.Data;
 
 namespace CSF.WPF.Framework.Converter
 {
+    [ValueConversion(typeof(Model.Type), typeof(Model.Label[]))]
     public class TypeGetLabel : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

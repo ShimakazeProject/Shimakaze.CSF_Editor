@@ -26,10 +26,5 @@ namespace CSF.WPF.Framework.Controls
             InitializeComponent();
         }
 
-        public Document(ViewModel.DocumentVM viewModel)
-        {
-            InitializeComponent();
-            DataContext = viewModel;
-        }
     }
 }

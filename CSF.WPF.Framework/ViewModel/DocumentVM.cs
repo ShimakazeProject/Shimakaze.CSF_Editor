@@ -1,4 +1,5 @@
 ﻿using CSF.Model.Extension;
+using CSF.WPF.Framework.CommandBase;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,25 +11,38 @@ namespace CSF.WPF.Framework.ViewModel
 {
     public class DocumentVM : INotifyPropertyChanged
     {
+        private Controls.Document document;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #region Properties Fields
         private Model.Type[] types;
         private Model.Type selectedType;
+        private Model.Label selectedLabel;
+        private string typesNum;
+        private string labelsNum;
+        private string stringsNum;
+        private string selectedTypeLabelsNum;
+        private string selectedTypeStringsNum;
+        private string selectedLabelStringsNum;
+        #endregion
 
-        public DocumentVM()
+        public DocumentVM(Controls.Document document)
         {
-            Types = new Model.Type[0];
+            this.document = document;
+            Types = Array.Empty<Model.Type>();
 
         }
-        //public DocumentVM(string path)
-        //{
-        //    Types = new Model.Type[0];
-        //    OpenCsf(path);
-        //}
 
+        #region Binding Propertys
         public Model.Type[] Types
         {
             get => types; set
             {
                 types = value;
+                TypesNum = value.Length.ToString();
+                LabelsNum = (from type in value select type.Labels.Length).Sum().ToString();
+                LabelsNum = (from type in value select (from label in type.Labels select label.StringCount).Sum()).Sum().ToString();
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Types)));
             }
         }
@@ -37,22 +51,78 @@ namespace CSF.WPF.Framework.ViewModel
             get => selectedType; set
             {
                 selectedType = value;
+                SelectedTypeLabelsNum = value.Labels.Length.ToString();
+                SelectedTypeStringsNum = (from label in value.Labels select label.StringCount).Sum().ToString();
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedType)));
             }
         }
+        public Model.Label SelectedLabel
+        {
+            get => selectedLabel; set
+            {
+                selectedLabel = value;
+                SelectedLabelStringNum = value.StringCount.ToString();
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedLabel)));
+            }
+        }
+        public string TypesNum
+        {
+            get => typesNum; set
+            {
+                typesNum = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TypesNum)));
+            }
+        }
+        public string LabelsNum
+        {
+            get => labelsNum; set
+            {
+                labelsNum = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LabelsNum)));
+            }
+        }
+        public string StringsNum
+        {
+            get => stringsNum; set
+            {
+                stringsNum = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StringsNum)));
+            }
+        }
+        public string SelectedTypeLabelsNum
+        {
+            get => selectedTypeLabelsNum; set
+            {
+                selectedTypeLabelsNum = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedTypeLabelsNum)));
+            }
+        }
+        public string SelectedTypeStringsNum
+        {
+            get => selectedTypeStringsNum; set
+            {
+                selectedTypeStringsNum = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedTypeStringsNum)));
+            }
+        }
+        public string SelectedLabelStringNum
+        {
+            get => selectedLabelStringsNum; set
+            {
+                selectedLabelStringsNum = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedLabelStringNum)));
+            }
+        }
+        #endregion
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public RelayCommand Refresh => new RelayCommand(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Types))));
 
 
         public async void OpenCsf(string path)
         {
-            await Types.FromCSFAsync(path);
+            Types = await Types.FromCSF(path);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Types)));
         }
 
-        public void Refresh()
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Types)));
-        }
     }
 }

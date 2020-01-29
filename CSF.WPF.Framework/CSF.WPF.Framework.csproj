@@ -89,6 +89,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CommandBase\RelayCommand.cs" />
     <Compile Include="Converter\TypeGetLabel.cs" />
     <Compile Include="PipeConst.cs" />
     <Compile Include="ViewModel\DocumentVM.cs" />

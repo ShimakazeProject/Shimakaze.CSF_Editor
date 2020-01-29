@@ -17,6 +17,10 @@
             <ColumnDefinition MaxWidth="200" Width="1*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
         <DataGrid x:Name="TypeList" Grid.Column="0"
                       ItemsSource="{Binding Types}"
                       SelectedItem="{Binding SelectedType}"
@@ -35,7 +39,7 @@
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="重载列表" />
+                    <MenuItem Header="刷新" Command="{Binding Refresh}"/>
                     <!--<MenuItem Header="重载文件" Click="F5FileMenuItem_Click" Command="{Binding ReloadListCommand}"/>-->
                 </ContextMenu>
             </DataGrid.ContextMenu>
@@ -80,5 +84,27 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
+
+        <StatusBar Grid.Row="1" Grid.ColumnSpan="2">
+            <StatusBarItem Content="类型数:"/>
+            <StatusBarItem Content="{Binding TypesNum}" Margin="0 0 5 0"
+                           MinWidth="48" HorizontalContentAlignment="Right"/>
+            <StatusBarItem Content="标签数:"/>
+            <StatusBarItem Content="{Binding LabelsNum}" Margin="0 0 5 0"
+                           MinWidth="48" HorizontalContentAlignment="Right"/>
+            <StatusBarItem Content="字符串数:"/>
+            <StatusBarItem Content="{Binding StringsNum}" Margin="0 0 10 0"
+                           MinWidth="48" HorizontalContentAlignment="Right"/>
+            <StatusBarItem Content="类型标签数:"/>
+            <StatusBarItem Content="{Binding SelectedTypeLabelsNum}" Margin="0 0 5 0"
+                           MinWidth="48" HorizontalContentAlignment="Right"/>
+            <StatusBarItem Content="类型字符串数:"/>
+            <StatusBarItem Content="{Binding SelectedTypeStringsNum}" Margin="0 0 10 0"
+                           MinWidth="48" HorizontalContentAlignment="Right"/>
+            <StatusBarItem Content="标签字符串数:"/>
+            <StatusBarItem Content="{Binding SelectedLabelStringNum}"
+                           MinWidth="48" HorizontalContentAlignment="Right"/>
+        </StatusBar>
+
     </Grid>
 </UserControl>

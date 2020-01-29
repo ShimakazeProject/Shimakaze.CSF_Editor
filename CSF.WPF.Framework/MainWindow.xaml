@@ -1,15 +1,18 @@
 ﻿<pu:WindowX x:Class="CSF.WPF.Framework.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
-        xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
-        xmlns:controls="clr-namespace:CSF.WPF.Framework.Controls"
-        xmlns:local="clr-namespace:CSF.WPF.Framework"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1200">
-
+            xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
+            xmlns:controls="clr-namespace:CSF.WPF.Framework.Controls"
+            xmlns:local="clr-namespace:CSF.WPF.Framework"
+            mc:Ignorable="d"
+            Title="MainWindow" Height="800" Width="1200">
+    <WindowChrome.WindowChrome>
+        <WindowChrome ResizeBorderThickness="3"
+                      CaptionHeight="0"/>
+    </WindowChrome.WindowChrome>
     <pu:WindowXCaption.Header>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -28,7 +31,6 @@
                         Orientation="Horizontal">
                 <Menu BorderBrush="Transparent" Width="auto"
                       pu:MenuHelper.SubmenuWidth="200"
-                      pu:MenuHelper.SubmenuCornerRadius="5"
                       pu:MenuHelper.ShadowColor="Black"
                       pu:MenuHelper.MenuStyle="Modern">
                     <MenuItem Header="文件">
@@ -48,7 +50,7 @@
                                             pu:ButtonHelper.HoverBrush="#EEEEEE"
                                             VerticalAlignment="Stretch"
                                             HorizontalAlignment="Stretch"
-                                            Click="Open_MenuItemClick">
+                                            Command="{Binding OpenCsfDocument}">
                                         <StackPanel Orientation="Vertical"
                                                     VerticalAlignment="Center">
                                             <TextBlock Text="&#xF016;"
@@ -225,22 +227,6 @@
         </avalonDock:DockingManager>
 
         <StatusBar Grid.Row="1">
-            <StatusBarItem Content="标签数:"/>
-            <StatusBarItem Content="{Binding LabelsNumber}"
-                           Width="48" HorizontalContentAlignment="Right"/>
-            <Separator/>
-            <StatusBarItem Content="字符串数:"/>
-            <StatusBarItem Content="{Binding StringsNumber}"
-                           Width="48" HorizontalContentAlignment="Right"/>
-            <Separator Width="2"/>
-            <StatusBarItem Content="字符串标签:"/>
-            <!--<StatusBarItem Content="{Binding SelectedItem,ElementName=_dgValueList,Converter={StaticResource GetStrLbl}}"
-                           Width="48" HorizontalContentAlignment="Right"/>-->
-            <Separator/>
-            <StatusBarItem Content="字符串数:"/>
-            <!--<StatusBarItem Content="{Binding SelectedItem,ElementName=_dgValueList,Converter={StaticResource GetStrNum}}"
-                           Width="48" HorizontalContentAlignment="Right"/>-->
-
             <ProgressBar x:Name="PB_Status" Width="200"
                          Maximum="{Binding MaxStatus}"
                          Value="{Binding Status,Mode=OneWay}"

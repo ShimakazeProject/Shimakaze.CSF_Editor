@@ -1,10 +1,12 @@
-﻿using System;
+﻿using CSF.WPF.Framework.CommandBase;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xceed.Wpf.AvalonDock.Layout;
 
 namespace CSF.WPF.Framework.ViewModel
 {
@@ -14,6 +16,8 @@ namespace CSF.WPF.Framework.ViewModel
 
 
         internal object ActiveContent { get; set; }
+
+        public RelayCommand OpenCsfDocument => new RelayCommand(OpenCsf);
 
         internal MainWindowVM(MainWindow mainWindow)
         {
@@ -66,6 +70,54 @@ namespace CSF.WPF.Framework.ViewModel
                     }
                 }
             });
+        }
+
+        private void OpenCsf()
+        {
+            try
+            {
+                var ofd = new Microsoft.Win32.OpenFileDialog
+                {
+                    Filter = "红色警戒2字符串文件|*.csf",
+                    FileName = "ra2md.csf",
+                    Title = "打开文件"
+                };
+                if (ofd.ShowDialog() ?? false)
+                {
+                    var doc = new Controls.Document();
+                    var docVM = new DocumentVM(doc);
+                    doc.DataContext = docVM;
+
+                    docVM.OpenCsf(ofd.FileName);
+
+                    LayoutDocument anchorable = new LayoutDocument
+                    {
+                        Title = ofd.SafeFileName,
+                        Content = doc
+                    };
+
+                    var child = Window.layoutRoot.RootPanel.Children;
+                    bool success = false;
+                    for (int i = 0; i < child.Count; i++)
+                    {
+                        if (child[i].GetType() == typeof(LayoutDocumentPane))
+                        {
+                            (child[i] as LayoutDocumentPane).Children.Add(anchorable);
+                            success = true;
+                            break;
+                        }
+                    }
+                    if (!success)
+                    {
+                        Window.layoutRoot.RootPanel.Children.Add(new LayoutDocumentPane(anchorable));
+                        success = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message, "[MainWindow][NewTab_MenuItemClick]");
+            }
         }
 
     }

@@ -57,48 +57,5 @@ namespace CSF.WPF.Framework
             }
         }
 
-        private async void Open_MenuItemClick(object sender, RoutedEventArgs e)
-        {
-            //Command="{Binding OpenCommand}"
-            try
-            {
-                var ofd = new Microsoft.Win32.OpenFileDialog
-                {
-                    Filter = "红色警戒2字符串文件|*.csf",
-                    FileName = "ra2md.csf",
-                    Title = "打开文件"
-                };
-                if (ofd.ShowDialog() ?? false)
-                {
-                    var docVM = new ViewModel.DocumentVM();
-                    LayoutDocument anchorable = new LayoutDocument
-                    {
-                        Title = ofd.SafeFileName,
-                        Content = new Controls.Document(viewModel:docVM )
-                    };
-                    var child = layoutRoot.RootPanel.Children;
-                    bool success = false;
-                    for (int i = 0; i < child.Count; i++)
-                    {
-                        if (child[i].GetType() == typeof(LayoutDocumentPane))
-                        {
-                            (child[i] as LayoutDocumentPane).Children.Add(anchorable);
-                            success = true;
-                            break;
-                        }
-                    }
-                    if (!success)
-                    {
-                        layoutRoot.RootPanel.Children.Add(new LayoutDocumentPane(anchorable));
-                        success = true;
-                    }
-                    docVM.OpenCsf(ofd.FileName);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "[MainWindow][NewTab_MenuItemClick]");
-            }
-        }
     }
 }
