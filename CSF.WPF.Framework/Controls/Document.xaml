@@ -109,6 +109,7 @@
             <StatusBarItem Content="标签字符串数:"/>
             <StatusBarItem Content="{Binding SelectedLabelStringNum}"
                            MinWidth="48" HorizontalContentAlignment="Right"/>
+            <TextBlock/>
         </StatusBar>
 
     </Grid>
