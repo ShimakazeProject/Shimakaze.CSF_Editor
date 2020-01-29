@@ -39,10 +39,11 @@ namespace CSF.WPF.Framework.ViewModel
         {
             get => types; set
             {
+                bool notNull = value != null;
                 types = value;
-                TypesNum = value.Length.ToString();
-                LabelsNum = (from type in value select type.Labels.Length).Sum().ToString();
-                LabelsNum = (from type in value select (from label in type.Labels select label.StringCount).Sum()).Sum().ToString();
+                TypesNum = value?.Length.ToString();
+                LabelsNum = notNull ? (from type in value select type.Labels.Length).Sum().ToString() : null;
+                StringsNum = notNull ? (from type in value select (from label in type.Labels select label.StringCount).Sum()).Sum().ToString() : null;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Types)));
             }
         }
@@ -51,8 +52,8 @@ namespace CSF.WPF.Framework.ViewModel
             get => selectedType; set
             {
                 selectedType = value;
-                SelectedTypeLabelsNum = value.Labels.Length.ToString();
-                SelectedTypeStringsNum = (from label in value.Labels select label.StringCount).Sum().ToString();
+                SelectedTypeLabelsNum = value?.Labels.Length.ToString();
+                SelectedTypeStringsNum = value != null ? (from label in value.Labels select label.StringCount)?.Sum().ToString() : null;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedType)));
             }
         }
@@ -61,7 +62,7 @@ namespace CSF.WPF.Framework.ViewModel
             get => selectedLabel; set
             {
                 selectedLabel = value;
-                SelectedLabelStringNum = value.StringCount.ToString();
+                SelectedLabelStringNum = value?.StringCount.ToString();
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedLabel)));
             }
         }
@@ -115,12 +116,23 @@ namespace CSF.WPF.Framework.ViewModel
         }
         #endregion
 
-        public RelayCommand Refresh => new RelayCommand(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Types))));
+        public RelayCommand Refresh => new RelayCommand(() =>
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Types)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedType)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedLabel)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TypesNum)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LabelsNum)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StringsNum)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedTypeLabelsNum)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedTypeStringsNum)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedLabelStringNum)));
+        });
 
 
         public async void OpenCsf(string path)
         {
-            Types = await Types.FromCSF(path);
+            Types = await Import.FromCSF(path);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Types)));
         }
 

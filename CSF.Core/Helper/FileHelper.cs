@@ -13,27 +13,27 @@ namespace CSF.Core.Helper
 
         public ILabel[] Labels { get; private set; }
 
-        public FileHelper(IHeader header, IEnumerable<ILabel> labels)
+        public FileHelper(IHeader header, ILabel[] labels)
         {
             Header = header;
-            Labels = labels.ToArray();
+            Labels = labels;
         }
 
         public static IFile CreateFile(byte[] header, byte[] body)
         {
             var iHeader = HeaderHelper.CreateHeader(header.ToArray());
             var labels = new ILabel[iHeader.LabelCount];
-            int start = 0;
+            int bytesPtr = 0;
             for (int i = 0; i < iHeader.LabelCount; i++)
             {
                 byte[] bytes;
-                if ((bytes = body.Skip(start).ToArray()).Length > 0)
+                if ((bytes = body.Skip(bytesPtr).ToArray()).Length > 0)
                 {
                     var label = LabelHelper.CreateLabel(bytes);
                     int vl = 0;
                     foreach (var item in label.Values)
                         vl += (item.ValueLength * 2) + 0x08 + (item.ExtraLength ?? 0) + (item.ExtraLength != null ? 4 : 0);
-                    start += 0x0C + label.NameLength + vl;
+                    bytesPtr += 0x0C + label.NameLength + vl;
                     labels[i] = label;
                 }
             }

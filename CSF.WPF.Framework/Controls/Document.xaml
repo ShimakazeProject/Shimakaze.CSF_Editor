@@ -47,6 +47,7 @@
 
         <DataGrid x:Name="LabelList" Grid.Column="1"
                       ItemsSource="{Binding SelectedType, Converter={StaticResource TypeGetLabel}}"
+                  SelectedItem="{Binding SelectedLabel}"
                       pu:DataGridHelper.HeaderMinHeight="30"
                       pu:DataGridHelper.RowMinHeight="20"
                       pu:DataGridHelper.SelectedBackground="#44B5B5B5"
@@ -65,9 +66,12 @@
                 <DataGridTemplateColumn Header="字符串值" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <DataGrid ItemsSource="{Binding Values}">
+                            <DataGrid ItemsSource="{Binding Values}"
+                                      pu:DataGridHelper.HeaderMinHeight="20"
+                                      pu:DataGridHelper.RowMinHeight="20"
+                                      AutoGenerateColumns="False">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="值" Binding="{Binding ValueString}"/>
+                                    <DataGridTextColumn Header="值" Width="*" Binding="{Binding ValueString}"/>
                                     <DataGridTextColumn Header="额外值" Binding="{Binding ExtraString}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
@@ -77,6 +81,7 @@
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Header="刷新" Command="{Binding Refresh}"/>
                     <MenuItem Header="修改条目" Command="{Binding EditLabelCommand}"
                                   CommandParameter="{Binding SelectedItem, ElementName=_dgValueList}"/>
                     <Separator/>

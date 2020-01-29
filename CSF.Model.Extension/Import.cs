@@ -33,18 +33,18 @@ namespace CSF.Model.Extension
             var types = Array.Empty<Type>();
             foreach (var label in File.Labels)
             {
-                await types.Add(new Label(label));
+                types = await types.Add(new Label(label));
             }
             return types;
         }
-        public static async Task<Type[]> FromCSF(this Type[] types,string path)
+        public static async Task<Type[]> FromCSF(string path)
         {
             var bytes = System.IO.File.ReadAllBytes(path);
             return await FromFile(Core.Helper.FileHelper.CreateFile(bytes));// 这里....要想办法分出来个线程
         }
 
         // 从Json导入
-        public static async Task FromJson(this Type[] type, string path)
+        public static async Task<Type[]> FromJson(string path)
         {
             // 获取 Json文件Root Object
             var root = JsonValue.Parse(
@@ -65,15 +65,13 @@ namespace CSF.Model.Extension
                 switch (version)
                 {
                     case 1:
-                        type = await FromFile(Json.Import.V1(root));
-                        break;
-                    default:
-                        break;
+                        return await FromFile(Json.Import.V1(root));
                 }
-            }            
+            }
+            throw new Exception();
         }
         // 从XML导入CSF
-        public static async Task FromXml(this Type[] type, string path)
+        public static async Task<Type[]> FromXml(string path)
         {
             // 创建一个XML对象
             var xml = new XmlDocument();
@@ -93,12 +91,9 @@ namespace CSF.Model.Extension
             switch (Convert.ToInt32(root.GetAttribute("XmlVersion")))
             {
                 case 1:
-                    type = await FromFile(Xml.Import.V1(root));
-                    break;
-                default:
-                    break;
-
+                    return await FromFile(Xml.Import.V1(root));
             }
+            throw new Exception();
         }
     }
 }

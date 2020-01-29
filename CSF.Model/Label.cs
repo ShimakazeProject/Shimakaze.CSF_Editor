@@ -43,7 +43,7 @@ namespace CSF.Model
             {
                 var value = new Value(ivalue);
                 value.PropertyChanged += (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Values)));
-                convert.Concat(new Value[] { value });
+                convert = convert.Concat(new Value[] { value }).ToArray();
             }
             Values = convert;
 
