@@ -216,7 +216,7 @@
             <RowDefinition Height="24"/>
         </Grid.RowDefinitions>
 
-        <avalonDock:DockingManager x:Name="manager">
+        <avalonDock:DockingManager x:Name="manager" ActiveContent="{Binding ActiveContent}">
             <avalonDock:LayoutRoot x:Name="layoutRoot">
                 <avalonDock:LayoutPanel>
                     

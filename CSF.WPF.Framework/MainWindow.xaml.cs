@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.IO.Pipes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,38 +24,7 @@ namespace CSF.WPF.Framework
         public MainWindow()
         {
             InitializeComponent();
-            PipeServer();
-        }
-
-        private async void PipeServer()
-        {
-            await Task.Run(() =>
-            {
-                using (var pipeStream = new NamedPipeServerStream("CSF.WPF.Framework"))
-                using (StreamReader rdr = new StreamReader(pipeStream))
-                {
-                    pipeStream.WaitForConnection();
-                    string temp;
-                    while ((temp = rdr.ReadLine()) != PipeConst.End)
-                    {
-                        Console.WriteLine("{0}:{1}", DateTime.Now, temp);
-                        switch (temp)
-                        {
-                            case PipeConst.Activate:
-                                this.Activate();
-                                break;
-                            case PipeConst.Close:
-                                this.Close();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-            });
-
-
-
+            DataContext = new ViewModel.MainWindowVM(this);
         }
 
         private void NewTab_MenuItemClick(object sender, RoutedEventArgs e)
@@ -125,7 +92,7 @@ namespace CSF.WPF.Framework
                         layoutRoot.RootPanel.Children.Add(new LayoutDocumentPane(anchorable));
                         success = true;
                     }
-                    await docVM.OpenCsf(ofd.FileName);
+                    docVM.OpenCsf(ofd.FileName);
                 }
             }
             catch (Exception ex)

@@ -44,9 +44,14 @@ namespace CSF.WPF.Framework.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
 
 
-        public async Task OpenCsf(string path)
+        public async void OpenCsf(string path)
         {
             await Types.FromCSFAsync(path);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Types)));
+        }
+
+        public void Refresh()
+        {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Types)));
         }
     }

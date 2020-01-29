@@ -86,7 +86,7 @@ namespace CSF.WPF.Framework
                     pipeStream.Connect(200);
                     writer.AutoFlush = true;
 
-                    if (args.Length > 1)
+                    if (args.Length > 0)
                     {
                         for (int i = 1; i < args.Length; i++)
                         {
@@ -94,22 +94,25 @@ namespace CSF.WPF.Framework
                             if (arg.StartsWith("--import", StringComparison.InvariantCultureIgnoreCase)) // 导入
                             {
                                 arg = args[i].Remove(0, 8);
-                                if (arg.StartsWith("-csf=")) writer.WriteLine(string.Format(PipeConst.OpenCSF, arg.Remove(0, 5)));
-                                else if (arg.StartsWith("-xml=")) writer.WriteLine(string.Format(PipeConst.OpenXml, arg.Remove(0, 5)));
-                                else if (arg.StartsWith("-json=")) writer.WriteLine(string.Format(PipeConst.OpenJson, arg.Remove(0, 6)));
+                                if (arg.StartsWith("-csf="))  writer.WriteLine(string.Format(PipeConst.OpenCSF, arg.Remove(0, 5)));
+                                else if (arg.StartsWith("-xml="))  writer.WriteLine(string.Format(PipeConst.OpenXml, arg.Remove(0, 5)));
+                                else if (arg.StartsWith("-json="))  writer.WriteLine(string.Format(PipeConst.OpenJson, arg.Remove(0, 6)));
                             }
                         }
-                        writer.WriteLine(PipeConst.End);
+                         writer.WriteLine(PipeConst.End);
                     }
                     else
                     {
-                        writer.WriteLine(PipeConst.Activate);
-                        writer.WriteLine(PipeConst.End);
+                         writer.WriteLine(PipeConst.Activate);
+                         writer.WriteLine(PipeConst.End);
                     }
 
                 }
             }
+            
         }
+
+
 
         [DllImport(Kernel32_DllName)]
         private static extern bool AllocConsole();
@@ -131,7 +134,7 @@ namespace CSF.WPF.Framework
         /// <summary>
         /// Creates a new console instance if the process is not attached to a console already.
         /// </summary>
-        public static void Show()
+        public static void ShowConsole()
         {
             //#if DEBUG
             if (!HasConsole)
@@ -145,7 +148,7 @@ namespace CSF.WPF.Framework
         /// <summary>
         /// If the process has a console attached to it, it will be detached and no longer visible. Writing to the System.Console is still possible, but no output will be shown.
         /// </summary>
-        public static void Hide()
+        public static void HideConsole()
         {
             //#if DEBUG
             if (HasConsole)
@@ -160,11 +163,11 @@ namespace CSF.WPF.Framework
         {
             if (HasConsole)
             {
-                Hide();
+                HideConsole();
             }
             else
             {
-                Show();
+                ShowConsole();
             }
         }
 
