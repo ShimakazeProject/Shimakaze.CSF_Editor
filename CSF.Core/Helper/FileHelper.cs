@@ -29,11 +29,14 @@ namespace CSF.Core.Helper
                 byte[] bytes;
                 if ((bytes = body.Skip(bytesPtr).ToArray()).Length > 0)
                 {
+                    // 一股脑把目前的byte数组丢过去
                     var label = LabelHelper.CreateLabel(bytes);
                     int vl = 0;
                     foreach (var item in label.Values)
                         vl += (item.ValueLength * 2) + 0x08 + (item.ExtraLength ?? 0) + (item.ExtraLength != null ? 4 : 0);
+                    // 确定这组的数据长度并调整指针位置
                     bytesPtr += 0x0C + label.NameLength + vl;
+                    // 添加标签
                     labels[i] = label;
                 }
             }
