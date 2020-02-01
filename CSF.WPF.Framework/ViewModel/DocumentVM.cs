@@ -133,7 +133,7 @@ namespace CSF.WPF.Framework.ViewModel
         public async void OpenCsf(string path)
         {
             Types = await Import.FromCSF(path);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Types)));
+            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Types)));
         }
 
     }

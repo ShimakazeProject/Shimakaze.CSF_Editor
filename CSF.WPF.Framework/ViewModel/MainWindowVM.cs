@@ -15,6 +15,7 @@ namespace CSF.WPF.Framework.ViewModel
         private MainWindow Window;
 
 
+        internal bool IsIndeterminate { get; set; }
         internal object ActiveContent { get; set; }
 
         public RelayCommand OpenCsfDocument => new RelayCommand(OpenCsf);
@@ -74,6 +75,7 @@ namespace CSF.WPF.Framework.ViewModel
 
         private void OpenCsf()
         {
+            IsIndeterminate = true;
             try
             {
                 var ofd = new Microsoft.Win32.OpenFileDialog
@@ -118,6 +120,7 @@ namespace CSF.WPF.Framework.ViewModel
             {
                 Console.WriteLine(ex.Message, "[MainWindow][NewTab_MenuItemClick]");
             }
+            IsIndeterminate = false;
         }
 
     }
