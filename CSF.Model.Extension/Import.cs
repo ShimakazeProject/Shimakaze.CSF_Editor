@@ -40,7 +40,7 @@ namespace CSF.Model.Extension
         public static async Task<Type[]> FromCSF(string path)
         {
             var bytes = System.IO.File.ReadAllBytes(path);
-            return await FromFile(Core.Helper.FileHelper.CreateFile(bytes));// 这里....要想办法分出来个线程
+            return await FromFile(await Task.Run(() => Core.Helper.FileHelper.CreateFile(bytes)));// 这里....要想办法分出来个线程
         }
 
         // 从Json导入
