@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace CSF.Model
 {
-    public class Value : Core.IValue, INotifyPropertyChanged, IVisibility
+    public class Value : INotifyPropertyChanged, IVisibility
     {
         #region Field
         private bool visibility;
         private string extraString;
-        private int? extraLength;
+        private int? extraLenght;
         private string valueString;
-        private int valueLength;
+        private int valueLenght;
         private string valueTag;
         #endregion
 
@@ -27,12 +27,14 @@ namespace CSF.Model
             Visibility = true;
             ExtraString = evalue;
         }
-        public Value(Core.IValue value)
+        public Value(string tag,int vlenght,string value,int? elenght=null, string evalue = null)
         {
-            ValueTag = value.ValueTag;
-            ValueString = value.ValueString;
             Visibility = true;
-            ExtraString = value.ExtraString;
+            ValueTag = tag;
+            ValueLenght = vlenght;
+            ValueString = value;
+            ExtraLenght = elenght;
+            ExtraString = evalue;
         }
         #endregion
 
@@ -45,29 +47,29 @@ namespace CSF.Model
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ValueTag)));
             }
         }
-        public int ValueLength
+        public int ValueLenght
         {
-            get => valueLength; private set
+            get => valueLenght; private set
             {
-                valueLength = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ValueLength)));
+                valueLenght = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ValueLenght)));
             }
         }
         public string ValueString
         {
             get => valueString; set
             {
-                ValueLength = value.Length;
+                ValueLenght = value.Length;
                 valueString = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ValueString)));
             }
         }
-        public int? ExtraLength
+        public int? ExtraLenght
         {
-            get => extraLength; private set
+            get => extraLenght; private set
             {
-                extraLength = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ExtraLength)));
+                extraLenght = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ExtraLenght)));
             }
         }
         public string ExtraString
@@ -78,13 +80,13 @@ namespace CSF.Model
                 {
                     ValueTag = "WRTS";
                     extraString = value;
-                    ExtraLength = value?.Length;
+                    ExtraLenght = value?.Length;
                 }
                 else
                 {
                     ValueTag = " RTS";
                     extraString = null;
-                    ExtraLength = null;
+                    ExtraLenght = null;
                 }
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ExtraString)));
             }

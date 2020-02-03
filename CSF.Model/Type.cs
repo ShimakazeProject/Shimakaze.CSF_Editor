@@ -10,7 +10,7 @@ namespace CSF.Model
     {
         #region Field
         private bool visibility;
-        private Label[] labels;
+        private Dictionary<Label, List<Value>> labels;
         private string name;
         #endregion
 
@@ -18,15 +18,15 @@ namespace CSF.Model
         public Type()
         {
             Visibility = true;
-            Labels = new Label[0];
+            Labels = new Dictionary<Label, List<Value>>();
         }
-        public Type(Label label)
+        public Type(Label label, List<Value> values)
         {
             Visibility = true;
-            Labels = new Label[0];
+            Labels = new Dictionary<Label, List<Value>>();
             var tag = label.LabelName.Split(new char[] { ':', '_' });
             Name = tag.Length != 1 ? tag[0].ToUpper() : "(default)";
-            Add(label);
+            Add(label, values);
         }
         #endregion
 
@@ -39,7 +39,7 @@ namespace CSF.Model
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Visibility)));
             }
         }
-        public Label[] Labels
+        public Dictionary<Label, List<Value>> Labels
         {
             get => labels; set
             {
@@ -61,33 +61,18 @@ namespace CSF.Model
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
-        #region Indexer
-        public Label this[int index]
-        {
-            get => labels[index];
-            set => labels[index] = value;
-        }
-        #endregion
+        //#region Indexer
+        //public Label this[int index]
+        //{
+        //    get => labels[index];
+        //    set => labels[index] = value;
+        //}
+        //#endregion
 
         #region Method
-        public virtual void Add(Label label)
+        public virtual void Add(Label label,List<Value> values)
         {
-            label.PropertyChanged += (o, e) =>
-            {
-                if (e.PropertyName == nameof(label.Visibility))
-                {
-                    Visibility = false;
-                    foreach (var lbl in Labels)
-                    {
-                        if (lbl.Visibility)
-                        {
-                            Visibility = true;
-                            break;
-                        }
-                    }
-                }
-            };
-            Labels = Labels.Concat(new Label[] { label }).ToArray();
+            Labels.Add(label, values);
         }
         #endregion
     }
