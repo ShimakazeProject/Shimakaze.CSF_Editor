@@ -36,7 +36,7 @@
                 </Style>
             </DataGrid.ItemContainerStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Name}"
+                <DataGridTextColumn x:Name="dgtc_Label" Binding="{Binding Name}"
                                         Header="类型" IsReadOnly="True" Width="*"/>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>

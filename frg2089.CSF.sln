@@ -25,8 +25,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSF.Model.Extension", "CSF.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSF.WPF.Framework.Console", "CSF.WPF.Framework.Console\CSF.WPF.Framework.Console.csproj", "{1392DAB8-2089-4639-8F29-00C41C865155}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Std.CNCMaps.FileFormats", "Std.CNCMaps.FileFormats\Std.CNCMaps.FileFormats.csproj", "{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -161,26 +159,6 @@ Global
 		{1392DAB8-2089-4639-8F29-00C41C865155}.Release|x64.Build.0 = Release|Any CPU
 		{1392DAB8-2089-4639-8F29-00C41C865155}.Release|x86.ActiveCfg = Release|Any CPU
 		{1392DAB8-2089-4639-8F29-00C41C865155}.Release|x86.Build.0 = Release|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Debug|ARM.Build.0 = Debug|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Debug|x64.Build.0 = Debug|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Debug|x86.Build.0 = Debug|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Release|ARM.ActiveCfg = Release|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Release|ARM.Build.0 = Release|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Release|ARM64.Build.0 = Release|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Release|x64.ActiveCfg = Release|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Release|x64.Build.0 = Release|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Release|x86.ActiveCfg = Release|Any CPU
-		{EC1B46E5-0EBF-494C-BEAC-D41D0888A635}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
