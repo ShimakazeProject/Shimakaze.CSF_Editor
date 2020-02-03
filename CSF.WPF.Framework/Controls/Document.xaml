@@ -10,7 +10,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <Converter:TypeGetLabel x:Key="TypeGetLabel"/>
+        <Converter:Type2KVDictionary x:Key="Type2KVDictionary"/>
+        <Converter:LabelGetName x:Key="LabelGetName"/>
+        <!--<Converter:TypeGetValue x:Key="TypeGetValue"/>-->
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -45,8 +47,33 @@
             </DataGrid.ContextMenu>
         </DataGrid>
 
-        <DataGrid x:Name="LabelList" Grid.Column="1"
-                      ItemsSource="{Binding SelectedType, Converter={StaticResource TypeGetLabel}}"
+        <DataGrid Grid.Column="1" ItemsSource="{Binding SelectedTypeLabel,Converter={StaticResource Type2KVDictionary}}">
+            <Style TargetType="{x:Type DataGridRow}">
+                <Setter Property="Visibility" Value="{Binding Visibility, Converter={StaticResource BoolToVisibleConverter}}"/>
+            </Style>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="标签" Binding="{Binding Key,Converter={StaticResource LabelGetName}}"/>
+                <DataGridTemplateColumn Header="字符串值" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGrid ItemsSource="{Binding Value}"
+                                      pu:DataGridHelper.HeaderMinHeight="20"
+                                      pu:DataGridHelper.RowMinHeight="20"
+                                      AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="值" Width="*" Binding="{Binding ValueString}"/>
+                                    <DataGridTextColumn Header="额外值" Binding="{Binding ExtraString}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+        <!--<DataGrid x:Name="LabelList" Grid.Column="1"
+                      ItemsSource="{Binding SelectedType}"
                   SelectedItem="{Binding SelectedLabel}"
                       pu:DataGridHelper.HeaderMinHeight="30"
                       pu:DataGridHelper.RowMinHeight="20"
@@ -59,9 +86,9 @@
             </DataGrid.ItemContainerStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="标签" Binding="{Binding LabelName}" Width="150"/>
-                <!--<DataGridTextColumn Header="值" Binding="{Binding Values,Converter={StaticResource Value2String}}" IsReadOnly="{Binding Values,Converter={StaticResource ValueCountNotOne},Mode=OneWay}" Width="*"/>-->
-                <!--<DataGridTextColumn Header="额外值" Binding="{Binding ExtraValue}" Width="100"/>-->
+                <DataGridTextColumn Header="标签" Binding="{Binding LabelName, Converter={StaticResource TypeGetLabel}}" Width="150"/>
+                --><!--<DataGridTextColumn Header="值" Binding="{Binding Values,Converter={StaticResource Value2String}}" IsReadOnly="{Binding Values,Converter={StaticResource ValueCountNotOne},Mode=OneWay}" Width="*"/>-->
+                <!--<DataGridTextColumn Header="额外值" Binding="{Binding ExtraValue}" Width="100"/>--><!--
 
                 <DataGridTemplateColumn Header="字符串值" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
@@ -88,7 +115,7 @@
                     <MenuItem Header="删除条目"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
-        </DataGrid>
+        </DataGrid>-->
 
         <StatusBar Grid.Row="1" Grid.ColumnSpan="2">
             <StatusBarItem Content="类型数:"/>

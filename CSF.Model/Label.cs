@@ -25,9 +25,6 @@ namespace CSF.Model
             StringCount = stringCount;
             NameLength = nameLength;
             LabelName = labelName;
-            Values = values;
-            foreach (var value in values)
-                value.PropertyChanged += (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Values)));
         }
         public Label(string nameLength) : this(" LBL", 1, nameLength.Length, nameLength) { }
         #endregion

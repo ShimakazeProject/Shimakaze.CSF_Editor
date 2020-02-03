@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CSF.Core\CSF.Core.csproj" />
     <ProjectReference Include="..\CSF.Model\CSF.Model.csproj" />
   </ItemGroup>
 

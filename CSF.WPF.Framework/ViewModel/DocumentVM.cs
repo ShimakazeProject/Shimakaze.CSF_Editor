@@ -1,5 +1,6 @@
 ﻿using CSF.Model.Extension;
 using CSF.WPF.Framework.CommandBase;
+using CSF.WPF.Framework.Converter;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,8 +43,16 @@ namespace CSF.WPF.Framework.ViewModel
                 bool notNull = value != null;
                 types = value;
                 TypesNum = value?.Length.ToString();
-                LabelsNum = notNull ? (from type in value select type.Labels.Length).Sum().ToString() : null;
-                StringsNum = notNull ? (from type in value select (from label in type.Labels select label.StringCount).Sum()).Sum().ToString() : null;
+                LabelsNum = notNull ? (from type in value
+                                       select type.Labels.Count
+                                       ).Sum().ToString() : null;
+
+                StringsNum = notNull ? (from type in value // 从List中获得Type
+                                        select (from values in
+                                                    from label in type.Labels
+                                                    select label.Value
+                                                select values.Count
+                                        ).Sum()).Sum().ToString() : null;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Types)));
             }
         }
@@ -52,11 +61,12 @@ namespace CSF.WPF.Framework.ViewModel
             get => selectedType; set
             {
                 selectedType = value;
-                SelectedTypeLabelsNum = value?.Labels.Length.ToString();
-                SelectedTypeStringsNum = value != null ? (from label in value.Labels select label.StringCount)?.Sum().ToString() : null;
+                SelectedTypeLabelsNum = value?.Labels.Count.ToString();
+                SelectedTypeStringsNum = value != null ? (from label in value.Labels select label.Value.Count)?.Sum().ToString() : null;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedType)));
             }
         }
+
         public Model.Label SelectedLabel
         {
             get => selectedLabel; set
@@ -130,9 +140,11 @@ namespace CSF.WPF.Framework.ViewModel
         });
 
 
+
         public async void OpenCsf(string path)
         {
-            Types = await Import.FromCSF(path);
+            var task = Import.FromCSF(path);
+            Types = (await task).ToArray();
             //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Types)));
         }
 

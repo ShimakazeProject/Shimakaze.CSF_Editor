@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Json;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,39 +9,43 @@ namespace CSF.Model.Extension
 {
     public static class Import
     {
-        public static async Task<Type[]> Add(this Type[] types, Label label)
+        public static async Task<List<Type>> Add(this List<Type> types, Label label,List<Model.Value> values)
         {
-            var type = new Type(label);
             bool finished = false;
             await Task.Run(() =>
             {
-                for (int i = 0; i < types.Length; i++)
+                for (int i = 0; i < types.Count; i++)
                 {
-                    if (types[i].Name == type.Name)
+                    if (types[i].Name == label.GetTypeName())
                     {
-                        types[i].Add(label);
+                        types[i].Add(label, values);
                         finished = true;
                         return;
                     }
                 }
             });
-            if (finished) return types;
-            else return types.Concat(new Type[] { type }).ToArray();
+            if (!finished) types.Add(new Type(label, values));
+
+            return types;
 
         }
-        public static async Task<Type[]> FromFile(Core.IFile File)
+        public static async Task<List<Type>> FromFile(File File)
         {
-            var types = Array.Empty<Type>();
+            var types = new List<Type>();
             foreach (var label in File.Labels)
             {
-                types = await types.Add(new Label(label));
+                types = await types.Add(label.Key,label.Value);
             }
             return types;
         }
-        public static async Task<Type[]> FromCSF(string path)
+        public static async Task<List<Type>> FromCSF(string path)
         {
-            var bytes = System.IO.File.ReadAllBytes(path);
-            return await FromFile(await Task.Run(() => Core.Helper.FileHelper.CreateFile(bytes)));// 这里....要想办法分出来个线程
+            var bytes = System.IO.File.ReadAllBytes(path);            
+            var file = new File();
+            await file.LoadFileAsync(bytes);
+
+            return await FromFile(file);// 这里....要想办法分出来个线程
+            //throw new Exception();
         }
 
         // 从Json导入
@@ -64,8 +69,8 @@ namespace CSF.Model.Extension
                 int version = jsonVersion;
                 switch (version)
                 {
-                    case 1:
-                        return await FromFile(Json.Import.V1(root));
+                    //case 1:
+                    //    return await FromFile(Json.Import.V1(root));
                 }
             }
             throw new Exception();
@@ -90,8 +95,9 @@ namespace CSF.Model.Extension
 
             switch (Convert.ToInt32(root.GetAttribute("XmlVersion")))
             {
-                case 1:
-                    return await FromFile(Xml.Import.V1(root));
+                //case 1:
+                //    return await FromFile(Xml.Import.V1(root));
+
             }
             throw new Exception();
         }
