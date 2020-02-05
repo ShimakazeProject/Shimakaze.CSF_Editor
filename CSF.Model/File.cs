@@ -2,176 +2,94 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CSF.Model
 {
     public class File
     {
-        #region Field
-        private string flag;
-        private int version;
-        private int labelCount;
-        private int stringCount;
-        private byte[] unknow;
-        private int language;
-        private Dictionary<Label, List<Value>> labels;
-        #endregion
-
-        #region Property
         /// <summary>
         /// 文件标记 始终为" FSC"
         /// </summary>
-        public string Flag => flag;
+        public string Flag { get; private set; }
         /// <summary>
         /// 文件版本
         /// </summary>
-        public int Version => version;
+        public int Version { get; private set; }
         /// <summary>
         /// 标签数
         /// </summary>
-        public int LabelCount => labelCount;
+        public int LabelCount { get; private set; }
         /// <summary>
         /// 字符串数
         /// </summary>
-        public int StringCount => stringCount;
+        public int StringCount { get; private set; }
         /// <summary>
         /// 额外信息 4字节
         /// </summary>
-        public byte[] Unknow => unknow;
+        public byte[] Unknow { get; private set; }
         /// <summary>
         /// 语言信息
         /// </summary>
-        public int Language => language;
-
-        //public List<Label> Labels => labels = new List<Label>();
-        public Dictionary<Label, List<Value>> Labels => labels = new Dictionary<Label, List<Value>>();
-        #endregion
-        #region Method
-        public virtual void AddLabel(Label label,List<Value> values)
+        public int Language { get; private set; }
+        /// <summary>
+        /// 标签信息
+        /// </summary>
+        public Label[] Labels { get; set; }
+        /// <summary>
+        /// 读取文件
+        /// </summary>
+        /// <param name="filePath">文件位置</param>
+        public void LoadFromFile(string filePath)
         {
-            Labels.Add(label, values);
-        }
-        public virtual void AddValue(Label label,Value value)
-        {
-            Labels.TryGetValue(label, out List<Value> values);
-            values.Add(value);            
-        }
-
-        public virtual void LoadFile(byte[] bytes)
-        {
-            using (var ms = new MemoryStream(bytes))
-                LoasFile(ms);
-        }
-        public virtual void LoadFile(string path)
-        {
-            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
-                LoasFile(fs);
-        }
-        public virtual async Task LoadFileAsync(byte[] bytes)
-        {
-            using (var ms = new MemoryStream(bytes))
-                await LoadFileAsync(ms);
-        }
-        public virtual async Task LoadFileAsync(string path)
-        {
-            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
-                await LoadFileAsync(fs);
-        }
-
-        private void LoasFile(Stream stream)
-        {
-            // Header
+            using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                flag = Encoding.ASCII.GetString(stream.Read(4));
-                version = BitConverter.ToInt32(stream.Read(4), 0);
-                labelCount = BitConverter.ToInt32(stream.Read(4), 0);
-                stringCount = BitConverter.ToInt32(stream.Read(4), 0);
-                unknow = stream.Read(4);
-                language = BitConverter.ToInt32(stream.Read(4), 0);
-            }
-            // Body
-            labels = new Dictionary<Label, List<Value>>();
-            for (int i = 0; i < labelCount; i++)
-            {
-                var lflag = Encoding.ASCII.GetString(stream.Read(4));
-                var lcount = BitConverter.ToInt32(stream.Read(4), 0);// Strings Count
-                var llenght = BitConverter.ToInt32(stream.Read(4), 0);// Label Name Lenght
-                var lname = Encoding.ASCII.GetString(stream.Read(llenght));
-
-                var lvalues = new List<Value>(lcount);
-
-                for (int j = 0; j < lcount; j++)
-                {
-                    var sflag = Encoding.ASCII.GetString(stream.Read(4));
-                    var slenght = BitConverter.ToInt32(stream.Read(4), 0);
-                    var svalue = Encoding.Unicode.GetString(Decoding(slenght, stream.Read(slenght * 2)));
-                    if (sflag[0] != 32)
-                    {
-                        var elenght = BitConverter.ToInt32(stream.Read(4), 0);
-                        var evalue = Encoding.ASCII.GetString(stream.Read(elenght));
-                        lvalues[j] = new Value(sflag, slenght, svalue, elenght, evalue);
-                    }
-                    else
-                    {
-                        lvalues[j] = new Value(sflag, slenght, svalue);
-                    }
-                }
-                labels.Add(new Label(lflag, lcount, llenght, lname), lvalues);
-            }
-        }
-        private async Task LoadFileAsync(Stream stream)
-        {
-            {
-                var tflag = stream.ReadAsync(4);
-                var tver = stream.ReadAsync(4);
-                var tlcount = stream.ReadAsync(4);
-                var tscount = stream.ReadAsync(4);
-                var tunknow = stream.ReadAsync(4);
-                var tlang = stream.ReadAsync(4);
-
-                flag = Encoding.ASCII.GetString(await tflag);
-                version = BitConverter.ToInt32(await tver, 0);
-                labelCount = BitConverter.ToInt32(await tlcount, 0);
-                stringCount = BitConverter.ToInt32(await tscount, 0);
-                unknow = await tunknow;
-                language = BitConverter.ToInt32(await tlang, 0);
-            }
-            // ===
-            labels = new Dictionary<Label, List<Value>>();
-            for (int i = 0; i < labelCount; i++)
-            {
-                var tlflag = stream.ReadAsync(4);
-                var tlcount = stream.ReadAsync(4);
-                var tllenght = stream.ReadAsync(4);
-
-                var lflag = Encoding.ASCII.GetString(await tlflag);
-                var lcount = BitConverter.ToInt32(await tlcount, 0);
-                var llenght = BitConverter.ToInt32(await tllenght, 0);
-                var lname = Encoding.ASCII.GetString(await stream.ReadAsync(llenght));
-
-                var lvalues = new List<Value>(lcount);
-                for (int j = 0; j < lcount; j++)
-                {
-                    var sflag = Encoding.ASCII.GetString(await stream.ReadAsync(4));
-                    var slenght = BitConverter.ToInt32(await stream.ReadAsync(4), 0);
-                    var svalue = Encoding.Unicode.GetString(Decoding(slenght, await stream.ReadAsync(slenght * 2)));
-                    if (sflag[0] != 32)
-                    {
-                        var elenght = BitConverter.ToInt32(await stream.ReadAsync(4), 0);
-                        var evalue = Encoding.ASCII.GetString(await stream.ReadAsync(elenght));
-                        lvalues[j] = new Value(sflag, slenght, svalue, elenght, evalue);
-                    }
-                    else
-                    {
-                        lvalues[j] = new Value(sflag, slenght, svalue);
-                    }
-                }
-                labels.Add(new Label(lflag, lcount, llenght, lname), lvalues);
+                LoadFromStream(fs);
             }
         }
         /// <summary>
-        /// 编/解码
+        /// 从流中读取CSF文件
+        /// </summary>
+        /// <param name="stream">流</param>
+        public void LoadFromStream(Stream stream)
+        {
+            // Header 
+            Flag = Encoding.ASCII.GetString(stream.Read(4));
+            Version = BitConverter.ToInt32(stream.Read(4), 0);
+            LabelCount = BitConverter.ToInt32(stream.Read(4), 0);
+            StringCount = BitConverter.ToInt32(stream.Read(4), 0);
+            Unknow = stream.Read(4);
+            Language = BitConverter.ToInt32(stream.Read(4), 0);
+            // Labels
+            Labels = new Label[LabelCount];
+            for (int i = 0; i < LabelCount; i++)
+            {
+                var labelFlag = Encoding.ASCII.GetString(stream.Read(4));
+                var labelCount = BitConverter.ToInt32(stream.Read(4), 0);
+                var labelLength = BitConverter.ToInt32(stream.Read(4), 0);
+                var labelName = Encoding.ASCII.GetString(stream.Read(labelLength));
+                var labelValues = new Value[labelCount];
+                for (int j = 0; j < labelCount; j++)
+                {
+                    var valueFlag = Encoding.ASCII.GetString(stream.Read(4));
+                    var valueLength = BitConverter.ToInt32(stream.Read(4), 0);
+                    var valueString = Encoding.Unicode.GetString(Decoding(valueLength, stream.Read(valueLength * 2)));
+                    if (valueFlag == "WRTS")
+                    {
+                        var extraLength = BitConverter.ToInt32(stream.Read(4), 0);
+                        var extraString = Encoding.ASCII.GetString(stream.Read(extraLength));
+                        labelValues[j] = new Value(valueFlag, valueLength, valueString, extraLength, extraString);
+                    }
+                    else if (valueFlag == " RTS")
+                    {
+                        labelValues[j] = new Value(valueFlag, valueLength, valueString);
+                    }
+                    else throw new Exception("喵喵喵???");
+                }
+                Labels[i] = new Label(labelFlag, labelCount, labelLength, labelName, labelValues);
+            }
+        }
+        /// <summary>
+        /// 值字符串 编/解码
         /// </summary>
         /// <param name="ValueLength">长度</param>
         /// <param name="ValueData">内容</param>
@@ -185,33 +103,37 @@ namespace CSF.Model
             }
             return ValueData;
         }
+
+        #region Indexer
+        public Label this[int index]
+        {
+            get => Labels[index];
+            set => Labels[index] = value;
+        }
+        public Label this[string name]
+        {
+            get
+            {
+                for (int i = 0; i < Labels.Length; i++)
+                {
+                    if (Labels[i].LabelName.Equals(name))
+                    {
+                        return Labels[i];
+                    }
+                }
+                return null;
+            }
+            set
+            {
+                for (int i = 0; i < Labels.Length; i++)
+                {
+                    if (Labels[i].LabelName.Equals(name))
+                    {
+                        Labels[i] = value;
+                    }
+                }
+            }
+        }
         #endregion
-    }
-    public static class ExtensionMethod
-    {
-        public static byte[] Read(this MemoryStream ms, int count)
-        {
-            var bytes = new byte[count];
-            ms.Read(bytes, 0, count);
-            return bytes;
-        }
-        public static async Task<byte[]> ReadAsync(this MemoryStream ms, int count)
-        {
-            var bytes = new byte[count];
-            await ms.ReadAsync(bytes, 0, count);
-            return bytes;
-        }
-        public static byte[] Read(this Stream stream, int count)
-        {
-            var bytes = new byte[count];
-            stream.Read(bytes, 0, count);
-            return bytes;
-        }
-        public static async Task<byte[]> ReadAsync(this Stream stream, int count)
-        {
-            var bytes = new byte[count];
-            await stream.ReadAsync(bytes, 0, count);
-            return bytes;
-        }
     }
 }

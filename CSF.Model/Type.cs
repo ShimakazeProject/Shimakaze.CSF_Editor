@@ -1,78 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Text;
 
 namespace CSF.Model
 {
-    public class Type : INotifyPropertyChanged, Interface.IVisibility
+    public class Type
     {
-        #region Field
-        private bool visibility;
-        private Dictionary<Label, List<Value>> labels;
-        private string name;
-        #endregion
-
-        #region Construction
-        public Type()
+        public Type(string name,params Label[] labels)
         {
-            Visibility = true;
-            Labels = new Dictionary<Label, List<Value>>();
+            Name = name;
+            Labels = labels;
         }
-        public Type(Label label, List<Value> values)
-        {
-            Visibility = true;
-            Labels = new Dictionary<Label, List<Value>>();
-            var tag = label.LabelName.Split(new char[] { ':', '_' });
-            Name = tag.Length != 1 ? tag[0].ToUpper() : "(default)";
-            Add(label, values);
-        }
-        #endregion
+        public string Name { get; private set; }
+        public Label[] Labels { get; set; }
 
-        #region Property
-        public bool Visibility
+
+        public static Type operator +(Type left, Label right)
         {
-            get => visibility; set
+            var labels = new List<Label>(left.Labels) { right };
+            return new Type(left.Name, labels.ToArray());
+        }
+
+
+        #region Indexer
+        public Label this[int index]
+        {
+            get => Labels[index];
+            set => Labels[index] = value;
+        }
+        public Label this[string name]
+        {
+            get
             {
-                visibility = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Visibility)));
+                for (int i = 0; i < Labels.Length; i++)
+                {
+                    if (Labels[i].LabelName.Equals(name))
+                    {
+                        return Labels[i];
+                    }
+                }
+                return null;
             }
-        }
-        public Dictionary<Label, List<Value>> Labels
-        {
-            get => labels; set
+            set
             {
-                labels = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Labels)));
+                for (int i = 0; i < Labels.Length; i++)
+                {
+                    if (Labels[i].LabelName.Equals(name))
+                    {
+                        Labels[i] = value;
+                    }
+                }
             }
-        }
-        public string Name
-        {
-            get => name; private set
-            {
-                name = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
-            }
-        }
-        #endregion
-
-        #region Event
-        public event PropertyChangedEventHandler PropertyChanged;
-        #endregion
-
-        //#region Indexer
-        //public Label this[int index]
-        //{
-        //    get => labels[index];
-        //    set => labels[index] = value;
-        //}
-        //#endregion
-
-        #region Method
-        public virtual void Add(Label label,List<Value> values)
-        {
-            Labels.Add(label, values);
         }
         #endregion
     }

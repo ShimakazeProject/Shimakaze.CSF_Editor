@@ -1,114 +1,125 @@
-﻿using CSF.Model.Interface;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CSF.Model
 {
-    public class Value : INotifyPropertyChanged, IVisibility
+    /// <summary>
+    /// CSF Value struct
+    /// </summary>
+    public class Value
     {
         #region Field
-        private bool visibility;
         private string extraString;
-        private int? extraLenght;
         private string valueString;
-        private int valueLenght;
-        private string valueTag;
         #endregion
 
         #region Construction
-        public Value(string value,string evalue=null)
+        public Value(string value, string evalue = null)
         {
-            ValueTag = " RTS";
-            ValueString = value;
+            ValueFlag = " RTS";
             Visibility = true;
+            ValueString = value;
             ExtraString = evalue;
         }
-        public Value(string tag,int vlenght,string value,int? elenght=null, string evalue = null)
+        public Value(string tag, int vlenght, string value, int elenght = 0, string evalue = null)
         {
             Visibility = true;
-            ValueTag = tag;
-            ValueLenght = vlenght;
+            ValueFlag = tag;
+            ValueLength = vlenght;
+            ExtraLength = elenght;
             ValueString = value;
-            ExtraLenght = elenght;
             ExtraString = evalue;
         }
         #endregion
 
         #region Property
-        public string ValueTag
-        {
-            get => valueTag; private set
-            {
-                valueTag = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ValueTag)));
-            }
-        }
-        public int ValueLenght
-        {
-            get => valueLenght; private set
-            {
-                valueLenght = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ValueLenght)));
-            }
-        }
+        /// <summary>
+        /// Value Flag have two content<para/>
+        /// " RTS"(Str:Normal string) or "WRTS"(StrW:Width string)
+        /// </summary>
+        public string ValueFlag { get; private set; }
+        /// <summary>
+        /// Value string length
+        /// </summary>
+        public int ValueLength { get; private set; }
+        /// <summary>
+        /// Value string content
+        /// </summary>
         public string ValueString
         {
             get => valueString; set
             {
-                ValueLenght = value.Length;
+                ValueLength = value.Length;
                 valueString = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ValueString)));
             }
         }
-        public int? ExtraLenght
-        {
-            get => extraLenght; private set
-            {
-                extraLenght = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ExtraLenght)));
-            }
-        }
+        /// <summary>
+        /// Extra string length <para/>
+        /// If this value flag is "WRTS"<para/>
+        /// Else return 0
+        /// </summary>
+        public int ExtraLength { get; private set; }
+        /// <summary>
+        /// Extra string content<para/><c>
+        /// If this value flag is "WRTS"<para/>
+        /// Else return Null</c>
+        /// </summary>
         public string ExtraString
         {
             get => extraString; set
             {
                 if (!string.IsNullOrWhiteSpace(value))
                 {
-                    ValueTag = "WRTS";
+                    ValueFlag = "WRTS";
                     extraString = value;
-                    ExtraLenght = value?.Length;
+                    ExtraLength = value.Length;
                 }
                 else
                 {
-                    ValueTag = " RTS";
+                    ValueFlag = " RTS";
                     extraString = null;
-                    ExtraLenght = null;
+                    ExtraLength = 0;
                 }
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ExtraString)));
+
             }
         }
-        //public int Length => ValueLength * 2 + 0x0C + (ExtraLength ?? 0);
-        public bool Visibility
-        {
-            get => visibility; set
-            {
-                visibility = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Visibility)));
-            }
-        }
+        /// <summary>
+        /// (Not CSF Property) Show in Editor
+        /// </summary>
+        public bool Visibility { get; set; }
         #endregion
 
-        #region Event
-        public event PropertyChangedEventHandler PropertyChanged;
+        #region Convert
+        /// <summary>
+        /// Get ValueString content
+        /// </summary>
+        public static implicit operator string(Value value) => value.ValueString;
+        /// <summary>
+        /// Flag Is STRW ? true : false
+        /// </summary>
+        public static implicit operator bool(Value value) => value.ValueFlag == "WRTS";
+        public static implicit operator Value(string value) => new Value(value);
         #endregion
 
         #region Operator
-        public static implicit operator string(Value value) => value.ValueString;
-        public static implicit operator Value(string value) => new Value(value);
+        public static bool operator ==(Value left, Value right) => left.Equals(right);
+        public static bool operator !=(Value left, Value right) => !(left == right);
         #endregion
+
+        #region Override Method
+        public override bool Equals(object obj) =>
+            obj != null &&
+            obj.GetType() == typeof(Value) &&
+            ReferenceEquals(this, obj) &&
+            ValueLength == (obj as Value).ValueLength &&
+            valueString.Equals(obj as Value)
+                ? this && (obj as Value)
+                    ? ExtraLength == (obj as Value).ExtraLength && ExtraString.Equals((obj as Value).ExtraString)
+                    : true
+                : false;
+        public override int GetHashCode() => (valueString, extraString).GetHashCode();
+        #endregion
+
     }
 }

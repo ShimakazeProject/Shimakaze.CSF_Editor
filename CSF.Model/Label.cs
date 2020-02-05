@@ -1,99 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CSF.Model
 {
-    public class Label : INotifyPropertyChanged, Interface.IVisibility
+    public class Label
     {
         #region Field
         private string labelName;
-        //private Value[] values;
-        private int nameLength;
-        private int stringCount;
-        private bool visibility;
+        private Value[] values;
         #endregion
 
         #region Construction
-        public Label(string labelTag, int stringCount, int nameLength, string labelName)
+        public Label(string labelTag, int stringCount, int nameLength, string labelName,Value[] values)
         {
             Visibility = true;
-            LabelTag = labelTag;
-            StringCount = stringCount;
-            NameLength = nameLength;
+            LabelFlag = labelTag;
+            LabelStrCount = stringCount;
+            LabelNameLength = nameLength;
             LabelName = labelName;
+            LabelValues = values;
         }
-        public Label(string nameLength) : this(" LBL", 1, nameLength.Length, nameLength) { }
+        public Label(string nameLength,Value[] values) : this(" LBL", 1, nameLength.Length, nameLength, values) { }
         #endregion
 
         #region Property
-        public string LabelTag { get; private set; }
-        public int StringCount
-        {
-            get => stringCount; private set
-            {
-                stringCount = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StringCount)));
-                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Length)));
-            }
-        }
-        public int NameLength
-        {
-            get => nameLength; private set
-            {
-                nameLength = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NameLength)));
-                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Length)));
-            }
-        }
+        public string LabelFlag { get; private set; }
+        public int LabelStrCount { get; private set; }
+        public int LabelNameLength { get; private set; }
         public string LabelName
         {
             get => labelName; set
             {
-                NameLength = value.Length;
-                labelName = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LabelName)));
+                LabelNameLength = value.Length;
+                labelName = value;                
             }
         }
-        //public Value[] Values
-        //{
-        //    get => values; set
-        //    {
-        //        StringCount = value.Count();
-        //        values = value;
-        //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Values)));
-        //        //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Length)));
-        //    }
-        //}
-        //public int Length => 0x0C + NameLength + (from value in Values select value.Length).Sum();
-        public bool Visibility
+        public Value[] LabelValues
         {
-            get => visibility; set
+            get => values; set
             {
-                visibility = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Visibility)));
+                LabelStrCount = value.Length;
+                values = value;
             }
         }
+        public bool Visibility { get; set; }
         #endregion
 
-        #region Event
-        public event PropertyChangedEventHandler PropertyChanged;
+        #region Operator
+        public static implicit operator KeyValuePair<string,Value[]>(Label label) => new KeyValuePair<string, Value[]>(label.labelName, label.LabelValues);
+        public static implicit operator (string, Value[])(Label label) => (label.labelName, label.LabelValues);
+
+        public static implicit operator Label(KeyValuePair<string, Value[]> keyValue) => new Label(keyValue.Key, keyValue.Value);
+        public static implicit operator Label((string, Value[]) kv) => new Label(kv.Item1, kv.Item2);
         #endregion
 
-        //#region Indexer
-        //public Value this[int index]
-        //{
-        //    get => Values.ToArray()[index] as Value;
-        //    set
-        //    {
-        //        var array = Values.ToArray();
-        //        array[index] = value;
-        //        Values = array;
-        //    }
-        //}
-        //#endregion
+        #region Indexer
+        public Value this[int index]
+        {
+            get => LabelValues[index];
+            set => LabelValues[index] = value;
+        }
+        #endregion
     }
 }
