@@ -9,7 +9,7 @@ using System.Windows.Data;
 namespace CSF.WPF.Framework.Converter
 {
     [ValueConversion(typeof(Model.Type), typeof(Dictionary<Model.Label, List<Model.Value>>))]
-    public class Type2KVDictionary : IValueConverter
+    public class Type2List4Label : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
