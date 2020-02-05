@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
 namespace CSF.Model
 {
-    public class Type
+    public class Type: IEnumerable
     {
         public Type(string name,params Label[] labels)
         {
@@ -53,5 +54,6 @@ namespace CSF.Model
             }
         }
         #endregion
+        public IEnumerator GetEnumerator() => Labels.GetEnumerator();
     }
 }

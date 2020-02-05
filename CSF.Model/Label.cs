@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
 namespace CSF.Model
 {
-    public class Label
+    public class Label:IEnumerable
     {
         #region Field
         private string labelName;
@@ -62,5 +63,7 @@ namespace CSF.Model
             set => LabelValues[index] = value;
         }
         #endregion
+
+        public IEnumerator GetEnumerator() => LabelValues.GetEnumerator();
     }
 }
