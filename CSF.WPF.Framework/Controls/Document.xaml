@@ -10,8 +10,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <Converter:Type2KVDictionary x:Key="Type2KVDictionary"/>
-        <Converter:LabelGetName x:Key="LabelGetName"/>
+        <Converter:Type2List4Label x:Key="Type2List4Label"/>
+        <!--<Converter:LabelGetName x:Key="LabelGetName"/>-->
         <!--<Converter:TypeGetValue x:Key="TypeGetValue"/>-->
     </UserControl.Resources>
     <Grid>
@@ -46,13 +46,26 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
-
-        <DataGrid Grid.Column="1" ItemsSource="{Binding SelectedTypeLabel,Converter={StaticResource Type2KVDictionary}}">
+        <!--<DataGrid Grid.Column="1" ItemsSource="{Binding SelectedType,Converter={StaticResource Type2List4Label}}"
+                  SelectedItem="{Binding SelectedLabel}"
+                      pu:DataGridHelper.HeaderMinHeight="30"
+                      pu:DataGridHelper.RowMinHeight="20"
+                      pu:DataGridHelper.SelectedBackground="#44B5B5B5"
+                      AutoGenerateColumns="False">
             <Style TargetType="{x:Type DataGridRow}">
                 <Setter Property="Visibility" Value="{Binding Visibility, Converter={StaticResource BoolToVisibleConverter}}"/>
             </Style>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="标签" Binding="{Binding Key,Converter={StaticResource LabelGetName}}"/>
+                <DataGridTextColumn Header="标签" Binding="{Binding LabelName}"/>                
+            </DataGrid.Columns>
+        </DataGrid>-->
+            <!--<DataGrid Grid.Column="1" ItemsSource="{Binding SelectedType,Converter={StaticResource Type2List4Label}}">
+            <Style TargetType="{x:Type DataGridRow}">
+                <Setter Property="Visibility" Value="{Binding Visibility, Converter={StaticResource BoolToVisibleConverter}}"/>
+            </Style>
+            -->
+        <!--<DataGrid.Columns>
+                <DataGridTextColumn Header="标签" Binding="{Binding LabelName}"/>
                 <DataGridTemplateColumn Header="字符串值" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -68,11 +81,11 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+            </DataGrid.Columns>--><!--
+        </DataGrid>-->
 
 
-        <!--<DataGrid x:Name="LabelList" Grid.Column="1"
+        <DataGrid x:Name="LabelList" Grid.Column="1"
                       ItemsSource="{Binding SelectedType}"
                   SelectedItem="{Binding SelectedLabel}"
                       pu:DataGridHelper.HeaderMinHeight="30"
@@ -86,14 +99,14 @@
             </DataGrid.ItemContainerStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="标签" Binding="{Binding LabelName, Converter={StaticResource TypeGetLabel}}" Width="150"/>
-                --><!--<DataGridTextColumn Header="值" Binding="{Binding Values,Converter={StaticResource Value2String}}" IsReadOnly="{Binding Values,Converter={StaticResource ValueCountNotOne},Mode=OneWay}" Width="*"/>-->
-                <!--<DataGridTextColumn Header="额外值" Binding="{Binding ExtraValue}" Width="100"/>--><!--
+                <DataGridTextColumn Header="标签" Binding="{Binding LabelName}" Width="150"/>
+                <!--<DataGridTextColumn Header="值" Binding="{Binding Values,Converter={StaticResource Value2String}}" IsReadOnly="{Binding Values,Converter={StaticResource ValueCountNotOne},Mode=OneWay}" Width="*"/>
+                <DataGridTextColumn Header="额外值" Binding="{Binding ExtraValue}" Width="100"/>-->
 
                 <DataGridTemplateColumn Header="字符串值" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <DataGrid ItemsSource="{Binding Values}"
+                            <DataGrid ItemsSource="{Binding LabelValues}"
                                       pu:DataGridHelper.HeaderMinHeight="20"
                                       pu:DataGridHelper.RowMinHeight="20"
                                       AutoGenerateColumns="False">
@@ -115,27 +128,45 @@
                     <MenuItem Header="删除条目"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
-        </DataGrid>-->
+        </DataGrid>
 
         <StatusBar Grid.Row="1" Grid.ColumnSpan="2">
+            <StatusBarItem Content="标记:"/>
+            <StatusBarItem Content="{Binding Flag}"
+                           MinWidth="24" HorizontalContentAlignment="Right"/>
+            <Separator/>
+            <StatusBarItem Content="版本:"/>
+            <StatusBarItem Content="{Binding Version}"
+                           MinWidth="24" HorizontalContentAlignment="Right"/>
+            <Separator/>
+            <StatusBarItem Content="语言:"/>
+            <StatusBarItem Content="{Binding Language}"
+                           MinWidth="24" HorizontalContentAlignment="Right"/>
+            <Separator/>
+            
             <StatusBarItem Content="类型数:"/>
-            <StatusBarItem Content="{Binding TypesNum}" Margin="0 0 5 0"
-                           MinWidth="48" HorizontalContentAlignment="Right"/>
+            <StatusBarItem Content="{Binding TypesCount}"
+                           MinWidth="32" HorizontalContentAlignment="Right"/>
+            <Separator/>
             <StatusBarItem Content="标签数:"/>
-            <StatusBarItem Content="{Binding LabelsNum}" Margin="0 0 5 0"
-                           MinWidth="48" HorizontalContentAlignment="Right"/>
+            <StatusBarItem Content="{Binding LabelCount}"
+                           MinWidth="32" HorizontalContentAlignment="Right"/>
+            <Separator/>
             <StatusBarItem Content="字符串数:"/>
-            <StatusBarItem Content="{Binding StringsNum}" Margin="0 0 10 0"
-                           MinWidth="48" HorizontalContentAlignment="Right"/>
+            <StatusBarItem Content="{Binding StringCount}"
+                           MinWidth="32" HorizontalContentAlignment="Right"/>
+            <Separator/>
             <StatusBarItem Content="类型标签数:"/>
-            <StatusBarItem Content="{Binding SelectedTypeLabelsNum}" Margin="0 0 5 0"
-                           MinWidth="48" HorizontalContentAlignment="Right"/>
+            <StatusBarItem Content="{Binding SelectedTypeLabelsNum}"
+                           MinWidth="32" HorizontalContentAlignment="Right"/>
+            <Separator/>
             <StatusBarItem Content="类型字符串数:"/>
-            <StatusBarItem Content="{Binding SelectedTypeStringsNum}" Margin="0 0 10 0"
-                           MinWidth="48" HorizontalContentAlignment="Right"/>
+            <StatusBarItem Content="{Binding SelectedTypeStringsNum}"
+                           MinWidth="32" HorizontalContentAlignment="Right"/>
+            <Separator/>
             <StatusBarItem Content="标签字符串数:"/>
             <StatusBarItem Content="{Binding SelectedLabelStringNum}"
-                           MinWidth="48" HorizontalContentAlignment="Right"/>
+                           MinWidth="32" HorizontalContentAlignment="Right"/>
             <TextBlock/>
         </StatusBar>
 
