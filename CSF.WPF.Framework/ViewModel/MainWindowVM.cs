@@ -76,7 +76,7 @@ namespace CSF.WPF.Framework.ViewModel
         private void OpenCsf()
         {
             IsIndeterminate = true;
-            try
+            //try
             {
                 var ofd = new Microsoft.Win32.OpenFileDialog
                 {
@@ -116,10 +116,10 @@ namespace CSF.WPF.Framework.ViewModel
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message, "[MainWindow][NewTab_MenuItemClick]");
-            }
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message, "[MainWindow][NewTab_MenuItemClick]");
+            //}
             IsIndeterminate = false;
         }
 

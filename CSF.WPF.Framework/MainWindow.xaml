@@ -220,9 +220,6 @@
 
         <avalonDock:DockingManager x:Name="manager" ActiveContent="{Binding ActiveContent}">
             <avalonDock:LayoutRoot x:Name="layoutRoot">
-                <avalonDock:LayoutPanel>
-                    
-                </avalonDock:LayoutPanel>
             </avalonDock:LayoutRoot>
         </avalonDock:DockingManager>
 
