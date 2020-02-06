@@ -90,6 +90,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CommandBase\RelayCommand.cs" />
+    <Compile Include="Converter\ModelValueToExtraStringConverter.cs" />
+    <Compile Include="Converter\ModelValueToValueStringConverter.cs" />
     <Compile Include="Converter\TypeGetLabel.cs" />
     <Compile Include="PipeConst.cs" />
     <Compile Include="ViewModel\DocumentVM.cs" />
@@ -121,6 +123,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\Font\FontDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -145,6 +151,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Resources\Font\fontawesome.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

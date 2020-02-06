@@ -10,9 +10,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <Converter:Type2List4Label x:Key="Type2List4Label"/>
         <!--<Converter:LabelGetName x:Key="LabelGetName"/>-->
         <!--<Converter:TypeGetValue x:Key="TypeGetValue"/>-->
+        <Converter:ModelValueToExtraStringConverter x:Key="ModelValueToExtraStringConverter"/>
+        <Converter:ModelValueToValueStringConverter x:Key="ModelValueToValueStringConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -100,10 +101,10 @@
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="标签" Binding="{Binding LabelName}" Width="150"/>
-                <!--<DataGridTextColumn Header="值" Binding="{Binding Values,Converter={StaticResource Value2String}}" IsReadOnly="{Binding Values,Converter={StaticResource ValueCountNotOne},Mode=OneWay}" Width="*"/>
-                <DataGridTextColumn Header="额外值" Binding="{Binding ExtraValue}" Width="100"/>-->
+                <DataGridTextColumn Header="值" Binding="{Binding LabelValues[0], Converter={StaticResource ModelValueToValueStringConverter}}" Width="*"/>
+                <DataGridTextColumn Header="额外值" Binding="{Binding ExtraValue[0], Converter={StaticResource ModelValueToExtraStringConverter}}" Width="100"/>
 
-                <DataGridTemplateColumn Header="字符串值" Width="*">
+                <!--<DataGridTemplateColumn Header="字符串值" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <DataGrid ItemsSource="{Binding LabelValues}"
@@ -117,7 +118,7 @@
                             </DataGrid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                </DataGridTemplateColumn>-->
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
