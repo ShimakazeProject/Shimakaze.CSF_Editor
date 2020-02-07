@@ -199,7 +199,7 @@ namespace CSF.WPF.Framework.ViewModel
             }
         }
         #endregion
-
+        public RelayCommand<object> EditLabelCommand => new RelayCommand<object>(EditLabelMethod);
         public RelayCommand Refresh => new RelayCommand(() =>
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Types)));
@@ -217,6 +217,13 @@ namespace CSF.WPF.Framework.ViewModel
             ZERO4, ZERO5, KOREAN, CHINESE
         }
 
+        public void EditLabelMethod(object obj)
+        {
+            if (obj.GetType() != typeof(Model.Label)) return;
+            var newlabel = Dialog.EditDialog.ShowDialog(obj as Model.Label);
+            (obj as Model.Label).Changed(newlabel);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedType)));
+        }
         public void OpenCsf(string path)
         {
             var file = new Model.File();

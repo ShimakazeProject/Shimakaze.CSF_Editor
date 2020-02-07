@@ -10,8 +10,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <!--<Converter:LabelGetName x:Key="LabelGetName"/>-->
-        <!--<Converter:TypeGetValue x:Key="TypeGetValue"/>-->
         <Converter:ModelValueToExtraStringConverter x:Key="ModelValueToExtraStringConverter"/>
         <Converter:ModelValueToValueStringConverter x:Key="ModelValueToValueStringConverter"/>
     </UserControl.Resources>
@@ -37,8 +35,7 @@
                 </Style>
             </DataGrid.ItemContainerStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn x:Name="dgtc_Label" Binding="{Binding Name}"
-                                        Header="类型" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Name}" Header="类型" IsReadOnly="True" Width="*"/>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
@@ -47,52 +44,16 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
-        <!--<DataGrid Grid.Column="1" ItemsSource="{Binding SelectedType,Converter={StaticResource Type2List4Label}}"
-                  SelectedItem="{Binding SelectedLabel}"
-                      pu:DataGridHelper.HeaderMinHeight="30"
-                      pu:DataGridHelper.RowMinHeight="20"
-                      pu:DataGridHelper.SelectedBackground="#44B5B5B5"
-                      AutoGenerateColumns="False">
-            <Style TargetType="{x:Type DataGridRow}">
-                <Setter Property="Visibility" Value="{Binding Visibility, Converter={StaticResource BoolToVisibleConverter}}"/>
-            </Style>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="标签" Binding="{Binding LabelName}"/>                
-            </DataGrid.Columns>
-        </DataGrid>-->
-            <!--<DataGrid Grid.Column="1" ItemsSource="{Binding SelectedType,Converter={StaticResource Type2List4Label}}">
-            <Style TargetType="{x:Type DataGridRow}">
-                <Setter Property="Visibility" Value="{Binding Visibility, Converter={StaticResource BoolToVisibleConverter}}"/>
-            </Style>
-            -->
-        <!--<DataGrid.Columns>
-                <DataGridTextColumn Header="标签" Binding="{Binding LabelName}"/>
-                <DataGridTemplateColumn Header="字符串值" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <DataGrid ItemsSource="{Binding Value}"
-                                      pu:DataGridHelper.HeaderMinHeight="20"
-                                      pu:DataGridHelper.RowMinHeight="20"
-                                      AutoGenerateColumns="False">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="值" Width="*" Binding="{Binding ValueString}"/>
-                                    <DataGridTextColumn Header="额外值" Binding="{Binding ExtraString}"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>--><!--
-        </DataGrid>-->
-
-
+        
         <DataGrid x:Name="LabelList" Grid.Column="1"
-                      ItemsSource="{Binding SelectedType}"
+                  ItemsSource="{Binding SelectedType}"
                   SelectedItem="{Binding SelectedLabel}"
-                      pu:DataGridHelper.HeaderMinHeight="30"
-                      pu:DataGridHelper.RowMinHeight="20"
-                      pu:DataGridHelper.SelectedBackground="#44B5B5B5"
-                      AutoGenerateColumns="False">
+                  pu:DataGridHelper.HeaderMinHeight="30"
+                  pu:DataGridHelper.RowMinHeight="20"
+                  pu:DataGridHelper.SelectedBackground="#44B5B5B5"
+                  AutoGenerateColumns="False"
+                  
+                  >
             <DataGrid.ItemContainerStyle>
                 <Style TargetType="{x:Type DataGridRow}">
                     <Setter Property="Visibility" Value="{Binding Visibility, Converter={StaticResource BoolToVisibleConverter}}"/>
@@ -101,8 +62,11 @@
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="标签" Binding="{Binding LabelName}" Width="150"/>
-                <DataGridTextColumn Header="值" Binding="{Binding LabelValues[0], Converter={StaticResource ModelValueToValueStringConverter}}" Width="*"/>
-                <DataGridTextColumn Header="额外值" Binding="{Binding ExtraValue[0], Converter={StaticResource ModelValueToExtraStringConverter}}" Width="100"/>
+
+                <DataGridTextColumn Header="值" Binding="{Binding LabelValues[0], Converter={StaticResource ModelValueToValueStringConverter}}"
+                                    IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="额外值" Binding="{Binding LabelValues[0], Converter={StaticResource ModelValueToExtraStringConverter}}"
+                                    IsReadOnly="True" Width="100"/>
 
                 <!--<DataGridTemplateColumn Header="字符串值" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
@@ -120,11 +84,14 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>-->
             </DataGrid.Columns>
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding EditLabelCommand}" CommandParameter="{Binding SelectedItem,ElementName=LabelList}"/>
+            </DataGrid.InputBindings>
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="刷新" Command="{Binding Refresh}"/>
                     <MenuItem Header="修改条目" Command="{Binding EditLabelCommand}"
-                                  CommandParameter="{Binding SelectedItem, ElementName=_dgValueList}"/>
+                              CommandParameter="{Binding SelectedItem, ElementName=_dgValueList}"/>
                     <Separator/>
                     <MenuItem Header="删除条目"/>
                 </ContextMenu>
