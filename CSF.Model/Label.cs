@@ -22,7 +22,7 @@ namespace CSF.Model
             LabelName = labelName;
             LabelValues = values;
         }
-        public Label(string nameLength,Value[] values) : this(" LBL", 1, nameLength.Length, nameLength, values) { }
+        public Label(string labelName,Value[] values) : this(" LBL", 1, labelName.Length, labelName, values) { }
         #endregion
 
         #region Property
@@ -65,5 +65,14 @@ namespace CSF.Model
         #endregion
 
         public IEnumerator GetEnumerator() => LabelValues.GetEnumerator();
+
+        public void Changed(Label newLabel)
+        {
+            this.LabelFlag = newLabel.LabelFlag;
+            this.LabelStrCount = newLabel.LabelStrCount;
+            this.LabelNameLength = newLabel.LabelNameLength;
+            this.LabelName = newLabel.LabelName;
+            this.LabelValues = newLabel.LabelValues;
+        }
     }
 }
