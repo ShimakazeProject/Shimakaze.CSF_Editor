@@ -180,10 +180,6 @@
       <Project>{65f6d006-e43e-4c9d-91f5-c35be213644a}</Project>
       <Name>CSF.Model.Extension</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CSF.Model\CSF.Model.csproj">
-      <Project>{75fe8c8c-ef32-43da-a374-acafca4b69e2}</Project>
-      <Name>CSF.Model</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Composition 1_Moment.jpg" />

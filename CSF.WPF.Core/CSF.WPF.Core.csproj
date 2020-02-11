@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CSF.Model\CSF.Model.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Resources\Font\fontawesome.ttf" />
     <Resource Include="Resources\icon.png" />
   </ItemGroup>
@@ -31,6 +27,15 @@
     <Folder Include="ViewModel\" />
     <Folder Include="Converter\" />
     <Folder Include="View\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dragablz.NetCore" Version="0.3.3" />
+    <PackageReference Include="frg2089.CSF.Model" Version="1.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
