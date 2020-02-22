@@ -12,17 +12,31 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace CSF.WPF.Core
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {
             InitializeComponent();
+            //DocumentsFrame.Content = new View.CsfDoc();
+        }
+
+        private void Open_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Filter = "C&C Strings File(*.CSF)|*.csf"
+            };
+            if (ofd.ShowDialog()??false)
+            {
+                ((DocumentsFrame.Content as View.CsfDoc).DataContext as ViewModel.CsfDocViewModel).Open(ofd.FileName);
+            }
         }
     }
 }

@@ -1,0 +1,10 @@
+{
+  "Import": [
+    {
+      "name": "从Json文件导入",
+      "type": "Reflection", // 反射
+      "target": "CSF.Convert.dll", // 程序集
+      "method": "CSF.Convert.Json.Import" // 方法路径 应返回 CSF.Model.File
+    }
+  ]
+}
