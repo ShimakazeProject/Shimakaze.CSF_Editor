@@ -12,6 +12,8 @@ namespace CSF.Model
         #region Public Fields
         public const string STRING = " RTS";
         public const string WSTRING = "WRTS";
+        private string extraString;
+        private string valueString;
         #endregion Public Fields
 
         #region Public Constructors
@@ -47,7 +49,15 @@ namespace CSF.Model
         /// If this value flag is WSTRING<para/>
         /// Else return Null</c>
         /// </summary>
-        public string ExtraString { get; set; }
+        public string ExtraString
+        {
+            get => extraString; set
+            {
+                extraString = value;
+                ValueFlag = value is null ? STRING : WSTRING;
+                ExtraLength = value is null ? 0 : value.Length;
+            }
+        }
         /// <summary>
         /// Value Flag have two content<para/>
         /// STRING(Str:Normal string) or WSTRING(StrW:Width string)
@@ -60,7 +70,14 @@ namespace CSF.Model
         /// <summary>
         /// Value string content
         /// </summary>
-        public string ValueString { get; set; }
+        public string ValueString
+        {
+            get => valueString; set
+            {
+                valueString = value;
+                ValueLength = value.Length;
+            }
+        }
         /// <summary>
         /// (Not CSF Property) Show in Editor
         /// </summary>

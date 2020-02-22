@@ -53,7 +53,7 @@ namespace CSF.Model
             LabelCount = BitConverter.ToInt32(stream.Read(4), 0);
             StringCount = BitConverter.ToInt32(stream.Read(4), 0);
             Unknow = stream.Read(4);
-            Language = BitConverter.ToInt32(stream.Read(4), 0);
+            Language = (CsfLanguage)BitConverter.ToInt32(stream.Read(4), 0);
             // Labels
             Labels = new Label[LabelCount];
             for (int i = 0; i < LabelCount; i++)
@@ -68,19 +68,60 @@ namespace CSF.Model
                     var valueFlag = Encoding.ASCII.GetString(stream.Read(4));
                     var valueLength = BitConverter.ToInt32(stream.Read(4), 0);
                     var valueString = Encoding.Unicode.GetString(Decoding(valueLength, stream.Read(valueLength * 2)));
-                    if (valueFlag == "WRTS")
+                    if (valueFlag == Value.WSTRING)
                     {
                         var extraLength = BitConverter.ToInt32(stream.Read(4), 0);
                         var extraString = Encoding.ASCII.GetString(stream.Read(extraLength));
                         labelValues[j] = new Value(valueFlag, valueLength, valueString, extraLength, extraString);
                     }
-                    else if (valueFlag == " RTS")
+                    else if (valueFlag == Value.STRING)
                     {
                         labelValues[j] = new Value(valueFlag, valueLength, valueString);
                     }
                     else throw new Exception("喵喵喵???");
                 }
                 Labels[i] = new Label(labelFlag, labelCount, labelLength, labelName, labelValues);
+            }
+        }
+        /// <summary>
+        /// 保存文件
+        /// </summary>
+        /// <param name="filePath">路径</param>
+        public virtual void SaveToFile(string filePath)
+        {
+            using var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Read);
+            SaveToStream(fs);
+        }
+        /// <summary>
+        /// 序列化文件到流
+        /// </summary>
+        /// <param name="stream">流</param>
+        public virtual void SaveToStream(Stream stream)
+        {
+            // Header
+            stream.WriteEx(Flag);
+            stream.WriteEx(Version);
+            stream.WriteEx(LabelCount);
+            stream.WriteEx(StringCount);
+            stream.WriteEx(Unknow);
+            stream.WriteEx((int)Language);
+            foreach (Label label in Labels)
+            {
+                stream.WriteEx(label.LabelFlag);
+                stream.WriteEx(label.LabelStrCount);
+                stream.WriteEx(label.LabelNameLength);
+                stream.WriteEx(label.LabelName);
+                foreach (var value in label.LabelValues)
+                {
+                    stream.WriteEx(value.ValueFlag);
+                    stream.WriteEx(value.ValueLength);
+                    stream.WriteEx(Decoding(value.ValueLength, Encoding.Unicode.GetBytes(value.ValueString)));
+                    if (value.ValueFlag == Value.WSTRING)
+                    {
+                        stream.WriteEx(value.ExtraLength);
+                        stream.WriteEx(value.ExtraString);
+                    }
+                }
             }
         }
 

@@ -20,7 +20,7 @@ namespace CSF.Model
         /// <summary>
         /// 语言信息
         /// </summary>
-        public int Language { get; set; }
+        public CsfLanguage Language { get; set; }
 
         /// <summary>
         /// 字符串数

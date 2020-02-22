@@ -9,6 +9,7 @@ namespace CSF.Model
     {
         #region Public Fields
         public const string LABEL = " LBL";
+        private string labelName;
         #endregion Public Fields
 
         #region Public Constructors
@@ -35,7 +36,14 @@ namespace CSF.Model
 
         #region Public Properties
         public string LabelFlag { get; set; }
-        public string LabelName { get; set; }
+        public string LabelName
+        {
+            get => labelName; set
+            {
+                labelName = value;
+                LabelNameLength = value.Length;
+            }
+        }
         public int LabelNameLength { get; set; }
         public int LabelStrCount { get; set; }
         public Value[] LabelValues { get; set; }
