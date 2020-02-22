@@ -5,9 +5,9 @@ using System.Text;
 
 namespace CSF.Model
 {
-    public class Type: IEnumerable
+    public sealed class Type : IEnumerable
     {
-        public Type(string name,params Label[] labels)
+        public Type(string name, params Label[] labels)
         {
             Name = name;
             Labels = labels;

@@ -5,15 +5,14 @@ using System.Text;
 
 namespace CSF.Model
 {
-    public class Label:IEnumerable
+    public sealed class Label : IEnumerable
     {
-        #region Field
-        private string labelName;
-        private Value[] values;
-        #endregion
+        #region Public Fields
+        public const string LABEL = " LBL";
+        #endregion Public Fields
 
-        #region Construction
-        public Label(string labelTag, int stringCount, int nameLength, string labelName,Value[] values)
+        #region Public Constructors
+        public Label(string labelTag, int stringCount, int nameLength, string labelName, Value[] values)
         {
             Visibility = true;
             LabelFlag = labelTag;
@@ -22,50 +21,41 @@ namespace CSF.Model
             LabelName = labelName;
             LabelValues = values;
         }
-        public Label(string labelName,Value[] values) : this(" LBL", 1, labelName.Length, labelName, values) { }
-        #endregion
+        public Label(string labelName, Value[] values)
+        {
 
-        #region Property
-        public string LabelFlag { get; private set; }
-        public int LabelStrCount { get; private set; }
-        public int LabelNameLength { get; private set; }
-        public string LabelName
-        {
-            get => labelName; set
-            {
-                LabelNameLength = value.Length;
-                labelName = value;                
-            }
+            Visibility = true;
+            LabelFlag = LABEL;
+            LabelStrCount = values.Length;
+            LabelNameLength = labelName.Length;
+            LabelName = labelName;
+            LabelValues = values;
         }
-        public Value[] LabelValues
-        {
-            get => values; set
-            {
-                LabelStrCount = value.Length;
-                values = value;
-            }
-        }
+        #endregion Public Constructors
+
+        #region Public Properties
+        public string LabelFlag { get; set; }
+        public string LabelName { get; set; }
+        public int LabelNameLength { get; set; }
+        public int LabelStrCount { get; set; }
+        public Value[] LabelValues { get; set; }
         public bool Visibility { get; set; }
-        #endregion
+        #endregion Public Properties
 
-        #region Operator
-        public static implicit operator KeyValuePair<string,Value[]>(Label label) => new KeyValuePair<string, Value[]>(label.labelName, label.LabelValues);
-        public static implicit operator (string, Value[])(Label label) => (label.labelName, label.LabelValues);
-
-        public static implicit operator Label(KeyValuePair<string, Value[]> keyValue) => new Label(keyValue.Key, keyValue.Value);
-        public static implicit operator Label((string, Value[]) kv) => new Label(kv.Item1, kv.Item2);
-        #endregion
-
-        #region Indexer
+        #region Public Indexers
         public Value this[int index]
         {
             get => LabelValues[index];
             set => LabelValues[index] = value;
         }
-        #endregion
+        #endregion Public Indexers
 
-        public IEnumerator GetEnumerator() => LabelValues.GetEnumerator();
+        #region Public Methods
+        public static implicit operator KeyValuePair<string, Value[]>(Label label) => new KeyValuePair<string, Value[]>(label.LabelName, label.LabelValues);
+        public static implicit operator Label(KeyValuePair<string, Value[]> keyValue) => new Label(keyValue.Key, keyValue.Value);
 
+        public static implicit operator (string, Value[])(Label label) => (label.LabelName, label.LabelValues);
+        public static implicit operator Label((string, Value[]) kv) => new Label(kv.Item1, kv.Item2);
         public void Changed(Label newLabel)
         {
             this.LabelFlag = newLabel.LabelFlag;
@@ -74,5 +64,8 @@ namespace CSF.Model
             this.LabelName = newLabel.LabelName;
             this.LabelValues = newLabel.LabelValues;
         }
+
+        public IEnumerator GetEnumerator() => LabelValues.GetEnumerator();
+        #endregion Public Methods
     }
 }

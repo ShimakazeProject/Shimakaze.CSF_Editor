@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
 namespace CSF.Model
 {
-    public class TypeSet:File
+    public class TypeSet : File
     {
         public TypeSet()
         {
@@ -13,6 +14,33 @@ namespace CSF.Model
 
         public Type[] Types { get; set; }
 
+
+        public void MakeType()
+        {
+            var types = new List<Type>();
+            for (int i = 0; i < Labels.Length; i++)
+            {
+                var label = Labels[i];
+                var split = label.LabelName.Split(':', '_');
+                string typeName = split.Length > 1 ? split[0] : "(Default)";
+
+                bool finished = false;
+                for (int j = 0; j < types.Count; j++)
+                {
+                    if (types[j].Name.Equals(typeName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        types[j] += label;
+                        finished = true;
+                        break;
+                    }
+                }
+                if (!finished)
+                {
+                    types.Add(new Type(typeName.ToUpper(), label));
+                }
+            }
+            Types = types.ToArray();
+        }
         public void MakeType(File file)
         {
             Flag = file.Flag;
@@ -46,8 +74,13 @@ namespace CSF.Model
             }
             Types = types.ToArray();
         }
+        public override void LoadFromFile(string filePath)
+        {
+            base.LoadFromFile(filePath);
+            MakeType();
+        }
 
-
+        public override IEnumerator GetEnumerator() => Types.GetEnumerator();
         #region Indexer
         public new Type this[int index]
         {
