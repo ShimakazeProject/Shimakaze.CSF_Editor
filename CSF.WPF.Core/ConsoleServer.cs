@@ -31,7 +31,7 @@ namespace CSF.WPF.Core
             }
         }
 
-        internal static async void Write()
+        internal static void Write()
         {
             try
             {

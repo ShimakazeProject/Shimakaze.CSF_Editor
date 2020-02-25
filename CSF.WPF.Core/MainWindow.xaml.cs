@@ -24,19 +24,6 @@ namespace CSF.WPF.Core
         public MainWindow()
         {
             InitializeComponent();
-            //DocumentsFrame.Content = new View.CsfDoc();
-        }
-
-        private void Open_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog ofd = new OpenFileDialog
-            {
-                Filter = "C&C Strings File(*.CSF)|*.csf"
-            };
-            if (ofd.ShowDialog()??false)
-            {
-                ((DocumentsFrame.Content as View.CsfDoc).DataContext as ViewModel.CsfDocViewModel).Open(ofd.FileName);
-            }
         }
     }
 }

@@ -50,7 +50,13 @@
             Grid.Column="1"
             AutoGenerateColumns="False"
             ItemsSource="{Binding DataList}"
+            MouseDoubleClick="DatasList_MouseDoubleClick"
             SelectedItem="{Binding Data}">
+            <DataGrid.ItemContainerStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Visibility" Value="{Binding Visibility, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </Style>
+            </DataGrid.ItemContainerStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn
                     Width="*"
@@ -61,13 +67,110 @@
                     Width="2*"
                     Binding="{Binding LabelValues[0].ValueString}"
                     Header="Values"
-                    HeaderStyle="{StaticResource CataGridColumnHeaderStyle}" />
+                    HeaderStyle="{StaticResource CataGridColumnHeaderStyle}"
+                    IsReadOnly="True" />
                 <DataGridTextColumn
                     MinWidth="100"
                     Binding="{Binding LabelValues[0].ExtraString}"
                     Header="ExtraValue"
-                    HeaderStyle="{StaticResource CataGridColumnHeaderStyle}" />
+                    HeaderStyle="{StaticResource CataGridColumnHeaderStyle}"
+                    IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
+
+        <Border
+            x:Name="EditDialog"
+            Grid.RowSpan="3"
+            Grid.ColumnSpan="2"
+            Background="#80000000"
+            DataContext="{Binding EditViewModel}"
+            Visibility="{Binding Visibility, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Border
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                BorderBrush="{DynamicResource MahApps.Brushes.WindowTitle}"
+                BorderThickness="1">
+                <StackPanel
+                    MinWidth="200"
+                    Margin="2"
+                    Background="White">
+                    <TextBlock
+                        Margin="0,5"
+                        VerticalAlignment="Top"
+                        FontSize="14"
+                        FontWeight="Black"
+                        Text="编辑" />
+                    <DockPanel Margin="5">
+                        <TextBlock VerticalAlignment="Center" Text="标签: " />
+                        <TextBox Text="{Binding LabelName}" />
+                    </DockPanel>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button
+                            Margin="5"
+                            Command="{Binding RemoveCommand}"
+                            Content="Remove"
+                            IsEnabled="{Binding CanRemove}" />
+                        <Button
+                            Grid.Column="1"
+                            Margin="5"
+                            Command="{Binding AddCommand}"
+                            Content="Add" />
+                    </Grid>
+                    <TabControl
+                        ItemsSource="{Binding Values}"
+                        SelectedItem="{Binding SelectedItem}"
+                        TabStripPlacement="Bottom">
+                        <TabControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="16" Text="{Binding ID}" />
+                            </DataTemplate>
+                        </TabControl.ItemTemplate>
+                        <TabControl.ContentTemplate>
+                            <DataTemplate DataType="{x:Type TabItem}">
+                                <StackPanel Margin="5">
+                                    <StackPanel Margin="5">
+                                        <TextBlock VerticalAlignment="Top" Text="值:" />
+                                        <ScrollViewer MaxHeight="400">
+                                            <TextBox
+                                                MinHeight="100"
+                                                VerticalContentAlignment="Top"
+                                                AcceptsReturn="True"
+                                                Text="{Binding Value}"
+                                                TextWrapping="Wrap" />
+                                        </ScrollViewer>
+                                    </StackPanel>
+
+                                    <DockPanel Margin="5">
+                                        <TextBlock VerticalAlignment="Center" Text="额外值: " />
+                                        <TextBox Text="{Binding Extra}" />
+                                    </DockPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </TabControl.ContentTemplate>
+                    </TabControl>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+                        <Button
+                            Margin="5"
+                            Command="{Binding CancelCommand}"
+                            Content="Cancel" />
+                        <Button
+                            Grid.Column="1"
+                            Margin="5"
+                            Command="{Binding OKCommand}"
+                            Content="OK" />
+                    </Grid>
+                </StackPanel>
+
+            </Border>
+        </Border>
     </Grid>
 </Page>

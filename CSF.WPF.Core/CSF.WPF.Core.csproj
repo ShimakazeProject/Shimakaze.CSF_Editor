@@ -37,6 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CSF.Convert\CSF.Convert.csproj" />
     <ProjectReference Include="..\CSF.Logmgr\CSF.Logmgr.csproj" />
     <ProjectReference Include="..\CSF.Model\CSF.Model.csproj" />
   </ItemGroup>

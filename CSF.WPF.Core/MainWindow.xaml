@@ -9,6 +9,7 @@
     xmlns:local="clr-namespace:CSF.WPF.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:CSF.WPF.Core.ViewModel"
+    x:Name="ThisWindow"
     Title="MainWindow"
     mc:Ignorable="d">
     <Controls:MetroWindow.LeftWindowCommands>
@@ -41,141 +42,32 @@
             Orientation="Horizontal">
             <Menu Width="auto" BorderBrush="Transparent">
                 <MenuItem x:Name="MI_File" Header="文件">
-                    <!--<MenuItem.InputBindings>
-                        <KeyBinding Key="F" Modifiers="Alt" Command=""/>
-                    </MenuItem.InputBindings>-->
-                    <MenuItem Click="Open_Click" Header="打开" />
-                    <MenuItem Header="合并" />
-                    <MenuItem Header="保存" />
-                    <MenuItem Header="另存为" />
-                    <!--<MenuItem Height="200"
-                                  SnapsToDevicePixels="False"
-                                  FontSize="14">
-                        <MenuItem.Template>
-                            <ControlTemplate TargetType="{x:Type MenuItem}">
-                                <Grid Margin="1">
-                                    <ContentPresenter x:Name="Presenter"
-                                          ContentSource="Header"
-                                          Grid.Column="1"
-                                          Margin="{TemplateBinding Padding}" />
-                                </Grid>
-                            </ControlTemplate>
-                        </MenuItem.Template>
-                        <MenuItem.Header>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Button Background="Transparent"
-                                            Foreground="#3E3E3E"
-                                            VerticalAlignment="Stretch"
-                                            HorizontalAlignment="Stretch"
-                                            Command="{Binding OpenCsfDocument}">
-                                    <StackPanel Orientation="Vertical"
-                                                    VerticalAlignment="Center">
-                                        <TextBlock Text="&#xF016;"
-                                                       FontSize="25"
-                                                       HorizontalAlignment="Center"
-                                                       FontFamily="{StaticResource FontAwesome}" />
-                                        <TextBlock Text="打开"
-                                                       FontSize="12"
-                                                       HorizontalAlignment="Center" />
-                                    </StackPanel>
-                                </Button>
-                                <Button Grid.Row="0" Grid.Column="1"
-                                            Background="Transparent"
-                                            Foreground="#3E3E3E"
-                                            VerticalAlignment="Stretch"
-                                            HorizontalAlignment="Stretch"
-                                            Command="{Binding AppendCommand}">
-                                    <StackPanel Orientation="Vertical"
-                                                    VerticalAlignment="Center">
-                                        <TextBlock Text="&#xF016;"
-                                                       FontSize="25"
-                                                       HorizontalAlignment="Center"
-                                                       FontFamily="{StaticResource FontAwesome}" />
-                                        <TextBlock Text="追加"
-                                                       FontSize="12"
-                                                       HorizontalAlignment="Center" />
-                                    </StackPanel>
-                                </Button>
-                                <Button Grid.Column="0" Grid.Row="1"
-                                            Background="Transparent"
-                                            Foreground="#3E3E3E"
-                                            VerticalAlignment="Stretch"
-                                            HorizontalAlignment="Stretch"
-                                            Command="{Binding SaveCommand}">
-                                    <StackPanel Orientation="Vertical"
-                                                    VerticalAlignment="Center">
-                                        <TextBlock Text="&#xF0C7;"
-                                                       FontSize="25"
-                                                       HorizontalAlignment="Center"
-                                                       FontFamily="{StaticResource FontAwesome}" />
-                                        <TextBlock Text="保存"
-                                                       FontSize="12"
-                                                       HorizontalAlignment="Center" />
-                                    </StackPanel>
-                                </Button>
-                                <Button Grid.Column="1" Grid.Row="1"
-                                            Background="Transparent"
-                                            Foreground="#3E3E3E"
-                                            VerticalAlignment="Stretch"
-                                            HorizontalAlignment="Stretch"
-                                            Command="{Binding SaveAsCommand}">
-                                    <StackPanel Orientation="Vertical"
-                                                    VerticalAlignment="Center">
-                                        <TextBlock Text="&#xF0C7;"
-                                                       FontSize="25"
-                                                       HorizontalAlignment="Center"
-                                                       FontFamily="{StaticResource FontAwesome}" />
-                                        <TextBlock Text="另存为"
-                                                       FontSize="12"
-                                                       HorizontalAlignment="Center" />
-                                    </StackPanel>
-                                </Button>
-                            </Grid>
-                        </MenuItem.Header>
-                    </MenuItem>-->
-                    <MenuItem Header="导入" ItemsSource="{Binding ImportList}">
-                        <!--<MenuItem Command="{Binding ImportJsonCommand}" Header="从Json导入" />
-                        <MenuItem Command="{Binding ImportXmlCommand}" Header="从Xml导入" />-->
-                    </MenuItem>
-                    <MenuItem Header="导出" ItemsSource="{Binding ExportList}">
-                        <!--<MenuItem Command="{Binding ExportTxtCommand}" Header="导出为TXT" />
-                        <MenuItem Command="{Binding ExportJsonCommand}" Header="导出为JSON" />
-                        <MenuItem Command="{Binding ExportXmlCommand}" Header="导出为XML" />-->
-                    </MenuItem>
+                    <MenuItem Command="{Binding OpenFileCommand}" Header="打开" />
+                    <MenuItem Command="{Binding MergeFileCommand}" Header="合并" />
+                    <MenuItem Command="{Binding SaveFileCommand}" Header="保存" />
+                    <MenuItem Command="{Binding SaveAsFileCommand}" Header="另存为" />
+                    <MenuItem Header="导入" ItemsSource="{Binding ImportList}" />
+                    <MenuItem Header="导出" ItemsSource="{Binding ExportList}" />
                     <Separator />
-                    <MenuItem Command="{Binding CloseCommand}" Header="关闭文件" />
-                    <Separator />
-                    <!--<MenuItem Header="文件信息" Click="InfoMenuItem_Click"/>
-                        <MenuItem Header="重载列表" Click="F5MenuItem_Click"/>
-                        <MenuItem Header="重载文件" Click="ReLoadFileMenuItem_Click"/>-->
+                    <MenuItem Command="{Binding CloseFileCommand}" Header="关闭文件" />
                     <Separator />
                     <MenuItem
                         Command="{Binding ExitCommand}"
-                        CommandParameter="{Binding ElementName=__window}"
+                        CommandParameter="{Binding ElementName=ThisWindow}"
                         Header="退出" />
-
                 </MenuItem>
                 <MenuItem Header="编辑">
-                    <MenuItem Header="增加条目" />
-                    <MenuItem Header="删除条目" />
-                    <MenuItem Header="修改条目" />
+                    <MenuItem Command="{Binding AddLabelCommand}" Header="增加条目" />
+                    <MenuItem Command="{Binding RemoveLabelCommand}" Header="删除条目" />
+                    <MenuItem Command="{Binding ChangeLabelCommand}" Header="修改条目" />
                     <Separator />
-                    <MenuItem Header="转换">
-                        <MenuItem Header="一键繁体" IsEnabled="False" />
-                        <MenuItem Header="一键简体" IsEnabled="False" />
+                    <MenuItem Header="文档转换">
+                        <MenuItem Header="繁体=&gt;简体" IsEnabled="False" />
+                        <MenuItem Header="简体=&gt;繁体" IsEnabled="False" />
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="视图" />
                 <MenuItem Header="工具">
-
                     <MenuItem Header="搜索">
                         <MenuItem
                             Header="按标签"
@@ -185,6 +77,14 @@
                             Header="按内容"
                             IsCheckable="True"
                             IsChecked="{Binding SearchModeValue}" />
+                        <MenuItem
+                            Header="按额外值"
+                            IsCheckable="True"
+                            IsChecked="{Binding SearchModeExtra}" />
+                        <MenuItem
+                            Header="不区分大小写"
+                            IsCheckable="True"
+                            IsChecked="{Binding SearchIgnoreCase}" />
                         <MenuItem
                             Header="全字匹配"
                             IsCheckable="True"
@@ -205,28 +105,28 @@
 
                 <MenuItem Header="帮助">
                     <MenuItem Header="关于">
-                        <MenuItem Header="Created By" IsEnabled="False" />
-                        <MenuItem Header="  舰队的偶像-岛风酱!" IsEnabled="False" />
-                        <MenuItem Header="许可证:Ms-RL" IsEnabled="False" />
-                        <MenuItem Header="UI Powered By" IsEnabled="False" />
-                        <MenuItem Header="  PanuonUI.Silver" IsEnabled="False" />
-                        <MenuItem Header="许可证:MIT License" IsEnabled="False" />
-                        <MenuItem Header="禁止用于商业用途" IsEnabled="False" />
-                        <Separator />
-                        <MenuItem Header="Copyright © 2019" IsEnabled="False" />
+                        <MenuItem Header="内部预览版 build:10037" IsEnabled="False" />
+                        <MenuItem Header="Copyright © 2019 - 2020" IsEnabled="False" />
                         <MenuItem Header="  舰队的偶像-岛风酱!" IsEnabled="False" />
                     </MenuItem>
 
                 </MenuItem>
             </Menu>
             <TextBox
-                x:Name="TextBox_Search"
+                x:Name="Searcher"
                 Width="200"
                 Height="24"
-                Margin="20,0">
-
-                <!--  Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibleConverter}, ElementName=_EnableSearch}"  -->
-
+                Margin="20,0"
+                Controls:TextBoxHelper.AutoWatermark="True"
+                Controls:TextBoxHelper.Watermark="Search in here"
+                ToolTip="Search"
+                Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=_EnableSearch}">
+                <TextBox.InputBindings>
+                    <KeyBinding
+                        Key="Enter"
+                        Command="{Binding SearchCommand}"
+                        CommandParameter="{Binding Text, ElementName=Searcher}" />
+                </TextBox.InputBindings>
             </TextBox>
 
         </StackPanel>
@@ -259,7 +159,7 @@
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center" Text="统计" />
-                    <Border BorderBrush="{DynamicResource DynamicResource MahApps.Brushes.Text}" BorderThickness="1">
+                    <Border BorderBrush="{DynamicResource MahApps.Brushes.Text}" BorderThickness="0">
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Margin="2,0" Orientation="Horizontal">
                                 <TextBlock Text="类型总数:" />

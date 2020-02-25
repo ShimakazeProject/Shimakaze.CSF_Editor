@@ -1,4 +1,5 @@
 ﻿using CSF.Logmgr;
+using CSF.WPF.Core.Data;
 using CSF.WPF.Core.View;
 using Microsoft.Win32;
 using System;
@@ -26,6 +27,13 @@ namespace CSF.WPF.Core.ViewModel
             MenuListInit();
         }
 
+        public bool SearchModeTitle { get; set; } = true;
+        public bool SearchModeValue { get; set; }
+        public bool SearchModeExtra { get; set; }
+        public bool SearchModeFull { get; set; }
+        public bool SearchModeRegex { get; set; }
+        public bool SearchIgnoreCase { get; set; } = true;
+
         public CsfDoc Document
         {
             get => document; set
@@ -51,7 +59,94 @@ namespace CSF.WPF.Core.ViewModel
             }
         }
 
+        public Command.RelayCommand OpenFileCommand => new Command.RelayCommand(OpenFile);
+        public Command.RelayCommand MergeFileCommand => new Command.RelayCommand(MergeFile);
+        public Command.RelayCommand SaveFileCommand => new Command.RelayCommand(SaveFile);
+        public Command.RelayCommand SaveAsFileCommand => new Command.RelayCommand(SaveAsFile);
+
+        public Command.RelayCommand CloseFileCommand => new Command.RelayCommand(CloseFile);
+        public Command.RelayCommand<Window> ExitCommand => new Command.RelayCommand<Window>(Exit);
+
+        public Command.RelayCommand AddLabelCommand => new Command.RelayCommand(AddLabel);
+        public Command.RelayCommand RemoveLabelCommand => new Command.RelayCommand(RemoveLabel);
+        public Command.RelayCommand ChangeLabelCommand => new Command.RelayCommand(ChangeLabel);
+        public Command.RelayCommand<string> SearchCommand => new Command.RelayCommand<string>(Search);
+
+
+
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OpenFile()
+        {
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Filter = "C&C Strings File(*.CSF)|*.csf"
+            };
+            if (ofd.ShowDialog() ?? false)
+            {
+                (document.DataContext as CsfDocViewModel).Open(ofd.FileName);
+            }
+        }
+        private void MergeFile()
+        {
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Filter = "C&C Strings File(*.CSF)|*.csf"
+            };
+            if (ofd.ShowDialog() ?? false)
+            {
+                (document.DataContext as CsfDocViewModel).Merge(ofd.FileName);
+            }
+        }
+        private void SaveFile()
+        {
+            if (string.IsNullOrEmpty((document.DataContext as CsfDocViewModel).FilePath))
+            {
+                SaveAsFile();
+            }
+            else (document.DataContext as CsfDocViewModel).Save();
+        }
+        private void SaveAsFile()
+        {
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "C&C Strings File(*.CSF)|*.csf"
+            };
+            if (sfd.ShowDialog() ?? false)
+            {
+                (document.DataContext as CsfDocViewModel).SaveAs(sfd.FileName);
+            }
+        }
+        private void CloseFile()
+        {
+            (document.DataContext as CsfDocViewModel).TypeList = new Model.TypeSet();
+        }
+        private void AddLabel()
+        {
+            (document.DataContext as CsfDocViewModel).AddLabel();
+        }
+        private void RemoveLabel()
+        {
+            (document.DataContext as CsfDocViewModel).DropLabel();
+        }
+        private void ChangeLabel()
+        {
+            (document.DataContext as CsfDocViewModel).EditLabel();
+        }
+        private void Exit(Window window) => window.Close();
+        private void Search(string s)
+        {
+            Data.SearchMode mode = SearchMode.None;
+            if (SearchModeTitle) mode |= SearchMode.Label;
+            if (SearchModeValue) mode |= SearchMode.Value;
+            if (SearchModeExtra) mode |= SearchMode.Extra;
+            if (SearchModeFull) mode |= SearchMode.Full;
+            if (SearchModeRegex) mode |= SearchMode.Regex;
+            if (SearchIgnoreCase) mode |= SearchMode.IgnoreCase;
+
+            (document.DataContext as CsfDocViewModel).Search(s, mode);
+        }
 
         private void MenuListInit()
         {
@@ -171,20 +266,6 @@ namespace CSF.WPF.Core.ViewModel
             }
             return reflection;
         }
-        class ReflectionStruct
-        {
-            public Assembly Assembly;
-            public Type Class;
-            public PropertyInfo Name;
-            public MethodInfo Method;
-        }
 
-
-        public enum PluginType
-        {
-            REFLECTION, // 反射程序集
-            RUN,    // 运行
-            CALL,   // 调用DLL
-        }
     }
 }
