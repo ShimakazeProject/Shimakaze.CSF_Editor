@@ -142,13 +142,13 @@
                         </MenuItem.Header>
                     </MenuItem>-->
                     <MenuItem Header="导入" ItemsSource="{Binding ImportList}">
-                        <MenuItem Command="{Binding ImportJsonCommand}" Header="从Json导入" />
-                        <MenuItem Command="{Binding ImportXmlCommand}" Header="从Xml导入" />
+                        <!--<MenuItem Command="{Binding ImportJsonCommand}" Header="从Json导入" />
+                        <MenuItem Command="{Binding ImportXmlCommand}" Header="从Xml导入" />-->
                     </MenuItem>
-                    <MenuItem Header="导出">
-                        <MenuItem Command="{Binding ExportTxtCommand}" Header="导出为TXT" />
+                    <MenuItem Header="导出" ItemsSource="{Binding ExportList}">
+                        <!--<MenuItem Command="{Binding ExportTxtCommand}" Header="导出为TXT" />
                         <MenuItem Command="{Binding ExportJsonCommand}" Header="导出为JSON" />
-                        <MenuItem Command="{Binding ExportXmlCommand}" Header="导出为XML" />
+                        <MenuItem Command="{Binding ExportXmlCommand}" Header="导出为XML" />-->
                     </MenuItem>
                     <Separator />
                     <MenuItem Command="{Binding CloseCommand}" Header="关闭文件" />
