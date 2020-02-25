@@ -16,12 +16,15 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSF.WPF.Framework.Console", "CSF.WPF.Framework.Console\CSF.WPF.Framework.Console.csproj", "{1392DAB8-2089-4639-8F29-00C41C865155}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSF.WPF.Core", "CSF.WPF.Core\CSF.WPF.Core.csproj", "{030D0B76-BAE4-4488-B85C-2CE63CD0F577}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FF1E8D76-CB55-452B-A735-883D9A3EAF8C} = {FF1E8D76-CB55-452B-A735-883D9A3EAF8C}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSF.Model", "CSF.Model\CSF.Model.csproj", "{FBB2FC3F-71F5-4309-BD2A-E500FBF92695}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSF.Convert", "CSF.Convert\CSF.Convert.csproj", "{FF1E8D76-CB55-452B-A735-883D9A3EAF8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSF.Convert", "CSF.Convert\CSF.Convert.csproj", "{FF1E8D76-CB55-452B-A735-883D9A3EAF8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSF.Logmgr", "CSF.Logmgr\CSF.Logmgr.csproj", "{06C8FC08-8958-4676-B46C-E060AAB99730}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSF.Logmgr", "CSF.Logmgr\CSF.Logmgr.csproj", "{06C8FC08-8958-4676-B46C-E060AAB99730}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
