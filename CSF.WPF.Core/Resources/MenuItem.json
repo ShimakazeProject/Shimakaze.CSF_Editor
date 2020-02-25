@@ -1,10 +1,18 @@
-{
-  "Import": [
-    {
-      "name": "从Json文件导入",
-      "type": "Reflection", // 反射
-      "target": "CSF.Convert.dll", // 程序集
-      "method": "CSF.Convert.Json.Import" // 方法路径 应返回 CSF.Model.File
-    }
-  ]
-}
+[
+  {
+    "menu_type": "import", // 导入
+    "target": "CSF.Convert.dll", // 程序集
+    "class": "CSF.Convert.Json", // 类名
+    "name": "ImportName", // 属性名
+    "method": "Import", // 方法名 应返回 CSF.Model.File
+    "filter": "Json配置文件(*.json)|*.json"
+  },
+  {
+    "menu_type": "export", // 导出
+    "target": "CSF.Convert.dll", // 程序集
+    "class": "CSF.Convert.Json", // 类名
+    "name": "ExportName", // 属性名
+    "method": "Export", // 方法名 应返回 bool
+    "filter": "Json配置文件(*.json)|*.json" // 筛选器
+  }
+]
