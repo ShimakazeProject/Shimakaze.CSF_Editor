@@ -12,10 +12,8 @@ namespace CSF.Logmgr
         private static bool toFile;
         private static bool toConsole;
         private static Rank Rank = Rank.INFO;
-
         private const string TIME_FORMAT = "MM.dd-HH:mm:ss.fff";
         private const string RANK_FORMAT = " {0}\t";
-
         public static string Logger_File => logger_DIR + logger_NAME;
         public static void Init(string fileDir, string fileName, bool writeToFile = true, bool writeToConsole = false)
         {
@@ -33,10 +31,12 @@ namespace CSF.Logmgr
             Init(fileDir, fileName, writeToFile, writeToConsole);
             Rank = rank;
         }
+        public static void Init(string fileDir, string fileName, string rank, bool writeToFile = true, bool writeToConsole = false)
+            => Init(fileDir, fileName, (Rank)Enum.Parse(typeof(Rank), rank.ToUpper()), writeToFile, writeToConsole);
         public static void Log(string str) => Info(str);
-
         public static void Trace(string str)
         {
+            System.Diagnostics.Trace.WriteLine(string.Format(RANK_FORMAT, "Trace"), str);
 #if DEBUG
             if (Rank <= Rank.TRACE)
             {
@@ -53,6 +53,7 @@ namespace CSF.Logmgr
             if (Rank <= Rank.DEBUG)
             {
                 var rank = string.Format(RANK_FORMAT,"Debug");
+                System.Diagnostics.Trace.WriteLine(rank, str);
 #if DEBUG
                 if (toFile) WriteFile(rank, str);
 #endif
@@ -66,6 +67,7 @@ namespace CSF.Logmgr
             if (Rank <= Rank.INFO)
             {
                 var rank = string.Format(RANK_FORMAT,"Info");
+                System.Diagnostics.Trace.WriteLine(rank, str);
                 if (toFile) WriteFile(rank, str);
                 if (toConsole) WriteConsole(rank, str, ConsoleColor.White);
             }
@@ -77,6 +79,7 @@ namespace CSF.Logmgr
             if (Rank <= Rank.WARN)
             {
                 var rank = string.Format(RANK_FORMAT,"Warn");
+                System.Diagnostics.Trace.WriteLine(rank, str);
                 if (toFile) WriteFile(rank, str);
                 if (toConsole) WriteConsole(rank, str, ConsoleColor.Yellow);
             }
@@ -88,6 +91,7 @@ namespace CSF.Logmgr
             if (Rank <= Rank.ERROR)
             {
                 var rank = string.Format(RANK_FORMAT,"Error");
+                System.Diagnostics.Trace.WriteLine(rank, str);
                 if (toFile) WriteFile(rank, str);
                 if (toConsole) WriteConsole(rank, str, ConsoleColor.Red);
             }
@@ -99,6 +103,7 @@ namespace CSF.Logmgr
             if (Rank <= Rank.FATAL)
             {
                 var rank = string.Format(RANK_FORMAT,"Fatal");
+                System.Diagnostics.Trace.WriteLine(rank, str);
                 if (toFile) WriteFile(rank, str);
                 if (toConsole) WriteConsole(rank, str, ConsoleColor.DarkRed);
             }
@@ -145,8 +150,6 @@ namespace CSF.Logmgr
             Console.ResetColor();
             Console.WriteLine(str);
         }
-
-
     }
     public enum Rank
     {
