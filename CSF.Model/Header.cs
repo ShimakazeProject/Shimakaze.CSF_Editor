@@ -16,22 +16,18 @@ namespace CSF.Model
         /// 标签数
         /// </summary>
         public int LabelCount { get; set; }
-
         /// <summary>
         /// 语言信息
         /// </summary>
         public CsfLanguage Language { get; set; }
-
         /// <summary>
         /// 字符串数
         /// </summary>
         public int StringCount { get; set; }
-
         /// <summary>
         /// 额外信息 4字节
         /// </summary>
         public byte[] Unknow { get; set; }
-
         /// <summary>
         /// 文件版本
         /// </summary>

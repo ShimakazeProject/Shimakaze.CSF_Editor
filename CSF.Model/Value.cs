@@ -36,7 +36,10 @@ namespace CSF.Model
             ExtraString = evalue;
         }
         #endregion Public Constructors
-
+        #region User Properties
+        public bool IsWString => this.ValueFlag == WSTRING;
+        public bool IsString => this.ValueFlag == STRING;
+        #endregion
         #region Public Properties
         /// <summary>
         /// Extra string length <para/>
