@@ -54,7 +54,7 @@ namespace CSF.Convert
                                 for (int i = 0; i < label.LabelValues.Length; i++)
                                 {
                                     Model.Value value = label.LabelValues[i];
-                                    sw.WriteLine("{0}{", new string(' ', layout * 4));
+                                    sw.WriteLine(new string(' ', layout * 4) + "{");
                                     layout++;
                                     {
                                         sw.WriteLine("{0}\"{1}\": \"{2}\",", new string(' ', layout * 4), "value", value.ValueString.Replace("\n", @"\n"));
@@ -65,8 +65,8 @@ namespace CSF.Convert
                                         sw.WriteLine("{0}\"{1}\": {2}", new string(' ', layout * 4), "wstring", value.IsWString.ToString().ToLowerInvariant());
                                     }
                                     layout--;
-                                    if (i != label.LabelValues.Length - 1) sw.WriteLine("{0}},", new string(' ', layout * 4));
-                                    else sw.WriteLine("{0}}", new string(' ', layout * 4));
+                                    if (i != label.LabelValues.Length - 1) sw.WriteLine(new string(' ', layout * 4) + "},");
+                                    else sw.WriteLine(new string(' ', layout * 4) + "}");
                                 }
                                 layout--;
                                 sw.WriteLine(new string(' ', layout * 4) + "]");
