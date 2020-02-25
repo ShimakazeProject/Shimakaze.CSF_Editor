@@ -19,7 +19,6 @@ namespace CSF.Model
         #region Public Constructors
         public Value(string value, string evalue = null)
         {
-            Visibility = true;
             ValueString = value;
             ValueLength = value.Length;
             ExtraString = evalue;
@@ -28,7 +27,6 @@ namespace CSF.Model
         }
         public Value(string tag, int vlenght, string value, int elenght = 0, string evalue = null)
         {
-            Visibility = true;
             ValueFlag = tag;
             ValueLength = vlenght;
             ExtraLength = elenght;
@@ -81,10 +79,6 @@ namespace CSF.Model
                 ValueLength = value.Length;
             }
         }
-        /// <summary>
-        /// (Not CSF Property) Show in Editor
-        /// </summary>
-        public bool Visibility { get; set; }
         #endregion Public Properties
 
         #region Public Methods

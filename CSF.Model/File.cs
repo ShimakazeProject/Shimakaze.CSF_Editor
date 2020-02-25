@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace CSF.Model
@@ -115,7 +116,7 @@ namespace CSF.Model
                 {
                     stream.WriteEx(value.ValueFlag);
                     stream.WriteEx(value.ValueLength);
-                    stream.WriteEx(Decoding(value.ValueLength, Encoding.Unicode.GetBytes(value.ValueString)));
+                    stream.Write(Decoding(value.ValueLength, Encoding.Unicode.GetBytes(value.ValueString)));
                     if (value.ValueFlag == Value.WSTRING)
                     {
                         stream.WriteEx(value.ExtraLength);
@@ -126,6 +127,20 @@ namespace CSF.Model
         }
 
         public virtual IEnumerator GetEnumerator() => Labels.GetEnumerator();
+
+
+        public virtual void Remove(Label label)
+        {
+            var list = Labels.ToList();
+            list.Remove(label);
+            Labels = list.ToArray();
+        }
+        public virtual void Add(Label label)
+        {
+            var list = Labels.ToList();
+            list.Add(label);
+            Labels = list.ToArray();
+        }
         #endregion Public Methods
 
         #region Indexer

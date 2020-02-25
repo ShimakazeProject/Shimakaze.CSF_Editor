@@ -49,37 +49,14 @@ namespace CSF.Model
             StringCount = file.StringCount;
             Unknow = file.Unknow;
             Language = file.Language;
-            var labels = file.Labels;
-            var types = new List<Type>();
-            for (int i = 0; i < labels.Length; i++)
-            {
-                var label = labels[i];
-                var split = label.LabelName.Split(':', '_');
-                string typeName = split.Length > 1 ? split[0] : "(Default)";
-
-                bool finished = false;
-                for (int j = 0; j < types.Count; j++)
-                {
-                    if (types[j].Name.Equals(typeName, StringComparison.OrdinalIgnoreCase))
-                    {
-                        types[j] += label;
-                        finished = true;
-                        break;
-                    }
-                }
-                if (!finished)
-                {
-                    types.Add(new Type(typeName.ToUpper(), label));
-                }
-            }
-            Types = types.ToArray();
+            Labels = file.Labels;
+            MakeType();
         }
         public override void LoadFromFile(string filePath)
         {
             base.LoadFromFile(filePath);
             MakeType();
         }
-
         public override IEnumerator GetEnumerator() => Types.GetEnumerator();
         #region Indexer
         public new Type this[int index]
