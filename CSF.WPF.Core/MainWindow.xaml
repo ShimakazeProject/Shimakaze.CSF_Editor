@@ -61,9 +61,11 @@
                     <MenuItem Command="{Binding RemoveLabelCommand}" Header="删除条目" />
                     <MenuItem Command="{Binding ChangeLabelCommand}" Header="修改条目" />
                     <Separator />
-                    <MenuItem Header="文档转换">
-                        <MenuItem Header="繁体=&gt;简体" IsEnabled="False" />
-                        <MenuItem Header="简体=&gt;繁体" IsEnabled="False" />
+                    <MenuItem Header="转换器">
+                        <MenuItem Header="文档" ItemsSource="{Binding ConverterList}"/>
+                        <MenuItem Header="当前项" ItemsSource="{Binding SingleConverterList}"/>
+                        <!--<MenuItem Header="繁体=&gt;简体" IsEnabled="False" />
+                        <MenuItem Header="简体=&gt;繁体" IsEnabled="False" />-->
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="视图" />

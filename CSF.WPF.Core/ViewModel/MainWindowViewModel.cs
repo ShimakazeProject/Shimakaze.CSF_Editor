@@ -20,6 +20,8 @@ namespace CSF.WPF.Core.ViewModel
         private CsfDoc document;
         private List<MenuItem> importList;
         private List<MenuItem> exportList;
+        private List<MenuItem> converterList;
+        private List<MenuItem> singleConverterList;
 
         public MainWindowViewModel()
         {
@@ -56,6 +58,22 @@ namespace CSF.WPF.Core.ViewModel
             {
                 exportList = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ExportList)));
+            }
+        }
+        public List<MenuItem> ConverterList
+        {
+            get => converterList; set
+            {
+                converterList = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ConverterList)));
+            }
+        }
+        public List<MenuItem> SingleConverterList
+        {
+            get => singleConverterList; set
+            {
+                singleConverterList = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SingleConverterList)));
             }
         }
 
@@ -152,6 +170,8 @@ namespace CSF.WPF.Core.ViewModel
         {
             var importList = new List<MenuItem>();
             var exportList = new List<MenuItem>();
+            var convertList = new List<MenuItem>();
+            var singleConvertList = new List<MenuItem>();
 
             var jsonString = new StringBuilder();
             {
@@ -163,25 +183,25 @@ namespace CSF.WPF.Core.ViewModel
                 }
             }
             var config = JsonValue.Parse(jsonString.ToString());
-            foreach (JsonObject item in config as JsonArray)
+            foreach (JsonObject json in config as JsonArray)
             {
                 var MenuItem = new MenuItem();
 
-                var info = ReflectionInit(item);
+                var info = ReflectionInit(json);
                 if (info is null)
                 {
-                    Logger.Warn("导入失败:{0}", item);
+                    Logger.Warn("导入失败:{0}", json);
                     continue;
                 }
                 MenuItem.Header = info.Name.GetValue(info.Class) as string;
-                if (item.TryGetValue("menu_type", out JsonValue menuType))
+                if (json.TryGetValue("menu_type", out JsonValue menuType))
                 {
-                    bool isAsync = item.TryGetValue("isAsync", out JsonValue isAsyncJV) ? (bool)isAsyncJV : false;
+                    bool isAsync = json.TryGetValue("isAsync", out JsonValue isAsyncJV) ? (bool)isAsyncJV : false;
                     FileDialog fileDialog;
-                    if (((string)menuType).Equals("export", StringComparison.OrdinalIgnoreCase))// 是导出方法
+                    if (((string)menuType).Equals("exporter", StringComparison.Ordinal))// 是导出方法
                     {
                         fileDialog = new SaveFileDialog();
-                        fileDialog.Filter = item.TryGetValue("filter", out JsonValue filter) ? (string)filter : "All File(*.*)|*.*";
+                        fileDialog.Filter = json.TryGetValue("filter", out JsonValue filter) ? (string)filter : "All File(*.*)|*.*";
                         MenuItem.Click += async (o, e) =>
                         {
                             if (fileDialog.ShowDialog() ?? false)
@@ -208,10 +228,10 @@ namespace CSF.WPF.Core.ViewModel
                         };
                         exportList.Add(MenuItem);
                     }
-                    else if (((string)menuType).Equals("import", StringComparison.OrdinalIgnoreCase))// 是导入方法
+                    else if (((string)menuType).Equals("importer", StringComparison.Ordinal))// 是导入方法
                     {
                         fileDialog = new OpenFileDialog();
-                        fileDialog.Filter = item.TryGetValue("filter", out JsonValue filter) ? (string)filter : "All File(*.*)|*.*";
+                        fileDialog.Filter = json.TryGetValue("filter", out JsonValue filter) ? (string)filter : "All File(*.*)|*.*";
                         MenuItem.Click += async (o, e) =>
                         {
                             if (fileDialog.ShowDialog() ?? false)
@@ -238,12 +258,67 @@ namespace CSF.WPF.Core.ViewModel
                         };
                         importList.Add(MenuItem);
                     }
-                    else Logger.Info("未知类型:{0}:{1}", menuType, item);
+                    else if(((string)menuType).Equals("converter", StringComparison.Ordinal))// 是转换器
+                    {
+                        var converter = info.Class.GetMethod(json["converter"]);
+                        var menu = new MenuItem
+                        {
+                            Header = info.Name.GetValue(info.Class) as string
+                        };
+                        menu.Click += async (o, e) =>
+                        {
+                            var source = (Document.DataContext as CsfDocViewModel).Data;
+                            var newValues = new Model.Value[source.LabelValues.Length];
+                            for (int i = 0; i < newValues.Length; i++)
+                            {
+                                Model.Value value = source.LabelValues[i];
+                                var args = new object[] { value.ValueString };
+                                object ret = converter.Invoke(info.Class, args);
+                                if (ret.GetType() == typeof(string) )
+                                {
+                                    newValues[i] = new Model.Value(ret as string, value.ExtraString);
+                                }
+                                else if (ret.GetType() == typeof(Task<string>))
+                                {
+                                    newValues[i] = new Model.Value(await (ret as Task<string>).ConfigureAwait(true), value.ExtraString);
+                                }
+                            }
+                            (Document.DataContext as CsfDocViewModel).Data.Changed(new Model.Label(source.LabelName, newValues));
+                            (Document.DataContext as CsfDocViewModel).Update(2);
+                        };
+                        MenuItem.Click += async (o, e) =>
+                        {
+                            var args = new object[] { (Document.DataContext as CsfDocViewModel).TypeList };
+                            object ret = info.Method.Invoke(info.Class, args);
+                            if (ret.GetType() == typeof(Model.File)|| ret.GetType() == typeof(Model.TypeSet))
+                            {
+                                var typeSet = new Model.TypeSet();
+                                typeSet.MakeType(ret as Model.File);
+                                (Document.DataContext as CsfDocViewModel).TypeList = typeSet;
+                            }
+                            else if (ret.GetType() == typeof(Task<Model.File>)|| ret.GetType() == typeof(Task<Model.TypeSet>))
+                            {
+                                var typeSet = new Model.TypeSet();
+                                typeSet.MakeType(await (ret as Task<Model.File>).ConfigureAwait(true));
+                                (Document.DataContext as CsfDocViewModel).TypeList = typeSet;
+                            }
+                            else
+                            {
+                                MessageBox.Show("操作未成功", "警告", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+
+                        };
+                        convertList.Add(MenuItem);
+                        singleConvertList.Add(menu);
+                    }
+                    else Logger.Info("未知类型:{0}:{1}", menuType, json);
                 }
             }
 
             ImportList = importList;
             ExportList = exportList;
+            ConverterList = convertList;
+            SingleConverterList = singleConvertList;
         }
         private ReflectionStruct ReflectionInit(JsonObject json)
         {

@@ -83,7 +83,7 @@ namespace CSF.WPF.Core.ViewModel
         {
             TypeList.LabelCount = TypeList.Labels.Length;
             TypeList.StringCount = (from Model.Label label in TypeList.Labels select label.LabelStrCount).Sum();
-            UpdateBinding();
+            Update(1);
         }
 
         public void AddLabel()
@@ -101,13 +101,13 @@ namespace CSF.WPF.Core.ViewModel
             TypeList.Remove(data);
             ReCount();
             TypeList.MakeType();
-            UpdateBinding();
+            Update(1);
         }
-        private void UpdateBinding()
+        public void Update(int level = 0)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TypeList)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DataList)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Data)));
+            if (level <= 0) PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TypeList)));
+            if (level <= 1) PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DataList)));
+            if (level <= 2) PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Data)));
 
         }
 
@@ -137,7 +137,7 @@ namespace CSF.WPF.Core.ViewModel
                             if ((mode & Core.Data.SearchMode.Extra) == Core.Data.SearchMode.Extra)// 搜索额外值                            
                                 Search(label, value.ExtraString, s, sregex, sfull, ignore);
                         }
-                    UpdateBinding();
+                    Update();
                 }
                 catch (System.ArgumentException)// 正则有误
                 {

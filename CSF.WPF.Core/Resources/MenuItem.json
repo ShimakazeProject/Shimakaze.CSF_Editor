@@ -1,6 +1,6 @@
 [
   {
-    "menu_type": "import", // 导入
+    "menu_type": "importer", // 导入
     "target": "CSF.Convert.dll", // 程序集
     "class": "CSF.Convert.Json", // 类名
     "name": "ImportName", // 属性名
@@ -8,11 +8,27 @@
     "filter": "Json配置文件(*.json)|*.json"
   },
   {
-    "menu_type": "export", // 导出
+    "menu_type": "exporter", // 导出
     "target": "CSF.Convert.dll", // 程序集
     "class": "CSF.Convert.Json", // 类名
     "name": "ExportName", // 属性名
     "method": "Export", // 方法名 应返回 bool
     "filter": "Json配置文件(*.json)|*.json" // 筛选器
+  },
+  {
+    "menu_type": "converter", // 转换器
+    "target": "CSF.Convert.dll", // 程序集
+    "class": "CSF.Convert.Zh", // 类名
+    "name": "Hant2HansName", // 属性名
+    "converter": "Hant2Hans", // 方法名 应返回 string
+    "method": "Hant2HansFile" // 方法名 应返回 Model.File
+  },
+  {
+    "menu_type": "converter", // 转换器
+    "target": "CSF.Convert.dll", // 程序集
+    "class": "CSF.Convert.Zh", // 类名
+    "name": "Hans2HantName", // 属性名
+    "converter": "Hans2Hant", // 方法名 应返回 string
+    "method": "Hans2HantFile" // 方法名 应返回 Model.File
   }
 ]

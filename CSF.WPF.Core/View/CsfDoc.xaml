@@ -62,7 +62,8 @@
                     Width="*"
                     Binding="{Binding LabelName}"
                     Header="Labels"
-                    HeaderStyle="{StaticResource CataGridColumnHeaderStyle}" />
+                    HeaderStyle="{StaticResource CataGridColumnHeaderStyle}"
+                    IsReadOnly="True" />
                 <DataGridTextColumn
                     Width="2*"
                     Binding="{Binding LabelValues[0].ValueString}"
