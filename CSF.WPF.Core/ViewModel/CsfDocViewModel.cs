@@ -64,15 +64,45 @@ namespace CSF.WPF.Core.ViewModel
             typelist.LoadFromFile(path);
             TypeList = typelist;
         }
-        public void Merge(string path)
+        public (int, int) Merge(string path, bool cover = true)
         {
-            var list = new List<Model.Label>(TypeList.Labels);
-            var typelist = new Model.TypeSet();
+            var list = TypeList.Labels.ToList();
+            var typelist = new Model.File();
             typelist.LoadFromFile(path);
-            list.AddRange(typelist.Labels);
+            int repetition = 0;
+            int addnum = 0;
+
+            for (int i = 0; i < typelist.Labels.Length; i++)
+            {
+                int index;
+                if ((index = LabelListContains(list, typelist.Labels[i])) >= 0)
+                {
+                    repetition++;// 重复
+                    if (cover) list[index] = typelist.Labels[i];// 覆盖
+                }
+                else
+                {
+                    addnum++;// 不重复
+                    list.Add(typelist.Labels[i]);// 添加
+                }
+            }
             TypeList.Labels = list.ToArray();
             TypeList.MakeType();
+            Update();
+            return (repetition, addnum);
         }
+        private static int LabelListContains(List<Model.Label> target, Model.Label label)
+        {
+            for (int j = 0; j < target.Count; j++)
+            {
+                if (target[j].LabelName == label.LabelName)// 重复
+                {
+                    return j;
+                }
+            }
+            return -1;
+        }
+
         public void Save() => TypeList.SaveToFile(FilePath);
         public void SaveAs(string path)
         {
@@ -119,10 +149,10 @@ namespace CSF.WPF.Core.ViewModel
             for (int i = 0; i < TypeList.Labels.Length; i++)
             {
                 var label = TypeList.Labels[i];
-                label.Visibility = false;
+                //label.Visibility = false;
                 if (string.IsNullOrWhiteSpace(s))// 全部显示
                 {
-                    TypeList.Labels[i].Visibility = true;
+                    //label.Visibility = true;
                     continue;
                 }
                 try
@@ -137,15 +167,14 @@ namespace CSF.WPF.Core.ViewModel
                             if ((mode & Core.Data.SearchMode.Extra) == Core.Data.SearchMode.Extra)// 搜索额外值                            
                                 Search(label, value.ExtraString, s, sregex, sfull, ignore);
                         }
-                    Update();
                 }
                 catch (System.ArgumentException)// 正则有误
                 {
-                    label.Visibility = true;
+                    //label.Visibility = true;
                     return;
                 }
             }
-
+            Update();
         }
 
         private static void Search(Model.Label label, string vstr, string s, bool sregex, bool sfull, bool ignoreCase)
@@ -159,15 +188,15 @@ namespace CSF.WPF.Core.ViewModel
             }
             if (sfull && vstr.Equals(s, stringComparison))// 全字匹配
             {
-                label.Visibility = true;
+                //label.Visibility = true;
             }
             else if (sregex && System.Text.RegularExpressions.Regex.IsMatch(vstr, s, regexOptions))// 正则匹配
             {
-                label.Visibility = true;
+                //label.Visibility = true;
             }
             else if (vstr.Contains(s, stringComparison))// 关键字匹配
             {
-                label.Visibility = true;
+                //label.Visibility = true;
             }
         }
     }

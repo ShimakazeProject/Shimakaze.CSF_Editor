@@ -6,6 +6,8 @@
     <UseWPF>true</UseWPF>
     <Platforms>AnyCPU;x64</Platforms>
     <StartupObject>CSF.WPF.Core.Program</StartupObject>
+    <ApplicationIcon>Shimakaze.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,23 +31,13 @@
   <ItemGroup>
     <PackageReference Include="Dragablz.NetCore" Version="0.3.3" />
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0660" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="System.Json" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CSF.Convert\CSF.Convert.csproj" />
     <ProjectReference Include="..\CSF.Logmgr\CSF.Logmgr.csproj" />
     <ProjectReference Include="..\CSF.Model\CSF.Model.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Resources\MenuItem.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\CSF.Plugin\CSF.Plugin.csproj" />
   </ItemGroup>
 
 </Project>

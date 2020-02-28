@@ -6,14 +6,11 @@ using System.Text;
 
 namespace CSF.Model
 {
-    public sealed class Label : IEnumerable,INotifyPropertyChanged
+    public sealed class Label : IEnumerable
     {
         #region Public Fields
         public const string LABEL = " LBL";
         private string labelName;
-        private bool visibility;
-
-        public event PropertyChangedEventHandler PropertyChanged;
         #endregion Public Fields
 
         #region Public Constructors
@@ -51,14 +48,7 @@ namespace CSF.Model
         public int LabelNameLength { get; set; }
         public int LabelStrCount { get; set; }
         public Value[] LabelValues { get; set; }
-        public bool Visibility
-        {
-            get => visibility; set
-            {
-                visibility = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Visibility)));
-            }
-        }
+        public bool Visibility { get; set; }
         #endregion Public Properties
 
         #region Public Indexers

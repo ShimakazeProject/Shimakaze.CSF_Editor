@@ -5,12 +5,12 @@
     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:converter="clr-namespace:CSF.WPF.Core.Converter"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dragablz="http://dragablz.net/winfx/xaml/dockablz"
+    xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
     xmlns:local="clr-namespace:CSF.WPF.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:CSF.WPF.Core.ViewModel"
     x:Name="ThisWindow"
-    Title="MainWindow"
+    Title="CSF文件编辑器•改二 *评估版本"
     mc:Ignorable="d">
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
@@ -62,13 +62,13 @@
                     <MenuItem Command="{Binding ChangeLabelCommand}" Header="修改条目" />
                     <Separator />
                     <MenuItem Header="转换器">
-                        <MenuItem Header="文档" ItemsSource="{Binding ConverterList}"/>
-                        <MenuItem Header="当前项" ItemsSource="{Binding SingleConverterList}"/>
+                        <MenuItem Header="文档" ItemsSource="{Binding ConverterList}" />
+                        <MenuItem Header="当前项" ItemsSource="{Binding SingleConverterList}" />
                         <!--<MenuItem Header="繁体=&gt;简体" IsEnabled="False" />
                         <MenuItem Header="简体=&gt;繁体" IsEnabled="False" />-->
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="视图" />
+                <MenuItem Header="视图" Visibility="Collapsed" />
                 <MenuItem Header="工具">
                     <MenuItem Header="搜索">
                         <MenuItem
@@ -103,11 +103,10 @@
                             IsChecked="True" />
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="扩展" />
-
+                <MenuItem Header="扩展" ItemsSource="{Binding PluginList}" />
                 <MenuItem Header="帮助">
                     <MenuItem Header="关于">
-                        <MenuItem Header="内部预览版 build:10037" IsEnabled="False" />
+                        <MenuItem Header="内部预览版 build:10654" IsEnabled="False" />
                         <MenuItem Header="Copyright © 2019 - 2020" IsEnabled="False" />
                         <MenuItem Header="  舰队的偶像-岛风酱!" IsEnabled="False" />
                     </MenuItem>
@@ -134,10 +133,31 @@
         </StackPanel>
 
 
-        <Frame
+        <!--<Frame
             x:Name="DocumentsFrame"
             Grid.Row="1"
-            Content="{Binding Document}" />
+            Content="{Binding Document}" />-->
+        <dragablz:TabablzControl
+            DataContext="{Binding Documents}"
+            ItemsSource="{Binding Documents}"
+            Grid.Row="1" SelectedItem="{Binding SelectDocument}">
+            <dragablz:TabablzControl.InterTabController>
+                <dragablz:InterTabController />
+            </dragablz:TabablzControl.InterTabController>
+            <dragablz:TabablzControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Header}"/>
+                </DataTemplate>
+            </dragablz:TabablzControl.ItemTemplate>
+            <dragablz:TabablzControl.ContentTemplate>
+                <DataTemplate>
+                    <Frame Content="{Binding Document}"/>
+                </DataTemplate>
+            </dragablz:TabablzControl.ContentTemplate>
+            
+            
+            
+        </dragablz:TabablzControl>
 
         <StatusBar
             x:Name="Status"
