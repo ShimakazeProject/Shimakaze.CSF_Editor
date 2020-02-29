@@ -15,6 +15,6 @@ namespace CSF.WPF.Core.Data
 
         public CsfDoc Document { get; set; }
         public CsfDocViewModel DocViewModel => Document.DataContext as CsfDocViewModel;
-        public string Header => DocViewModel.FilePath.Split('\\')[^1];
+        public string Header => DocViewModel.FilePath?.Split('\\')[^1];
     }
 }
