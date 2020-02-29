@@ -103,12 +103,7 @@
                 </MenuItem>
                 <MenuItem Header="扩展" ItemsSource="{Binding PluginList}" />
                 <MenuItem Header="帮助">
-                    <MenuItem Header="关于">
-                        <MenuItem Header="内部预览版 build:10654" IsEnabled="False" />
-                        <MenuItem Header="Copyright © 2019 - 2020" IsEnabled="False" />
-                        <MenuItem Header="  舰队的偶像-岛风酱!" IsEnabled="False" />
-                    </MenuItem>
-
+                    <MenuItem Header="关于" Click="About_Click"/>
                 </MenuItem>
             </Menu>
             <TextBox
@@ -136,7 +131,7 @@
             Grid.Row="1"
             Content="{Binding Document}" />-->
         <TabControl
-            Grid.Row="1"
+            Grid.Row="1"            
             DataContext="{Binding Documents}"
             ItemsSource="{Binding Documents}"
             SelectedItem="{Binding SelectDocument}">

@@ -113,12 +113,14 @@
                         <Button
                             Margin="5"
                             Command="{Binding RemoveCommand}"
+                            Style="{DynamicResource MahApps.Styles.Button.Flat}"
                             Content="Remove"
                             IsEnabled="{Binding CanRemove}" />
                         <Button
                             Grid.Column="1"
                             Margin="5"
                             Command="{Binding AddCommand}"
+                            Style="{DynamicResource MahApps.Styles.Button.Flat}"
                             Content="Add" />
                     </Grid>
                     <TabControl
@@ -161,10 +163,12 @@
                         <Button
                             Margin="5"
                             Command="{Binding CancelCommand}"
+                            Style="{DynamicResource MahApps.Styles.Button.MetroSquare}"
                             Content="Cancel" />
                         <Button
                             Grid.Column="1"
                             Margin="5"
+                            Style="{DynamicResource MahApps.Styles.Button.AccentedSquare}"
                             Command="{Binding OKCommand}"
                             Content="OK" />
                     </Grid>
