@@ -10,7 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:CSF.WPF.Core.ViewModel"
     x:Name="ThisWindow"
-    Title="CSF文件编辑器•改二 *评估版本"
+    Title="CSF文件编辑器•改二 *评估版本 Build:10654*"
     mc:Ignorable="d">
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
@@ -19,7 +19,6 @@
                 Margin="5,0"
                 Source="Resources/icon.png"
                 Stretch="Uniform" />
-
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
 
@@ -64,8 +63,6 @@
                     <MenuItem Header="转换器">
                         <MenuItem Header="文档" ItemsSource="{Binding ConverterList}" />
                         <MenuItem Header="当前项" ItemsSource="{Binding SingleConverterList}" />
-                        <!--<MenuItem Header="繁体=&gt;简体" IsEnabled="False" />
-                        <MenuItem Header="简体=&gt;繁体" IsEnabled="False" />-->
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="视图" Visibility="Collapsed" />
@@ -137,33 +134,31 @@
             x:Name="DocumentsFrame"
             Grid.Row="1"
             Content="{Binding Document}" />-->
-        <dragablz:TabablzControl
+        <TabControl
+            Grid.Row="1"
             DataContext="{Binding Documents}"
             ItemsSource="{Binding Documents}"
-            Grid.Row="1" SelectedItem="{Binding SelectDocument}">
-            <dragablz:TabablzControl.InterTabController>
-                <dragablz:InterTabController />
-            </dragablz:TabablzControl.InterTabController>
-            <dragablz:TabablzControl.ItemTemplate>
+            SelectedItem="{Binding SelectDocument}">
+            <TabControl.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Header}"/>
+                    <TextBlock FontSize="12" Text="{Binding Header}" />
                 </DataTemplate>
-            </dragablz:TabablzControl.ItemTemplate>
-            <dragablz:TabablzControl.ContentTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
                 <DataTemplate>
-                    <Frame Content="{Binding Document}"/>
+                    <UserControl Content="{Binding Document}" />
                 </DataTemplate>
-            </dragablz:TabablzControl.ContentTemplate>
-            
-            
-            
-        </dragablz:TabablzControl>
+            </TabControl.ContentTemplate>
+
+
+
+        </TabControl>
 
         <StatusBar
             x:Name="Status"
             Grid.Row="2"
             Grid.ColumnSpan="2"
-            Background="{StaticResource MahApps.Brushes.WindowTitle}"
+            Background="{StaticResource MahApps.Brushes.Accent}"
             DataContext="{Binding Document.DataContext}">
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">

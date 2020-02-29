@@ -1,4 +1,5 @@
-﻿using CSF.WPF.Core.Data;
+﻿using CSF.Logmgr;
+using CSF.WPF.Core.Data;
 using CSF.WPF.Core.View;
 using MahApps.Metro.Controls;
 using Microsoft.Win32;
@@ -18,9 +19,9 @@ namespace CSF.WPF.Core.ViewModel
 {
     public class DocumentsViewModel : INotifyPropertyChanged
     {
-        private List<DocumentStruct> documents = new List<DocumentStruct>();
+        private DocumentStruct[] documents = Array.Empty< DocumentStruct>();
         private DocumentStruct selectDocument;
-        public List<DocumentStruct> Documents
+        public DocumentStruct[] Documents
         {
             get => documents; set
             {
@@ -38,7 +39,7 @@ namespace CSF.WPF.Core.ViewModel
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void OpenFile()
+        internal void OpenFile()
         {
             OpenFileDialog ofd = new OpenFileDialog
             {
@@ -46,12 +47,107 @@ namespace CSF.WPF.Core.ViewModel
             };
             if (ofd.ShowDialog() ?? false)
             {
-                var list = documents;
+                var list = documents.ToList();
                 var doc = new DocumentStruct();
                 doc.DocViewModel.Open(ofd.FileName);
                 list.Add(doc);
-                Documents = list;
+                Documents = list.ToArray();
             }
+        }
+        internal void MergeFile()
+        {
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Filter = "C&C Strings File(*.CSF)|*.csf"
+            };
+            if (MessageBox.Show("合并时是否允许覆盖已存在的标签?", "询问", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                if (ofd.ShowDialog() ?? false)
+                {
+                    var ret = SelectDocument.DocViewModel.Merge(ofd.FileName);
+                    MessageBox.Show(string.Format("覆盖{0}个重复标签,添加{1}个标签,共{2}个标签", ret.Item1, ret.Item2, ret.Item1 + ret.Item2), "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                if (ofd.ShowDialog() ?? false)
+                {
+                    var ret = SelectDocument.DocViewModel.Merge(ofd.FileName, false);
+                    MessageBox.Show(string.Format("添加{1}个标签,且发现但未并入{0}个重复标签", ret.Item1, ret.Item2), "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+        }
+        internal void SaveFile()
+        {
+            if (string.IsNullOrEmpty(SelectDocument.DocViewModel.FilePath))
+            {
+                SaveAsFile();
+            }
+            else SelectDocument.DocViewModel.Save();
+        }
+        internal void SaveAsFile()
+        {
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "C&C Strings File(*.CSF)|*.csf"
+            };
+            if (sfd.ShowDialog() ?? false)
+            {
+                SelectDocument.DocViewModel.SaveAs(sfd.FileName);
+            }
+        }
+        internal void CloseFile()
+        {
+            var list = documents.ToList();
+            list.Remove(SelectDocument);
+            Documents = list.ToArray();
+        }
+
+
+        internal void AddLabel()
+        {
+            SelectDocument.DocViewModel.AddLabel();
+        }
+        internal void RemoveLabel()
+        {
+            SelectDocument.DocViewModel.DropLabel();
+        }
+        internal void ChangeLabel()
+        {
+            SelectDocument.DocViewModel.EditLabel();
+        }
+        internal async Task Converter(object ret)
+        {
+            if (ret is Model.File)
+            {
+                var typeSet = new Model.TypeSet();
+                typeSet.MakeType(ret as Model.File);
+                SelectDocument.DocViewModel.TypeList = typeSet;
+                Logger.Info("Plugin : DONE.");
+            }
+            else if (ret is Task<Model.File>)
+            {
+                var typeSet = new Model.TypeSet();
+                typeSet.MakeType(await (ret as Task<Model.File>).ConfigureAwait(true));
+                SelectDocument.DocViewModel.TypeList = typeSet;
+                Logger.Info("Plugin : DONE.");
+            }
+            else
+            {
+                Logger.Warn("Plugin : Unknow Type.");
+                //MessageBox.Show("操作未成功", "警告", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        internal void Import(Model.File file)
+        {
+            var list = documents.ToList();
+            var doc = new DocumentStruct();
+            var typeSet = new Model.TypeSet();
+            typeSet.MakeType(file);
+            doc.DocViewModel.TypeList = typeSet;
+            list.Add(doc);
+            Documents = list.ToArray();
+            Logger.Info("Plugin : DONE.");
         }
     }
 }
