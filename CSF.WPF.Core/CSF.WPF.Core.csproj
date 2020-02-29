@@ -11,21 +11,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Font\fontawesome.ttf" />
     <None Remove="Resources\icon.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\Font\fontawesome.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Resources\icon.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Resources\Font\FontDictionary.xaml">
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
 
   <ItemGroup>
