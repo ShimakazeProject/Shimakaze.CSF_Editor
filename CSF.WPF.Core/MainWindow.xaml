@@ -12,6 +12,10 @@
     x:Name="ThisWindow"
     Title="CSF文件编辑器•改二 *评估版本 Build:10654*"
     mc:Ignorable="d">
+    <Controls:MetroWindow.DataContext>
+        <vm:MainWindowViewModel />
+    </Controls:MetroWindow.DataContext>
+
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
             <Image
@@ -22,9 +26,6 @@
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
 
-    <Controls:MetroWindow.DataContext>
-        <vm:MainWindowViewModel x:Name="ViewModel" />
-    </Controls:MetroWindow.DataContext>
     <Controls:MetroWindow.Resources>
 
         <converter:TypeToStringNumberConverter x:Key="TypeToStringNumberConverter" />
@@ -149,9 +150,6 @@
                     <UserControl Content="{Binding Document}" />
                 </DataTemplate>
             </TabControl.ContentTemplate>
-
-
-
         </TabControl>
 
         <StatusBar
@@ -159,7 +157,7 @@
             Grid.Row="2"
             Grid.ColumnSpan="2"
             Background="{StaticResource MahApps.Brushes.Accent}"
-            DataContext="{Binding Document.DataContext}">
+            DataContext="{Binding Documents.SelectDocument.DocViewModel}">
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Margin="2,0" Orientation="Horizontal">
