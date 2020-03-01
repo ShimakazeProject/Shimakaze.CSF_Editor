@@ -14,8 +14,8 @@
     </UserControl.DataContext>
     <StackPanel Margin="2">
         <StackPanel>
-            <TextBlock Text="标签: " Margin="5"/>
-            <TextBox Text="{Binding LabelName}" Margin="5"/>
+            <TextBlock Margin="5" Text="标签: " />
+            <TextBox Margin="5" Text="{Binding LabelName}" />
         </StackPanel>
 
         <Grid>
@@ -36,7 +36,7 @@
                 Content="Add"
                 Style="{DynamicResource MahApps.Styles.Button.Flat}" />
         </Grid>
-        <TabControl Grid.Row="2"
+        <TabControl
             ItemsSource="{Binding Values}"
             SelectedItem="{Binding SelectedItem}"
             TabStripPlacement="Bottom">
@@ -56,10 +56,10 @@
                                 VerticalAlignment="Stretch"
                                 VerticalContentAlignment="Top"
                                 AcceptsReturn="True"
+                                HorizontalScrollBarVisibility="Auto"
                                 Text="{Binding Value}"
                                 TextWrapping="Wrap"
-                                VerticalScrollBarVisibility="Auto" 
-                                HorizontalScrollBarVisibility="Auto"/>
+                                VerticalScrollBarVisibility="Auto" />
                         </StackPanel>
 
                         <DockPanel Margin="5">
@@ -71,14 +71,13 @@
             </TabControl.ContentTemplate>
         </TabControl>
 
-            <Button
-                HorizontalAlignment="Right" 
-                Grid.Column="1"
-                Margin="5"
-                Click="Button_Click"
-                Command="{Binding OKCommand}"
-                Content="OK"
-                Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" />
+        <Button
+            Margin="5"
+            HorizontalAlignment="Right"
+            Click="Button_Click"
+            Command="{Binding OKCommand}"
+            Content="OK"
+            Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" />
     </StackPanel>
 
 </UserControl>

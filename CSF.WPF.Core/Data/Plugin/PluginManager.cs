@@ -13,7 +13,7 @@ using System.Windows.Controls;
 
 namespace CSF.WPF.Core.Data.Plugin
 {
-    internal class PluginManager
+    public class PluginManager
     {
         public static ViewModel.DocumentsViewModel Documents { get; set; }
         public static List<MenuItem> ImportList;

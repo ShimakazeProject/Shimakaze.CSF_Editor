@@ -21,6 +21,8 @@ namespace CSF.WPF.Core.ViewModel
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
+        public const ushort BUILD = 20036;
+
         private readonly IDialogCoordinator dialogCoordinator = DialogCoordinator.Instance;
         private bool showEditor;
 
@@ -31,19 +33,13 @@ namespace CSF.WPF.Core.ViewModel
             Data.Plugin.PluginManager.Documents = Documents;
             Editor = new Editor();
         }
-
+        public string Title => string.Format("CSF文件编辑器•改二 *评估版本 Build:{0}*",BUILD);
         public bool SearchModeTitle { get; set; } = true;
         public bool SearchModeValue { get; set; }
         public bool SearchModeExtra { get; set; }
         public bool SearchModeFull { get; set; }
         public bool SearchModeRegex { get; set; }
         public bool SearchIgnoreCase { get; set; } = true;
-
-        public List<MenuItem> ImportList => Data.Plugin.PluginManager.ImportList;
-        public List<MenuItem> ExportList => Data.Plugin.PluginManager.ExportList;
-        public List<MenuItem> ConverterList => Data.Plugin.PluginManager.ConverterList;
-        public List<MenuItem> SingleConverterList => Data.Plugin.PluginManager.SingleConverterList;
-        public List<MenuItem> PluginList => Data.Plugin.PluginManager.PluginList;
 
         public DocumentsViewModel Documents { get; set; }
         public Editor Editor { get; set; }
@@ -55,18 +51,8 @@ namespace CSF.WPF.Core.ViewModel
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShowEditor)));
             }
         }
-
-        public Command.RelayCommand OpenFileCommand => new Command.RelayCommand(Documents.OpenFile);
-        public Command.RelayCommand MergeFileCommand => new Command.RelayCommand(Documents.MergeFile);
-        public Command.RelayCommand SaveFileCommand => new Command.RelayCommand(Documents.SaveFile);
-        public Command.RelayCommand SaveAsFileCommand => new Command.RelayCommand(Documents.SaveAsFile);
-
-        public Command.RelayCommand CloseFileCommand => new Command.RelayCommand(Documents.CloseFile);
         public Command.RelayCommand<Window> ExitCommand => new Command.RelayCommand<Window>(Exit);
 
-        public Command.RelayCommand AddLabelCommand => new Command.RelayCommand(Documents.AddLabel);
-        public Command.RelayCommand RemoveLabelCommand => new Command.RelayCommand(Documents.RemoveLabel);
-        public Command.RelayCommand ChangeLabelCommand => new Command.RelayCommand(Documents.ChangeLabel);
         public Command.RelayCommand<string> SearchCommand => new Command.RelayCommand<string>(Search);
         public Command.RelayCommand AboutCommand => new Command.RelayCommand(About);
 
@@ -147,7 +133,9 @@ namespace CSF.WPF.Core.ViewModel
         private void Exit(Window window) => window.Close();
         private async void About()
         {
-            await dialogCoordinator.ShowMessageAsync(this, "关于此编辑器", string.Format("内部预览版 build:10654{0}Copyright © 2019 - 2020  舰队的偶像-岛风酱!", Environment.NewLine));
+            await dialogCoordinator.ShowMessageAsync(this, "关于此编辑器", 
+                string.Format("内部预览版 build:{1}{0}Copyright © 2019 - 2020  舰队的偶像-岛风酱!",
+                Environment.NewLine,BUILD));
         }
         private void Search(string s)
         {

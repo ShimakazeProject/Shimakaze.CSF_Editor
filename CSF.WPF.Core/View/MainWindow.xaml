@@ -7,10 +7,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:plugin="clr-namespace:CSF.WPF.Core.Data.Plugin"
     xmlns:view="clr-namespace:CSF.WPF.Core.View"
     xmlns:vm="clr-namespace:CSF.WPF.Core.ViewModel"
     x:Name="ThisWindow"
-    Title="CSF文件编辑器•改二 *评估版本 Build:10654*"
+    Title="{Binding Title}"
     Controls:DialogParticipation.Register="{Binding}"
     mc:Ignorable="d">
     <Controls:MetroWindow.DataContext>
@@ -33,7 +34,7 @@
             <Image
                 Height="16"
                 Margin="5,0"
-                Source="Resources/icon.png"
+                Source="/Resources/icon.png"
                 Stretch="Uniform" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
@@ -54,14 +55,14 @@
             Orientation="Horizontal">
             <Menu Width="auto" BorderBrush="Transparent">
                 <MenuItem x:Name="MI_File" Header="文件">
-                    <MenuItem Command="{Binding OpenFileCommand}" Header="打开" />
-                    <MenuItem Command="{Binding MergeFileCommand}" Header="合并" />
-                    <MenuItem Command="{Binding SaveFileCommand}" Header="保存" />
-                    <MenuItem Command="{Binding SaveAsFileCommand}" Header="另存为" />
-                    <MenuItem Header="导入" ItemsSource="{Binding ImportList}" />
-                    <MenuItem Header="导出" ItemsSource="{Binding ExportList}" />
+                    <MenuItem Command="{Binding Documents.OpenFileCommand}" Header="打开" />
+                    <MenuItem Command="{Binding Documents.MergeFileCommand}" Header="合并" />
+                    <MenuItem Command="{Binding Documents.SaveFileCommand}" Header="保存" />
+                    <MenuItem Command="{Binding Documents.SaveAsFileCommand}" Header="另存为" />
+                    <MenuItem Header="导入" ItemsSource="{x:Static plugin:PluginManager.ImportList}" />
+                    <MenuItem Header="导出" ItemsSource="{x:Static plugin:PluginManager.ExportList}" />
                     <Separator />
-                    <MenuItem Command="{Binding CloseFileCommand}" Header="关闭文件" />
+                    <MenuItem Command="{Binding Documents.CloseFileCommand}" Header="关闭文件" />
                     <Separator />
                     <MenuItem
                         Command="{Binding ExitCommand}"
@@ -69,13 +70,13 @@
                         Header="退出" />
                 </MenuItem>
                 <MenuItem Header="编辑">
-                    <MenuItem Command="{Binding AddLabelCommand}" Header="增加条目" />
-                    <MenuItem Command="{Binding RemoveLabelCommand}" Header="删除条目" />
-                    <MenuItem Command="{Binding ChangeLabelCommand}" Header="修改条目" />
+                    <MenuItem Command="{Binding Documents.AddLabelCommand}" Header="增加条目" />
+                    <MenuItem Command="{Binding Documents.RemoveLabelCommand}" Header="删除条目" />
+                    <MenuItem Command="{Binding Documents.ChangeLabelCommand}" Header="修改条目" />
                     <Separator />
                     <MenuItem Header="转换器">
-                        <MenuItem Header="文档" ItemsSource="{Binding ConverterList}" />
-                        <MenuItem Header="当前项" ItemsSource="{Binding SingleConverterList}" />
+                        <MenuItem Header="文档" ItemsSource="{x:Static plugin:PluginManager.ConverterList}" />
+                        <MenuItem Header="当前项" ItemsSource="{x:Static plugin:PluginManager.SingleConverterList}" />
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="视图" Visibility="Collapsed" />
@@ -113,7 +114,7 @@
                             IsChecked="True" />
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="扩展" ItemsSource="{Binding PluginList}" />
+                <MenuItem Header="扩展" ItemsSource="{x:Static plugin:PluginManager.PluginList}" />
                 <MenuItem Header="帮助">
                     <MenuItem Command="{Binding AboutCommand}" Header="关于" />
                 </MenuItem>

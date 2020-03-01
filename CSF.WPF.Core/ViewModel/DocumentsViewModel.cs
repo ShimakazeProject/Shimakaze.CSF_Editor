@@ -38,6 +38,8 @@ namespace CSF.WPF.Core.ViewModel
             }
         }
 
+        public MainWindow Window { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
         internal void OpenFile()
         {
@@ -48,12 +50,23 @@ namespace CSF.WPF.Core.ViewModel
             if (ofd.ShowDialog() ?? false)
             {
                 var list = documents.ToList();
-                var doc = new DocumentStruct();
+                var doc = new DocumentStruct(Window);
                 doc.DocViewModel.Open(ofd.FileName);
                 list.Add(doc);
                 Documents = list.ToArray();
+                SelectDocument = doc;
             }
         }
+
+        public Command.RelayCommand OpenFileCommand => new Command.RelayCommand(OpenFile);
+        public Command.RelayCommand MergeFileCommand => new Command.RelayCommand(MergeFile);
+        public Command.RelayCommand SaveFileCommand => new Command.RelayCommand(SaveFile);
+        public Command.RelayCommand SaveAsFileCommand => new Command.RelayCommand(SaveAsFile);
+        public Command.RelayCommand CloseFileCommand => new Command.RelayCommand(CloseFile);
+        public Command.RelayCommand AddLabelCommand => new Command.RelayCommand(AddLabel);
+        public Command.RelayCommand RemoveLabelCommand => new Command.RelayCommand(RemoveLabel);
+        public Command.RelayCommand ChangeLabelCommand => new Command.RelayCommand(ChangeLabel);
+
         internal void MergeFile()
         {
             OpenFileDialog ofd = new OpenFileDialog
@@ -141,12 +154,13 @@ namespace CSF.WPF.Core.ViewModel
         internal void Import(Model.File file)
         {
             var list = documents.ToList();
-            var doc = new DocumentStruct();
+            var doc = new DocumentStruct(Window);
             var typeSet = new Model.TypeSet();
             typeSet.MakeType(file);
             doc.DocViewModel.TypeList = typeSet;
             list.Add(doc);
             Documents = list.ToArray();
+            SelectDocument = doc;
             Logger.Info("Plugin : DONE.");
         }
     }

@@ -8,7 +8,7 @@ namespace CSF.WPF.Core.Data
 {
     public class DocumentStruct
     {
-        public DocumentStruct()
+        public DocumentStruct(MainWindow window)
         {
             Document = new CsfDoc();
         }
