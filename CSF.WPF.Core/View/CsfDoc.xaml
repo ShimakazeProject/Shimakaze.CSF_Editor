@@ -49,8 +49,10 @@
             Grid.Column="1"
             AutoGenerateColumns="False"
             ItemsSource="{Binding DataList}"
-            MouseDoubleClick="DatasList_MouseDoubleClick"
             SelectedItem="{Binding Data}">
+            <DataGrid.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding EditCommand}"/>
+            </DataGrid.InputBindings>
             <DataGrid.ItemContainerStyle>
                 <Style TargetType="DataGridRow">
                     <Setter Property="Visibility" Value="{Binding Visibility, Converter={StaticResource BooleanToVisibilityConverter}}" />

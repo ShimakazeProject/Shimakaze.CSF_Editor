@@ -61,6 +61,9 @@ namespace CSF.WPF.Core.ViewModel
         public EditViewModel EditViewModel { get; set; }
         #endregion
 
+
+        public Command.RelayCommand EditCommand => new Command.RelayCommand(EditLabel);
+
         public void Open(string path)
         {
             FilePath = path;

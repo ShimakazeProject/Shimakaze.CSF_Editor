@@ -23,12 +23,5 @@ namespace CSF.WPF.Core.View
             InitializeComponent();
             (DataContext as ViewModel.CsfDocViewModel).ThisView = this;
         }
-
-        private void DatasList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            var thisdg = sender as DataGrid;
-            //(EditDialog.DataContext as ViewModel.EditViewModel).SetLabel(thisdg.SelectedItem as Model.Label);
-            ((Window.GetWindow(this) as MainWindow).DataContext as ViewModel.MainWindowViewModel).EditLabel(DataContext as ViewModel.CsfDocViewModel, thisdg.SelectedItem as Model.Label);
-        }
     }
 }
