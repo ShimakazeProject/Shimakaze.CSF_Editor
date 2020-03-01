@@ -16,11 +16,11 @@ namespace CSF.WPF.Core.Data.Plugin
     public class PluginManager
     {
         public static ViewModel.DocumentsViewModel Documents { get; set; }
-        public static List<MenuItem> ImportList;
-        public static List<MenuItem> ExportList;
-        public static List<MenuItem> ConverterList;
-        public static List<MenuItem> SingleConverterList;
-        public static List<MenuItem> PluginList;
+        public static MenuItem[] ImportList;
+        public static MenuItem[] ExportList;
+        public static MenuItem[] ConverterList;
+        public static MenuItem[] SingleConverterList;
+        public static MenuItem[] PluginList;
         public static Assembly LoadPlugin(string relativePath)
         {
             // Navigate up to the solution root
@@ -186,7 +186,7 @@ namespace CSF.WPF.Core.Data.Plugin
                                 MessageBox.Show(type.ToString(), "扩展程序错误:", MessageBoxButton.OK, MessageBoxImage.Error);
                             }
                         };
-                        singleConvertList.Add(menu);
+                        singleConvertList.Add(singleMenu);
                     }
                     else if (command.PluginType == PluginType.IMPORTER || command.PluginType == PluginType.EXPORTER)
                     {
@@ -286,11 +286,11 @@ namespace CSF.WPF.Core.Data.Plugin
             {
                 Logger.Warn("Plugin Initializated Fail. {0}", ex);
             }
-            ImportList = importList;
-            ExportList = exportList;
-            ConverterList = convertList;
-            SingleConverterList = singleConvertList;
-            PluginList = pluginList;
+            ImportList = importList.ToArray();
+            ExportList = exportList.ToArray();
+            ConverterList = convertList.ToArray();
+            SingleConverterList = singleConvertList.ToArray();
+            PluginList = pluginList.ToArray();
         }
 
     }
