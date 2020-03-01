@@ -1,0 +1,84 @@
+﻿<UserControl
+    x:Class="CSF.WPF.Core.View.Editor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:CSF.WPF.Core.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:CSF.WPF.Core.ViewModel"
+    mc:Ignorable="d">
+    <UserControl.DataContext>
+        <vm:EditViewModel />
+    </UserControl.DataContext>
+    <StackPanel Margin="2">
+        <StackPanel>
+            <TextBlock Text="标签: " Margin="5"/>
+            <TextBox Text="{Binding LabelName}" Margin="5"/>
+        </StackPanel>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button
+                Margin="5"
+                Command="{Binding RemoveCommand}"
+                Content="Remove"
+                IsEnabled="{Binding CanRemove}"
+                Style="{DynamicResource MahApps.Styles.Button.Flat}" />
+            <Button
+                Grid.Column="1"
+                Margin="5"
+                Command="{Binding AddCommand}"
+                Content="Add"
+                Style="{DynamicResource MahApps.Styles.Button.Flat}" />
+        </Grid>
+        <TabControl Grid.Row="2"
+            ItemsSource="{Binding Values}"
+            SelectedItem="{Binding SelectedItem}"
+            TabStripPlacement="Bottom">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock FontSize="16" Text="{Binding ID}" />
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate DataType="{x:Type TabItem}">
+                    <StackPanel Margin="5">
+                        <StackPanel Margin="5">
+                            <TextBlock VerticalAlignment="Top" Text="值:" />
+                            <TextBox
+                                MinHeight="100"
+                                MaxHeight="200"
+                                VerticalAlignment="Stretch"
+                                VerticalContentAlignment="Top"
+                                AcceptsReturn="True"
+                                Text="{Binding Value}"
+                                TextWrapping="Wrap"
+                                VerticalScrollBarVisibility="Auto" 
+                                HorizontalScrollBarVisibility="Auto"/>
+                        </StackPanel>
+
+                        <DockPanel Margin="5">
+                            <TextBlock VerticalAlignment="Center" Text="额外值: " />
+                            <TextBox Text="{Binding Extra}" />
+                        </DockPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+
+            <Button
+                HorizontalAlignment="Right" 
+                Grid.Column="1"
+                Margin="5"
+                Click="Button_Click"
+                Command="{Binding OKCommand}"
+                Content="OK"
+                Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" />
+    </StackPanel>
+
+</UserControl>

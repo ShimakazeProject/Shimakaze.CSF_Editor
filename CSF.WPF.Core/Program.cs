@@ -30,7 +30,7 @@ namespace CSF.WPF.Core
             app.DispatcherUnhandledException += App_DispatcherUnhandledException;
             app.InitializeComponent();
             //app.StartupUri = new Uri("View/Window1.xaml", UriKind.Relative);
-            app.StartupUri = new Uri("MainWindow.xaml", UriKind.Relative);
+            app.StartupUri = new Uri("View/MainWindow.xaml", UriKind.Relative);
             app.Run();
         }
 

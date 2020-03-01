@@ -12,6 +12,10 @@ namespace CSF.WPF.Core.ViewModel
         private Model.Type dataList;
         private Model.TypeSet typeList;
 
+
+
+        public View.CsfDoc ThisView { get; set; }
+
         public CsfDocViewModel()
         {
             TypeList = new Model.TypeSet();
@@ -120,11 +124,11 @@ namespace CSF.WPF.Core.ViewModel
         {
             var label = new Model.Label("new label", new Model.Value[] { new Model.Value("new value") });
             TypeList.Add(label);
-            EditViewModel.SetLabel(label, true);
+            ((System.Windows.Window.GetWindow(ThisView) as View.MainWindow).DataContext as MainWindowViewModel).EditLabel(this, label);
         }
         public void EditLabel()
         {
-            EditViewModel.SetLabel(data);
+            ((System.Windows.Window.GetWindow(ThisView) as View.MainWindow).DataContext as MainWindowViewModel).EditLabel(this, Data);
         }
         public void DropLabel()
         {

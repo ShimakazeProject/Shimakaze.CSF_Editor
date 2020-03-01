@@ -1,13 +1,13 @@
 ﻿<Controls:MetroWindow
-    x:Class="CSF.WPF.Core.MainWindow"
+    x:Class="CSF.WPF.Core.View.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:converter="clr-namespace:CSF.WPF.Core.Converter"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
-    xmlns:local="clr-namespace:CSF.WPF.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:view="clr-namespace:CSF.WPF.Core.View"
     xmlns:vm="clr-namespace:CSF.WPF.Core.ViewModel"
     x:Name="ThisWindow"
     Title="CSF文件编辑器•改二 *评估版本 Build:10654*"
@@ -16,6 +16,17 @@
     <Controls:MetroWindow.DataContext>
         <vm:MainWindowViewModel />
     </Controls:MetroWindow.DataContext>
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl>
+            <Controls:Flyout
+                Width="200"
+                Content="{Binding Editor}"
+                Header="编辑"
+                IsOpen="{Binding ShowEditor}"
+                Position="Left"
+                Theme="Inverse" />
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
 
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>

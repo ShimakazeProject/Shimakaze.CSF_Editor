@@ -22,11 +22,14 @@ namespace CSF.WPF.Core.ViewModel
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private readonly IDialogCoordinator dialogCoordinator = DialogCoordinator.Instance;
+        private bool showEditor;
+
         public MainWindowViewModel()
         {
             Documents = new DocumentsViewModel();
-            Documents.PropertyChanged+=(o,e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Documents)));
+            Documents.PropertyChanged += (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Documents)));
             Data.Plugin.PluginManager.Documents = Documents;
+            Editor = new Editor();
         }
 
         public bool SearchModeTitle { get; set; } = true;
@@ -43,6 +46,15 @@ namespace CSF.WPF.Core.ViewModel
         public List<MenuItem> PluginList => Data.Plugin.PluginManager.PluginList;
 
         public DocumentsViewModel Documents { get; set; }
+        public Editor Editor { get; set; }
+        public bool ShowEditor
+        {
+            get => showEditor; set
+            {
+                showEditor = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShowEditor)));
+            }
+        }
 
         public Command.RelayCommand OpenFileCommand => new Command.RelayCommand(Documents.OpenFile);
         public Command.RelayCommand MergeFileCommand => new Command.RelayCommand(Documents.MergeFile);
@@ -150,9 +162,11 @@ namespace CSF.WPF.Core.ViewModel
             Documents.SelectDocument.DocViewModel.Search(s, mode);
         }
 
-        public async void ChangedLabelDialog(Model.Label label,CsfDocViewModel BaseVM)
+        public void EditLabel(CsfDocViewModel thisVM, Model.Label label)
         {
-            await dialogCoordinator.ShowMetroDialogAsync(this, new EditorDialog(label, BaseVM));
+            (Editor.DataContext as EditViewModel).BaseVM = thisVM;
+            (Editor.DataContext as EditViewModel).SetLabel(label);
+            ShowEditor = true;
         }
     }
 }
