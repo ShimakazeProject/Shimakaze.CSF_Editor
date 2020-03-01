@@ -3,6 +3,7 @@ using CSF.Plugin;
 using CSF.WPF.Core.Data;
 using CSF.WPF.Core.View;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -20,12 +21,9 @@ namespace CSF.WPF.Core.ViewModel
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        internal const string PLUGIN_DIRECTORY_NAME = "\\Plugins";
-
-        private CsfDoc document;
+        private readonly IDialogCoordinator dialogCoordinator = DialogCoordinator.Instance;
         public MainWindowViewModel()
         {
-            //Document = new CsfDoc();
             Documents = new DocumentsViewModel();
             Documents.PropertyChanged+=(o,e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Documents)));
             Data.Plugin.PluginManager.Documents = Documents;
@@ -38,14 +36,6 @@ namespace CSF.WPF.Core.ViewModel
         public bool SearchModeRegex { get; set; }
         public bool SearchIgnoreCase { get; set; } = true;
 
-        //public CsfDoc Document
-        //{
-        //    get => document; set
-        //    {
-        //        document = value;
-        //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Document)));
-        //    }
-        //}
         public List<MenuItem> ImportList => Data.Plugin.PluginManager.ImportList;
         public List<MenuItem> ExportList => Data.Plugin.PluginManager.ExportList;
         public List<MenuItem> ConverterList => Data.Plugin.PluginManager.ConverterList;
@@ -66,6 +56,7 @@ namespace CSF.WPF.Core.ViewModel
         public Command.RelayCommand RemoveLabelCommand => new Command.RelayCommand(Documents.RemoveLabel);
         public Command.RelayCommand ChangeLabelCommand => new Command.RelayCommand(Documents.ChangeLabel);
         public Command.RelayCommand<string> SearchCommand => new Command.RelayCommand<string>(Search);
+        public Command.RelayCommand AboutCommand => new Command.RelayCommand(About);
 
 
 
@@ -142,6 +133,10 @@ namespace CSF.WPF.Core.ViewModel
         //    Documents.SelectDocument.DocViewModel.EditLabel();
         //}
         private void Exit(Window window) => window.Close();
+        private async void About()
+        {
+            await dialogCoordinator.ShowMessageAsync(this, "关于此编辑器", string.Format("内部预览版 build:10654{0}Copyright © 2019 - 2020  舰队的偶像-岛风酱!", Environment.NewLine));
+        }
         private void Search(string s)
         {
             Data.SearchMode mode = SearchMode.None;
@@ -155,6 +150,9 @@ namespace CSF.WPF.Core.ViewModel
             Documents.SelectDocument.DocViewModel.Search(s, mode);
         }
 
-
+        public async void ChangedLabelDialog(Model.Label label,CsfDocViewModel BaseVM)
+        {
+            await dialogCoordinator.ShowMetroDialogAsync(this, new EditorDialog(label, BaseVM));
+        }
     }
 }
