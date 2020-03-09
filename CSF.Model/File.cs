@@ -54,7 +54,7 @@ namespace CSF.Model
             LabelCount = BitConverter.ToInt32(stream.Read(4), 0);
             StringCount = BitConverter.ToInt32(stream.Read(4), 0);
             Unknow = stream.Read(4);
-            Language = (CsfLanguage)BitConverter.ToInt32(stream.Read(4), 0);
+            Language = (CsfLanguage)BitConverter.ToUInt32(stream.Read(4), 0);
             // Labels
             Labels = new Label[LabelCount];
             for (int i = 0; i < LabelCount; i++)
