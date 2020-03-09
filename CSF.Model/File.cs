@@ -100,6 +100,7 @@ namespace CSF.Model
         public virtual void SaveToStream(Stream stream)
         {
             // Header
+            ReCount();
             stream.WriteEx(Flag);
             stream.WriteEx(Version);
             stream.WriteEx(LabelCount);
@@ -125,7 +126,23 @@ namespace CSF.Model
                 }
             }
         }
-
+        public static File NewFile()
+        {
+            var file = new File();
+            file.Flag = FlagStr;
+            file.Version = 3;
+            file.Unknow = new byte[4];
+            file.Language = CsfLanguage.US;
+            file.Add(new Model.Label("New:Label", new Model.Value[] { "新建CSF文件" }));
+            file.ReCount();
+            return file;
+        }
+        public virtual void ReCount()
+        {
+            LabelCount = Labels.Length;
+            //StringCount = (from label in Labels select label.LabelStrCount).Sum();
+            StringCount = (from label in Labels select label.LabelValues).Count();
+        }
         public virtual IEnumerator GetEnumerator() => Labels.GetEnumerator();
 
 
@@ -137,6 +154,8 @@ namespace CSF.Model
         }
         public virtual void Add(Label label)
         {
+            if (Labels is null)
+                Labels = Array.Empty<Label>();
             var list = Labels.ToList();
             list.Add(label);
             Labels = list.ToArray();

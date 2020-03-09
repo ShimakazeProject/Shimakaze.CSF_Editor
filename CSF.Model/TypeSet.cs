@@ -41,6 +41,12 @@ namespace CSF.Model
             }
             Types = types.ToArray();
         }
+        public new static TypeSet NewFile()
+        {
+            var typeSet = new TypeSet();
+            typeSet.MakeType(File.NewFile());
+            return typeSet;
+        }
         public void MakeType(File file)
         {
             Flag = file.Flag;
