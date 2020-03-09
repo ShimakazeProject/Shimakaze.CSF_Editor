@@ -135,10 +135,29 @@ namespace CSF.WPF.Core.ViewModel
         }
         public void DropLabel()
         {
-            TypeList.Remove(data);
-            ReCount();
-            TypeList.MakeType();
-            Update(1);
+            var selected = ThisView.DatasList.SelectedItems;
+            if (selected.Count > 0)
+            {
+                var list = dataList.Labels.ToList();
+                foreach (var data in selected)
+                {
+                    if (data is Model.Label)
+                    {
+                        list.Remove((Model.Label)data);
+                    }
+                }
+                var datas = new Model.Type(dataList.Name, list.ToArray());
+                var typeList = TypeList.Types.ToList();
+                typeList.Remove(dataList);
+                typeList.Add(datas);
+                TypeList.Types = typeList.ToArray();
+                DataList = datas;
+                ReCount();
+            }
+            //TypeList.Remove(data);
+            //ReCount();
+            //TypeList.MakeType();
+            //Update(1);
         }
         public void Update(int level = 0)
         {
