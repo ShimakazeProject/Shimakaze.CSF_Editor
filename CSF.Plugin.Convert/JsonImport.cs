@@ -63,7 +63,7 @@ namespace CSF.Plugin.Convert
                 list.Add(new Model.Label(labelName, valueList.ToArray()));
             }
             file.Labels = list.ToArray();
-            file.Flag = " FSC";
+            file.Flag = Model.Header.FlagStr;
             file.LabelCount = label_count;
             file.StringCount = string_count;
             file.Language = (Model.CsfLanguage)Enum.Parse(typeof(Model.CsfLanguage), headJson["language"]);

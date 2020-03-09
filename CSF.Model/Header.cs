@@ -6,7 +6,7 @@ namespace CSF.Model
 {
     public class Header
     {
-
+        public const string FlagStr = " FSC";
         #region Public Properties
         /// <summary>
         /// 文件标记 始终为" FSC"
