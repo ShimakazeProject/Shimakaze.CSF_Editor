@@ -13,8 +13,12 @@ using System.Windows.Controls;
 
 namespace CSF.WPF.Core.Data.Plugin
 {
-    public class PluginManager
+    public static class PluginManager
     {
+        private static readonly string PLUGINS_DIRECTORY = AppContext.BaseDirectory + "\\Plugins";
+        private static readonly string PLUGINS_CONFIG_FILE = PLUGINS_DIRECTORY + "\\Plugins";
+
+
         public static ViewModel.DocumentsViewModel Documents { get; set; }
         public static MenuItem[] ImportList;
         public static MenuItem[] ExportList;
@@ -83,53 +87,98 @@ namespace CSF.WPF.Core.Data.Plugin
             File.WriteAllText(AppContext.BaseDirectory + "\\Plugins\\Plugins", sb.ToString());
             MessageBox.Show("重启应用生效", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
+        private static IEnumerable<(Type,IPlugin)> GetPlugins()// 获取插件命令
+        {
+            var pluginList = new List<MenuItem>();
+            using (var configReader = new StreamReader(new FileStream(PLUGINS_CONFIG_FILE, FileMode.Open, FileAccess.Read, FileShare.Read)))
+            {
+                while (!configReader.EndOfStream)
+                {
+                    var line = configReader.ReadLine().Split("|");
+                    var menu = new MenuItem
+                    {
+                        Header = line[1],
+                        IsCheckable = true,
+                        IsChecked = false
+                    };
+                    menu.Click += SwitchPlugin;
+                    if (line[0].Trim().Equals("0"))
+                    {
+                        menu.IsChecked = true;
+                        Logger.Info("Using Plugin {0}.", line[2]);
+                        Assembly pluginAssembly = LoadPlugin(AppContext.BaseDirectory + "\\Plugins" + line[2]);
+
+                        // Load commands from plugins.
+                        int count = 0;
+                        foreach (Type type in pluginAssembly.GetTypes())
+                        {
+                            if (typeof(IPlugin).IsAssignableFrom(type))
+                            {
+                                var result = Activator.CreateInstance(type) as IPlugin;
+                                if (result != null)
+                                {
+                                    count++;
+                                    yield return (type, result);
+                                }
+                            }
+                        }
+
+                        if (count == 0)
+                        {
+                            string availableTypes = string.Join(",", pluginAssembly.GetTypes().Select(t => t.FullName));
+                            throw new ApplicationException(
+                                $"Can't find any type which implements ICommand in {pluginAssembly} from {pluginAssembly.Location}.\n" +
+                                $"Available types: {availableTypes}");
+                        }
+                    }
+                    else
+                    {
+                        Logger.Info("Ignore Plugin {0}.", line[2]);
+                    }
+                    pluginList.Add(menu);
+                }
+            }
+            PluginList = pluginList.ToArray();
+        }
+
         public static void PluginInit()
         {
+            Logger.Info("Plugin Initialization.");
+
             var importList = new List<MenuItem>();
             var exportList = new List<MenuItem>();
             var convertList = new List<MenuItem>();
             var singleConvertList = new List<MenuItem>();
-            var pluginList = new List<MenuItem>();
 
+            Logger.Trace("检查插件配置文件是否存在");
+            if (!File.Exists(PLUGINS_CONFIG_FILE))
+            {
+                Logger.Trace("配置文件不存在 结束");
+                return;
+            }
+            IEnumerable<(Type, IPlugin)> plugins;
             try
             {
-                Logger.Info("Plugin Initialization.");
-                // Load commands from plugins.
+                plugins = GetPlugins();
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn("Load Plugin Fail. {0}", ex);
+                return;
+            }
+            Logger.Trace("读取插件配置文件...");
 
-                List<(Type, IPlugin)> plugins = new List<(Type, IPlugin)>();
-                using (var configReader = new StreamReader(new FileStream(AppContext.BaseDirectory + "\\Plugins" + "\\Plugins", FileMode.Open, FileAccess.Read, FileShare.Read)))
-                {
-                    while (!configReader.EndOfStream)
-                    {
-                        var line = configReader.ReadLine().Split("|");
-                        var menu = new MenuItem
-                        {
-                            Header = line[1],
-                            IsCheckable = true,
-                            IsChecked = false
-                        };
-                        menu.Click += SwitchPlugin;
-                        if (line[0].Trim().Equals("0"))
-                        {
-                            menu.IsChecked = true;
-                            Logger.Info("Using Plugin {0}.", line[2]);
-                            Assembly pluginAssembly = LoadPlugin(AppContext.BaseDirectory + "\\Plugins" + line[2]);
-                            plugins.AddRange(CreateCommands(pluginAssembly));
-                        }
-                        else
-                        {
-                            Logger.Info("Ignore Plugin {0}.", line[2]);
-                        }
-                        pluginList.Add(menu);
-                    }
-                }
-
+            try
+            {                
+                Logger.Trace("读取插件配置文件...Done");
+                Logger.Trace("开始遍历初始化启用的插件");
                 // Output the loaded commands.
                 foreach (var plugin in plugins)
                 {
                     var type = plugin.Item1;
                     var command = plugin.Item2;
-                    Logger.Info($"Find Command : {command.Name}\t - {command.Description}");
+                    Logger.Info($"Find Command : {command.Name}\t - {command.Description}\t - {command.PluginType}");
                     if (command.PluginType == PluginType.CONVERTER) // 是转换器
                     {
                         var converter = command as ConvertPlugin;
@@ -290,7 +339,6 @@ namespace CSF.WPF.Core.Data.Plugin
             ExportList = exportList.ToArray();
             ConverterList = convertList.ToArray();
             SingleConverterList = singleConvertList.ToArray();
-            PluginList = pluginList.ToArray();
         }
 
     }
