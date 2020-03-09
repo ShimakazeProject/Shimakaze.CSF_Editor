@@ -41,6 +41,14 @@ namespace CSF.WPF.Core.ViewModel
         public MainWindow Window { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void AddDocument(DocumentStruct document)
+        {
+            var list = documents.ToList();
+            list.Add(document);
+            Documents = list.ToArray();
+            SelectDocument = document;
+        }
+
         internal void OpenFile()
         {
             OpenFileDialog ofd = new OpenFileDialog
@@ -49,15 +57,13 @@ namespace CSF.WPF.Core.ViewModel
             };
             if (ofd.ShowDialog() ?? false)
             {
-                var list = documents.ToList();
                 var doc = new DocumentStruct(Window);
                 doc.DocViewModel.Open(ofd.FileName);
-                list.Add(doc);
-                Documents = list.ToArray();
-                SelectDocument = doc;
+                AddDocument(doc);
             }
         }
 
+        public Command.RelayCommand CreateFileCommand => new Command.RelayCommand(CreateFile);
         public Command.RelayCommand OpenFileCommand => new Command.RelayCommand(OpenFile);
         public Command.RelayCommand MergeFileCommand => new Command.RelayCommand(MergeFile);
         public Command.RelayCommand SaveFileCommand => new Command.RelayCommand(SaveFile);
@@ -66,7 +72,22 @@ namespace CSF.WPF.Core.ViewModel
         public Command.RelayCommand AddLabelCommand => new Command.RelayCommand(AddLabel);
         public Command.RelayCommand RemoveLabelCommand => new Command.RelayCommand(RemoveLabel);
         public Command.RelayCommand ChangeLabelCommand => new Command.RelayCommand(ChangeLabel);
+        internal void CreateFile()
+        {
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                FileName="NewCSF",
+                Filter = "C&C Strings File(*.CSF)|*.csf"
+            };
+            if (sfd.ShowDialog() ?? false)
+            {
+                var doc = new DocumentStruct(Window);
+                doc.DocViewModel.TypeList = Model.TypeSet.NewFile();
+                doc.DocViewModel.SaveAs(sfd.FileName);
+                AddDocument(doc);
+            }
 
+        }
         internal void MergeFile()
         {
             OpenFileDialog ofd = new OpenFileDialog
