@@ -21,7 +21,6 @@ namespace CSF.WPF.Core.ViewModel
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        public const ushort BUILD = 20036;
 
         private readonly IDialogCoordinator dialogCoordinator = DialogCoordinator.Instance;
         private bool showEditor;
@@ -33,7 +32,7 @@ namespace CSF.WPF.Core.ViewModel
             Data.Plugin.PluginManager.Documents = Documents;
             Editor = new Editor();
         }
-        public string Title => string.Format("CSF文件编辑器•改二 *评估版本 Build:{0}*",BUILD);
+        public string Title => string.Format("CSF文件编辑器•改二 *评估版本 Build:{0}*", Program.BUILD);
         public bool SearchModeTitle { get; set; } = true;
         public bool SearchModeValue { get; set; }
         public bool SearchModeExtra { get; set; }
@@ -133,9 +132,9 @@ namespace CSF.WPF.Core.ViewModel
         private void Exit(Window window) => window.Close();
         private async void About()
         {
-            await dialogCoordinator.ShowMessageAsync(this, "关于此编辑器", 
-                string.Format("内部预览版 build:{1}{0}Copyright © 2019 - 2020  舰队的偶像-岛风酱!",
-                Environment.NewLine,BUILD));
+            await dialogCoordinator.ShowMessageAsync(this, "关于此编辑器",
+                string.Format("预发行版 build:{1}{0}Copyright © 2019 - 2020  舰队的偶像-岛风酱!",
+                Environment.NewLine, Program.BUILD));
         }
         private void Search(string s)
         {
