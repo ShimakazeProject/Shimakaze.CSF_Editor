@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,8 +16,8 @@ namespace CSF.WPF.Core.Data.Plugin
 {
     public static class PluginManager
     {
-        private static readonly string PLUGINS_DIRECTORY = AppContext.BaseDirectory + "\\Plugins";
-        private static readonly string PLUGINS_CONFIG_FILE = PLUGINS_DIRECTORY + "\\Plugins";
+        private static readonly string PLUGINS_DIRECTORY = AppContext.BaseDirectory + "Plugins" + Path.DirectorySeparatorChar;
+        private static readonly string PLUGINS_CONFIG_FILE = PLUGINS_DIRECTORY + "Plugins";
 
 
         public static ViewModel.DocumentsViewModel Documents { get; set; }
@@ -27,54 +28,36 @@ namespace CSF.WPF.Core.Data.Plugin
         public static MenuItem[] PluginList;
         public static Assembly LoadPlugin(string relativePath)
         {
-            // Navigate up to the solution root
-            string root = Path.GetFullPath(Path.Combine(
-                Path.GetDirectoryName(
-                    Path.GetDirectoryName(
-                        Path.GetDirectoryName(
-                            Path.GetDirectoryName(
-                                Path.GetDirectoryName(typeof(Program).Assembly.Location)))))));
+            //// 导航到解决方案根目录
+            //string root = Path.GetFullPath(Path.Combine(
+            //    Path.GetDirectoryName(
+            //        Path.GetDirectoryName(
+            //            Path.GetDirectoryName(
+            //                Path.GetDirectoryName(
+            //                    Path.GetDirectoryName(typeof(Program).Assembly.Location)))))));
 
-            string pluginLocation = Path.GetFullPath(Path.Combine(root, relativePath.Replace('\\', Path.DirectorySeparatorChar)));
-            Console.WriteLine($"Loading commands from: {pluginLocation}");
+            string pluginLocation = Path.GetFullPath(Path.Combine(PLUGINS_DIRECTORY, relativePath.Replace('\\', Path.DirectorySeparatorChar)));
+            Logger.Info("[{0}]\tLoading commands from : {1}.", nameof(PluginManager), pluginLocation);
             PluginLoadContext loadContext = new PluginLoadContext(pluginLocation);
             return loadContext.LoadFromAssemblyName(new AssemblyName(Path.GetFileNameWithoutExtension(pluginLocation)));
         }
 
-        public static IEnumerable<(Type,IPlugin)> CreateCommands(Assembly assembly)
-        {
-            int count = 0;
-            foreach (Type type in assembly.GetTypes())
-            {
-                if (typeof(IPlugin).IsAssignableFrom(type))
-                {
-                    IPlugin result = Activator.CreateInstance(type) as IPlugin;
-                    if (result != null)
-                    {
-                        count++;
-                        yield return (type, result);
-                    }
-                }
-            }
-
-            if (count == 0)
-            {
-                string availableTypes = string.Join(",", assembly.GetTypes().Select(t => t.FullName));
-                throw new ApplicationException(
-                    $"Can't find any type which implements ICommand in {assembly} from {assembly.Location}.\n" +
-                    $"Available types: {availableTypes}");
-            }
-        }
+        /// <summary>
+        /// 插件开关
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public static void SwitchPlugin(object sender, RoutedEventArgs e)
         {
             var sb = new StringBuilder();
-            using (var sr = new StreamReader(new FileStream(AppContext.BaseDirectory + "\\Plugins\\Plugins", FileMode.Open, FileAccess.Read, FileShare.Read)))
+            using (var sr = new StreamReader(new FileStream(PLUGINS_CONFIG_FILE, FileMode.Open, FileAccess.Read, FileShare.Read)))
             {
                 while (!sr.EndOfStream)
                 {
                     var line = sr.ReadLine().Split('|');
                     if (((sender as MenuItem).Header as string).Trim().Equals(line[1].Trim()))
                     {
+                        Logger.Info("[{0}]\t{2}able Plugin {1}.", nameof(PluginManager), (sender as MenuItem).Header, (sender as MenuItem).IsChecked ? "En" : "Dis");
                         sb.AppendLine(string.Format("{0}|{1}|{2}", (sender as MenuItem).IsChecked ? "0" : "1", line[1], line[2]));
                     }
                     else
@@ -83,19 +66,21 @@ namespace CSF.WPF.Core.Data.Plugin
                     }
                 }
             }
-            File.Delete(AppContext.BaseDirectory + "\\Plugins\\Plugins");
-            File.WriteAllText(AppContext.BaseDirectory + "\\Plugins\\Plugins", sb.ToString());
+            File.Delete(PLUGINS_CONFIG_FILE);
+            File.WriteAllText(PLUGINS_CONFIG_FILE, sb.ToString());
             MessageBox.Show("重启应用生效", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private static IEnumerable<(Type,IPlugin)> GetPlugins()// 获取插件命令
+        private static IEnumerable<(Type,IPlugin)> GetPluginCommands()// 获取插件命令
         {
-            var pluginList = new List<MenuItem>();
             using (var configReader = new StreamReader(new FileStream(PLUGINS_CONFIG_FILE, FileMode.Open, FileAccess.Read, FileShare.Read)))
             {
+                var pluginList = new List<MenuItem>();
                 while (!configReader.EndOfStream)
                 {
-                    var line = configReader.ReadLine().Split("|");
+                    var lineStr = configReader.ReadLine();
+                    if (lineStr.Trim().Length == 0) continue;
+                    var line = lineStr.Split("|");
                     var menu = new MenuItem
                     {
                         Header = line[1],
@@ -103,237 +88,111 @@ namespace CSF.WPF.Core.Data.Plugin
                         IsChecked = false
                     };
                     menu.Click += SwitchPlugin;
+                    pluginList.Add(menu);
                     if (line[0].Trim().Equals("0"))
                     {
                         menu.IsChecked = true;
-                        Logger.Info("Using Plugin {0}.", line[2]);
-                        Assembly pluginAssembly = LoadPlugin(AppContext.BaseDirectory + "\\Plugins" + line[2]);
+                        Logger.Info("[{0}]\tEnable Plugin : {1}.", nameof(PluginManager), line[1]);
+                        Assembly pluginAssembly = LoadPlugin(line[2]);
 
                         // Load commands from plugins.
-                        int count = 0;
-                        foreach (Type type in pluginAssembly.GetTypes())
+                        var types = pluginAssembly.GetTypes();
+                        if (types.Length > 0)
                         {
-                            if (typeof(IPlugin).IsAssignableFrom(type))
+                            foreach (Type type in pluginAssembly.GetTypes())
                             {
-                                var result = Activator.CreateInstance(type) as IPlugin;
-                                if (result != null)
+                                if (typeof(IPlugin).IsAssignableFrom(type) &&
+                                    Activator.CreateInstance(type) is IPlugin result)
                                 {
-                                    count++;
+                                    Logger.Info("[{0}]\tFind Command : {1} \t{2}\t- {3}", nameof(PluginManager), result.PluginType, result.Name, result.Description);
                                     yield return (type, result);
                                 }
                             }
                         }
-
-                        if (count == 0)
+                        else
                         {
                             string availableTypes = string.Join(",", pluginAssembly.GetTypes().Select(t => t.FullName));
-                            throw new ApplicationException(
-                                $"Can't find any type which implements ICommand in {pluginAssembly} from {pluginAssembly.Location}.\n" +
-                                $"Available types: {availableTypes}");
+                            Logger.Warn("[{0}]\tCan't find any type which implements {1} in {2} from {3}.",
+                                nameof(PluginManager), nameof(IPlugin), pluginAssembly, pluginAssembly.Location);
+                            Logger.Warn("[{0}]\tAvailable types: {1}.", nameof(PluginManager), availableTypes);
+                            yield break;
                         }
                     }
                     else
                     {
-                        Logger.Info("Ignore Plugin {0}.", line[2]);
+                        Logger.Info("[{0}]\tDisable Plugin :{1}.", nameof(PluginManager), line[1]);
                     }
-                    pluginList.Add(menu);
                 }
+                PluginList = pluginList.ToArray();
             }
-            PluginList = pluginList.ToArray();
         }
 
-        public static void PluginInit()
+        static PluginManager()
         {
-            Logger.Info("Plugin Initialization.");
-
+            Logger.Info("[{0}]\tInitialization.", nameof(PluginManager));
             var importList = new List<MenuItem>();
             var exportList = new List<MenuItem>();
             var convertList = new List<MenuItem>();
             var singleConvertList = new List<MenuItem>();
 
-            Logger.Trace("检查插件配置文件是否存在");
-            if (!File.Exists(PLUGINS_CONFIG_FILE))
-            {
-                Logger.Trace("配置文件不存在 结束");
-                return;
-            }
             IEnumerable<(Type, IPlugin)> plugins;
             try
             {
-                plugins = GetPlugins();
+                Logger.Info("[{0}]\tLoading Plugins", nameof(PluginManager));
+                plugins = GetPluginCommands();
             }
             catch (Exception ex)
             {
-                Logger.Warn("Load Plugin Fail. {0}", ex);
+                if (ex is FileNotFoundException fnfe)
+                {
+                    Logger.Warn("[{0}]\tCannot Find File {1}", nameof(PluginManager), fnfe.FileName);
+                }
+                Logger.Warn("[{0}]\tPlugins failed to load : {1}", nameof(PluginManager), ex);
                 return;
             }
-            Logger.Trace("读取插件配置文件...");
 
             try
-            {                
-                Logger.Trace("读取插件配置文件...Done");
-                Logger.Trace("开始遍历初始化启用的插件");
+            {
+                Logger.Info("[{0}]\tCommands Initialization", nameof(PluginManager));
                 // Output the loaded commands.
                 foreach (var plugin in plugins)
                 {
-                    var type = plugin.Item1;
-                    var command = plugin.Item2;
-                    Logger.Info($"Find Command : {command.Name}\t - {command.Description}\t - {command.PluginType}");
-                    if (command.PluginType == PluginType.CONVERTER) // 是转换器
+                    Logger.Info("[{0}]\tCommand Initialization: {1} \t{2}", nameof(PluginManager), plugin.Item2.PluginType, plugin.Item2.Name);
+                    var menu = new MenuItem
                     {
-                        var converter = command as ConvertPlugin;
-
-                        var menu = new MenuItem();
-                        menu.Header = converter.Name;
-                        menu.ToolTip = converter.Description;
-                        menu.Click += async (o, e) =>
-                        {
-                            try
-                            {
-                                Logger.Info("Converter Plugin is Running:\t{0}.", type);
-                                await Documents.Converter(type.GetMethod(converter.ExecuteName).Invoke(type,
-                                new object[] { Documents.SelectDocument.DocViewModel.TypeList }));
-                            }
-                            catch (Exception ex)
-                            {
-                                Logger.Warn("Catched Plugin Exception \t:{0} |Exception:{1}", type, ex);
-                                MessageBox.Show(type.ToString(), "扩展程序错误:", MessageBoxButton.OK, MessageBoxImage.Error);
-                            }
-                        };
-                        convertList.Add(menu);
-
-                        var singleMenu = new MenuItem();
-                        singleMenu.Header = converter.SingleName;
-                        singleMenu.ToolTip = converter.SingleDescription;
-                        singleMenu.Click += async (o, e) =>
-                        {
-                            try
-                            {
-                                Logger.Info("Converter Plugin is Running(Single Item):\t{0}.", type);
-                                var source = Documents.SelectDocument.DocViewModel.Data;
-                                var newValues = new Model.Value[source.LabelValues.Length];
-                                for (int i = 0; i < newValues.Length; i++)
-                                {
-                                    Model.Value value = source.LabelValues[i];
-                                    object ret = type.GetMethod(converter.SingleExecuteName).Invoke(type,
-                                        new object[] { value.ValueString });
-                                    if (ret is string)
-                                    {
-                                        newValues[i] = new Model.Value(ret as string, value.ExtraString);
-                                    }
-                                    else if (ret is Task<string>)
-                                    {
-                                        newValues[i] = new Model.Value(await (ret as Task<string>).ConfigureAwait(true), value.ExtraString);
-                                    }
-                                }
-                                Documents.SelectDocument.DocViewModel.Data.Changed(new Model.Label(source.LabelName, newValues));
-                                Documents.SelectDocument.DocViewModel.Update(1);
-                            }
-                            catch (Exception ex)
-                            {
-                                Logger.Warn("Catched Plugin Exception \tMethod:{0} |Exception:{1}", type, ex);
-                                MessageBox.Show(type.ToString(), "扩展程序错误:", MessageBoxButton.OK, MessageBoxImage.Error);
-                            }
-                        };
-                        singleConvertList.Add(singleMenu);
-                    }
-                    else if (command.PluginType == PluginType.IMPORTER || command.PluginType == PluginType.EXPORTER)
+                        Header = plugin.Item2.Name,
+                        ToolTip = plugin.Item2.Description,
+                    };
+                    switch (plugin.Item2.PluginType)
                     {
-                        FileDialog fileDialog;
-                        var converter = command as FilePlugin;
-
-                        if (converter.PluginType == PluginType.IMPORTER)// 是导入方法
-                        {
-                            fileDialog = new OpenFileDialog();
-                            var menu = new MenuItem();
-                            menu.Header = converter.Name;
-                            menu.ToolTip = converter.Description;
-                            fileDialog.Filter = converter.Filter;
-                            menu.Click += async (o, e) =>
-                            {
-                                Logger.Info("Importer Plugin is Running:\t{0}.", type);
-                                if (fileDialog.ShowDialog() ?? false)
-                                {
-                                    try
-                                    {
-                                        Logger.Info("Plugin : Selected File :\t{0}.", fileDialog.FileName);
-                                        object ret = type.GetMethod(converter.ExecuteName).Invoke(type, new object[] { fileDialog.FileName });
-                                        if (ret is Model.File)
-                                            Documents.Import(ret as Model.File);
-                                        else if (ret is Task<Model.File>)
-                                            Documents.Import(await (ret as Task<Model.File>).ConfigureAwait(true));
-                                        else
-                                        {
-                                            Logger.Warn("Plugin : Unknow Type.");
-                                            MessageBox.Show("操作未成功", "警告", MessageBoxButton.OK, MessageBoxImage.Error);
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Logger.Warn("Catched Plugin Exception \tMethod:{0} |Exception:{1}", type, ex);
-                                        MessageBox.Show(type.ToString(), "扩展程序错误:", MessageBoxButton.OK, MessageBoxImage.Error);
-                                    }
-                                }
-                                else
-                                {
-                                    Logger.Info("Plugin : Cancel.");
-                                    MessageBox.Show("操作取消", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
-                                }
-                            };
-                            importList.Add(menu);
-                        }
-                        else// 是导出方法
-                        {
-                            fileDialog = new SaveFileDialog();
-                            var menu = new MenuItem();
-                            menu.Header = converter.Name;
-                            menu.ToolTip = converter.Description;
-                            fileDialog.Filter = converter.Filter;
-                            menu.Click += async (o, e) =>
-                            {
-                                Logger.Info("Exporter Plugin is Running:\t{0}.", type);
-                                if (fileDialog.ShowDialog() ?? false)
-                                {
-                                    Logger.Info("Plugin : Selected File :\t{0}.", fileDialog.FileName);
-                                    try
-                                    {
-                                        object methodReturn = type.GetMethod(converter.ExecuteName).Invoke(type, new object[] { Documents.SelectDocument.DocViewModel.TypeList, fileDialog.FileName });
-                                        if (methodReturn is bool
-                                            ? (bool)methodReturn
-                                            : methodReturn is Task<bool>
-                                                ? await (methodReturn as Task<bool>).ConfigureAwait(true)
-                                                : false)
-                                        {
-                                            Logger.Info("Plugin : DONE.");
-                                            MessageBox.Show("操作成功", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
-                                        }
-                                        else
-                                        {
-                                            Logger.Info("Plugin : FAIL.");
-                                            MessageBox.Show("操作失败", "警告", MessageBoxButton.OK, MessageBoxImage.Warning);
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Logger.Warn("Catched Plugin Exception \tMethod:{0} |Exception:{1}", type, ex);
-                                        MessageBox.Show(type.ToString(), "扩展程序错误:", MessageBoxButton.OK, MessageBoxImage.Error);
-                                    }
-                                }
-                                else
-                                {
-                                    Logger.Info("Plugin : Cancel.");
-                                    MessageBox.Show("操作取消", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
-                                }
-                            };
+                        case PluginType.EXPORTER:// 是导出方法
+                            menu.CommandParameter = ((Type, FilePlugin))plugin;
+                            menu.Command = PluginCommands.ExportCommand;
                             exportList.Add(menu);
-                        }
+                            break;
+                        case PluginType.IMPORTER:// 是导入方法
+                            menu.CommandParameter = ((Type, FilePlugin))plugin;
+                            menu.Command = PluginCommands.ImportCommand;
+                            importList.Add(menu);
+                            break;
+                        case PluginType.CONVERTER:// 是转换器
+                            menu.CommandParameter = ((Type, ConvertPlugin))plugin;
+                            menu.Command = PluginCommands.DocumentConvertCommand;
+                            convertList.Add(menu);
+                            singleConvertList.Add(new MenuItem
+                            {
+                                Header = (plugin.Item2 as ConvertPlugin).SingleName,
+                                ToolTip = (plugin.Item2 as ConvertPlugin).SingleDescription,
+                                CommandParameter = ((Type, ConvertPlugin))plugin,
+                                Command = PluginCommands.LabelConvertCommand
+                            });
+                            break;
                     }
                 }
-
             }
             catch (Exception ex)
             {
-                Logger.Warn("Plugin Initializated Fail. {0}", ex);
+                Logger.Warn("[{0}]\tPlugin Initializated Fail. {1}", nameof(PluginManager), ex);
             }
             ImportList = importList.ToArray();
             ExportList = exportList.ToArray();
@@ -341,5 +200,25 @@ namespace CSF.WPF.Core.Data.Plugin
             SingleConverterList = singleConvertList.ToArray();
         }
 
+
+
+        /// <summary>
+        /// 插件加载上下文
+        /// </summary>
+        protected class PluginLoadContext : AssemblyLoadContext
+        {
+            private readonly AssemblyDependencyResolver resolver;
+            public PluginLoadContext(string pluginPath) => resolver = new AssemblyDependencyResolver(pluginPath);
+            protected override Assembly Load(AssemblyName assemblyName)
+            {
+                string assemblyPath = resolver.ResolveAssemblyToPath(assemblyName);
+                return assemblyPath != null ? LoadFromAssemblyPath(assemblyPath) : null;
+            }
+            protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
+            {
+                string libraryPath = resolver.ResolveUnmanagedDllToPath(unmanagedDllName);
+                return libraryPath != null ? LoadUnmanagedDllFromPath(libraryPath) : IntPtr.Zero;
+            }
+        }
     }
 }
