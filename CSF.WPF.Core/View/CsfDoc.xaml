@@ -13,11 +13,6 @@
     <UserControl.DataContext>
         <vm:CsfDocViewModel x:Name="ViewModel" />
     </UserControl.DataContext>
-    <UserControl.Resources>
-        <Style TargetType="DataGridRow">
-            <Setter Property="Visibility" Value="{Binding Visibility, Converter={StaticResource BooleanToVisibilityConverter}}" />
-        </Style>
-    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
@@ -35,7 +30,6 @@
                     Width="*"
                     Binding="{Binding Name}"
                     Header="Types"
-                    HeaderStyle="{StaticResource CataGridColumnHeaderStyle}"
                     IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
@@ -49,6 +43,11 @@
             ItemsSource="{Binding DataList}"
             SelectedItem="{Binding Data}"
             SelectionMode="Extended">
+            <DataGrid.RowStyle>
+                <Style BasedOn="{StaticResource MahApps.Styles.DataGridRow}" TargetType="DataGridRow">
+                    <Setter Property="Visibility" Value="{Binding Visibility, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </Style>
+            </DataGrid.RowStyle>
             <DataGrid.InputBindings>
                 <MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
             </DataGrid.InputBindings>
@@ -57,19 +56,16 @@
                     Width="200"
                     Binding="{Binding LabelName}"
                     Header="Labels"
-                    HeaderStyle="{StaticResource CataGridColumnHeaderStyle}"
                     IsReadOnly="True" />
                 <DataGridTextColumn
                     Width="*"
                     Binding="{Binding LabelValues[0].ValueString}"
                     Header="Values"
-                    HeaderStyle="{StaticResource CataGridColumnHeaderStyle}"
                     IsReadOnly="True" />
                 <DataGridTextColumn
                     MinWidth="100"
                     Binding="{Binding LabelValues[0].ExtraString}"
                     Header="ExtraValue"
-                    HeaderStyle="{StaticResource CataGridColumnHeaderStyle}"
                     IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>

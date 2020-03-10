@@ -132,15 +132,11 @@
                 Margin="20,0"
                 Controls:TextBoxHelper.AutoWatermark="True"
                 Controls:TextBoxHelper.Watermark="Search in here"
+                Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                 ToolTip="Search"
-                Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=_EnableSearch}">
-                <TextBox.InputBindings>
-                    <KeyBinding
-                        Key="Enter"
-                        Command="{Binding SearchCommand}"
-                        CommandParameter="{Binding Text, ElementName=Searcher}" />
-                </TextBox.InputBindings>
-            </TextBox>
+                Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=_EnableSearch}" />
+
+
         </StackPanel>
 
         <dragablz:TabablzControl
@@ -150,9 +146,24 @@
             HeaderMemberPath="Header"
             ItemsSource="{Binding Documents}"
             SelectedItem="{Binding SelectDocument}"
-            ShowDefaultCloseButton="True">
+            ShowDefaultCloseButton="False"
+            Style="{DynamicResource MahAppsTabablzControlStyle}">
+            <dragablz:TabablzControl.ItemContainerStyle>
+                <Style BasedOn="{StaticResource MahAppsTrapezoidDragableTabItemStyle}" TargetType="dragablz:DragablzItem">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </dragablz:TabablzControl.ItemContainerStyle>
             <dragablz:TabablzControl.HeaderSuffixContent>
-                <Button HorizontalAlignment="Left" Content="+" />
+                <StackPanel Orientation="Horizontal">
+                    <Button
+                        Command="{Binding OpenFileCommand}"
+                        Content="+"
+                        Style="{DynamicResource AddItemCommandButtonStyle}" />
+                </StackPanel>
             </dragablz:TabablzControl.HeaderSuffixContent>
             <TabControl.ContentTemplate>
                 <DataTemplate>
@@ -216,6 +227,10 @@
                             <StackPanel Margin="2,0" Orientation="Horizontal">
                                 <TextBlock Text="标签字符串数:" />
                                 <TextBlock Text="{Binding Data.LabelStrCount}" />
+                            </StackPanel>
+                            <StackPanel Margin="2,0" Orientation="Horizontal">
+                                <TextBlock Text="Visibility:" />
+                                <TextBlock Text="{Binding Data.Visibility}" />
                             </StackPanel>
                         </StackPanel>
                     </Border>
