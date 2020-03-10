@@ -13,9 +13,5 @@ namespace CSF.WPF.Core
     /// </summary>
     public partial class App : Application
     {
-        public App()
-        {
-            Data.Plugin.PluginManager.PluginInit();
-        }
     }
 }
