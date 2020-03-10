@@ -24,6 +24,7 @@ namespace CSF.WPF.Core.ViewModel
 
         private readonly IDialogCoordinator dialogCoordinator = DialogCoordinator.Instance;
         private bool showEditor;
+        private string searchText;
 
         public MainWindowViewModel()
         {
@@ -40,6 +41,15 @@ namespace CSF.WPF.Core.ViewModel
         public bool SearchModeRegex { get; set; }
         public bool SearchIgnoreCase { get; set; } = true;
 
+        public string SearchText
+        {
+            get => searchText; set
+            {
+                searchText = value;
+                Search(value);
+            }
+        }
+
         public DocumentsViewModel Documents { get; set; }
         public Editor Editor { get; set; }
         public bool ShowEditor
@@ -50,9 +60,8 @@ namespace CSF.WPF.Core.ViewModel
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShowEditor)));
             }
         }
-        public Command.RelayCommand<Window> ExitCommand => new Command.RelayCommand<Window>(Exit);
+        public Command.RelayCommand<Window> ExitCommand { get; } = new Command.RelayCommand<Window>(Exit);
 
-        public Command.RelayCommand<string> SearchCommand => new Command.RelayCommand<string>(Search);
         public Command.RelayCommand AboutCommand => new Command.RelayCommand(About);
 
 
@@ -129,7 +138,7 @@ namespace CSF.WPF.Core.ViewModel
         //{
         //    Documents.SelectDocument.DocViewModel.EditLabel();
         //}
-        private void Exit(Window window) => window.Close();
+        private static void Exit(Window window) => window.Close();
         private async void About()
         {
             await dialogCoordinator.ShowMessageAsync(this, "关于此编辑器",
