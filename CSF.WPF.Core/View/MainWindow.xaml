@@ -20,13 +20,7 @@
     </Controls:MetroWindow.DataContext>
     <Controls:MetroWindow.Flyouts>
         <Controls:FlyoutsControl>
-            <Controls:Flyout
-                Width="200"
-                Content="{Binding Editor}"
-                Header="编辑"
-                IsOpen="{Binding ShowEditor}"
-                Position="Left"
-                Theme="Inverse" />
+            <view:Editor x:Name="EditorFlyout" Width="200" />
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
 
@@ -69,7 +63,7 @@
                 <MenuItem Header="编辑">
                     <MenuItem Command="{Binding Documents.AddLabelCommand}" Header="增加条目" />
                     <MenuItem Command="{Binding Documents.RemoveLabelCommand}" Header="删除条目" />
-                    <MenuItem Command="{Binding Documents.ChangeLabelCommand}" Header="修改条目" />
+                    <MenuItem Command="{Binding Documents.SelectDocument.DocViewModel.EditCommand}" Header="修改条目" />
                     <Separator />
                     <MenuItem Header="转换器">
                         <MenuItem Header="文档" ItemsSource="{x:Static plugin:PluginManager.ConverterList}" />
