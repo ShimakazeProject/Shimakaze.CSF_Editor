@@ -6,12 +6,18 @@ using System.Text;
 
 namespace CSF.Model
 {
-    public sealed class Label : IEnumerable
+    public sealed class Label : IEnumerable, INotifyPropertyChanged
     {
-        #region Public Fields
         public const string LABEL = " LBL";
+
         private string labelName;
-        #endregion Public Fields
+        private Value[] labelValues;
+        private int labelStrCount;
+        private int labelNameLength;
+        private string labelFlag;
+        private bool visibility;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         #region Public Constructors
         public Label(string labelTag, int stringCount, int nameLength, string labelName, Value[] values)
@@ -36,19 +42,55 @@ namespace CSF.Model
         #endregion Public Constructors
 
         #region Public Properties
-        public string LabelFlag { get; set; }
+        public string LabelFlag
+        {
+            get => labelFlag; set
+            {
+                labelFlag = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LabelFlag)));
+            }
+        }
         public string LabelName
         {
             get => labelName; set
             {
                 labelName = value;
                 LabelNameLength = value.Length;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LabelName)));
             }
         }
-        public int LabelNameLength { get; set; }
-        public int LabelStrCount { get; set; }
-        public Value[] LabelValues { get; set; }
-        public bool Visibility { get; set; }
+        public int LabelNameLength
+        {
+            get => labelNameLength; set
+            {
+                labelNameLength = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LabelNameLength)));
+            }
+        }
+        public int LabelStrCount
+        {
+            get => labelStrCount; set
+            {
+                labelStrCount = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LabelStrCount)));
+            }
+        }
+        public Value[] LabelValues
+        {
+            get => labelValues; set
+            {
+                labelValues = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LabelValues)));
+            }
+        }
+        public bool Visibility
+        {
+            get => visibility; set
+            {
+                visibility = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Visibility)));
+            }
+        }
         #endregion Public Properties
 
         #region Public Indexers
