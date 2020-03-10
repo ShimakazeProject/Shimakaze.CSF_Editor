@@ -125,9 +125,9 @@ namespace CSF.WPF.Core.ViewModel
 
         public void AddLabel()
         {
-            var label = new Model.Label("new label", new Model.Value[] { new Model.Value("new value") });
-            TypeList.Add(label);
+            var label = new Model.Label("New:Label", new Model.Value[] {"New Value"});
             ((System.Windows.Window.GetWindow(ThisView) as View.MainWindow).DataContext as MainWindowViewModel).EditLabel(this, label);
+            TypeList.Add(label);
         }
         public void EditLabel()
         {
@@ -172,38 +172,43 @@ namespace CSF.WPF.Core.ViewModel
             bool sregex = (mode & Core.Data.SearchMode.Regex) == Core.Data.SearchMode.Regex;
             bool sfull = (mode & Core.Data.SearchMode.Full) == Core.Data.SearchMode.Full;
             bool ignore = (mode & Core.Data.SearchMode.IgnoreCase) == Core.Data.SearchMode.IgnoreCase;
+            int pi_pei = 0;
             for (int i = 0; i < TypeList.Labels.Length; i++)
             {
                 var label = TypeList.Labels[i];
-                //label.Visibility = false;
                 if (string.IsNullOrWhiteSpace(s))// 全部显示
                 {
-                    //label.Visibility = true;
+                    label.Visibility = true;
                     continue;
+                }
+                else
+                {
+                    label.Visibility = false;
                 }
                 try
                 {
                     if ((mode & Core.Data.SearchMode.Label) == Core.Data.SearchMode.Label)// 搜索标签                    
-                        Search(label, label.LabelName, s, sregex, sfull, ignore);
+                        pi_pei += Search(label, label.LabelName, s, sregex, sfull, ignore) ? 1 : 0;
                     if ((mode & Core.Data.SearchMode.Value) == Core.Data.SearchMode.Value || (mode & Core.Data.SearchMode.Extra) == Core.Data.SearchMode.Extra)// 搜索值内容                    
                         foreach (var value in label.LabelValues)
                         {
                             if ((mode & Core.Data.SearchMode.Value) == Core.Data.SearchMode.Value)// 搜索值内容                            
-                                Search(label, value.ValueString, s, sregex, sfull, ignore);
+                                pi_pei += Search(label, value.ValueString, s, sregex, sfull, ignore) ? 1 : 0;
                             if ((mode & Core.Data.SearchMode.Extra) == Core.Data.SearchMode.Extra)// 搜索额外值                            
-                                Search(label, value.ExtraString, s, sregex, sfull, ignore);
+                                pi_pei += Search(label, value.ExtraString, s, sregex, sfull, ignore) ? 1 : 0;
                         }
                 }
                 catch (System.ArgumentException)// 正则有误
                 {
-                    //label.Visibility = true;
+                    label.Visibility = true;
                     return;
                 }
+                TypeList.Labels[i] = label;
             }
             Update();
         }
 
-        private static void Search(Model.Label label, string vstr, string s, bool sregex, bool sfull, bool ignoreCase)
+        private static bool Search(Model.Label label, string vstr, string s, bool sregex, bool sfull, bool ignoreCase)
         {
             System.StringComparison stringComparison = System.StringComparison.Ordinal;
             System.Text.RegularExpressions.RegexOptions regexOptions = System.Text.RegularExpressions.RegexOptions.None;
@@ -214,16 +219,20 @@ namespace CSF.WPF.Core.ViewModel
             }
             if (sfull && vstr.Equals(s, stringComparison))// 全字匹配
             {
-                //label.Visibility = true;
+                label.Visibility = true;
+                return true;
             }
             else if (sregex && System.Text.RegularExpressions.Regex.IsMatch(vstr, s, regexOptions))// 正则匹配
             {
-                //label.Visibility = true;
+                label.Visibility = true;
+                return true;
             }
             else if (vstr.Contains(s, stringComparison))// 关键字匹配
             {
-                //label.Visibility = true;
+                label.Visibility = true;
+                return true;
             }
+            return false;
         }
     }
 }

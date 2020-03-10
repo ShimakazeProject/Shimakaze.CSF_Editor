@@ -71,7 +71,6 @@ namespace CSF.WPF.Core.ViewModel
         public Command.RelayCommand CloseFileCommand => new Command.RelayCommand(CloseFile);
         public Command.RelayCommand AddLabelCommand => new Command.RelayCommand(AddLabel);
         public Command.RelayCommand RemoveLabelCommand => new Command.RelayCommand(RemoveLabel);
-        public Command.RelayCommand ChangeLabelCommand => new Command.RelayCommand(ChangeLabel);
         internal void CreateFile()
         {
             SaveFileDialog sfd = new SaveFileDialog
@@ -145,32 +144,6 @@ namespace CSF.WPF.Core.ViewModel
         internal void RemoveLabel()
         {
             SelectDocument.DocViewModel.DropLabel();
-        }
-        internal void ChangeLabel()
-        {
-            SelectDocument.DocViewModel.EditLabel();
-        }
-        internal async Task Converter(object ret)
-        {
-            if (ret is Model.File)
-            {
-                var typeSet = new Model.TypeSet();
-                typeSet.MakeType(ret as Model.File);
-                SelectDocument.DocViewModel.TypeList = typeSet;
-                Logger.Info("Plugin : DONE.");
-            }
-            else if (ret is Task<Model.File>)
-            {
-                var typeSet = new Model.TypeSet();
-                typeSet.MakeType(await (ret as Task<Model.File>).ConfigureAwait(true));
-                SelectDocument.DocViewModel.TypeList = typeSet;
-                Logger.Info("Plugin : DONE.");
-            }
-            else
-            {
-                Logger.Warn("Plugin : Unknow Type.");
-                //MessageBox.Show("操作未成功", "警告", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
         }
         internal void Import(Model.File file)
         {
