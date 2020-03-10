@@ -14,7 +14,6 @@
                 <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Mahapps.xaml" />
 
 
-                <ResourceDictionary Source="Themes/Normal.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
         </ResourceDictionary>

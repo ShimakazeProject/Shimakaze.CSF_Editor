@@ -1,8 +1,8 @@
-﻿<Controls:MetroWindow
+﻿<ctrl:MetroWindow
     x:Class="CSF.WPF.Core.View.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:ctrl="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:cvtr="clr-namespace:CSF.WPF.Core.Converter"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"
@@ -13,26 +13,26 @@
     xmlns:vm="clr-namespace:CSF.WPF.Core.ViewModel"
     x:Name="ThisWindow"
     Title="{Binding Title}"
-    Controls:DialogParticipation.Register="{Binding}"
+    ctrl:DialogParticipation.Register="{Binding}"
     mc:Ignorable="d">
-    <Controls:MetroWindow.DataContext>
+    <ctrl:MetroWindow.DataContext>
         <vm:MainWindowViewModel />
-    </Controls:MetroWindow.DataContext>
-    <Controls:MetroWindow.Flyouts>
-        <Controls:FlyoutsControl>
+    </ctrl:MetroWindow.DataContext>
+    <ctrl:MetroWindow.Flyouts>
+        <ctrl:FlyoutsControl>
             <view:Editor x:Name="EditorFlyout" Width="200" />
-        </Controls:FlyoutsControl>
-    </Controls:MetroWindow.Flyouts>
+        </ctrl:FlyoutsControl>
+    </ctrl:MetroWindow.Flyouts>
 
-    <Controls:MetroWindow.LeftWindowCommands>
-        <Controls:WindowCommands>
+    <ctrl:MetroWindow.LeftWindowCommands>
+        <ctrl:WindowCommands>
             <Image
                 Height="16"
                 Margin="5,0"
                 Source="/Resources/icon.png"
                 Stretch="Uniform" />
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.LeftWindowCommands>
+        </ctrl:WindowCommands>
+    </ctrl:MetroWindow.LeftWindowCommands>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -130,8 +130,8 @@
                 Width="200"
                 Height="24"
                 Margin="20,0"
-                Controls:TextBoxHelper.AutoWatermark="True"
-                Controls:TextBoxHelper.Watermark="Search in here"
+                ctrl:TextBoxHelper.AutoWatermark="True"
+                ctrl:TextBoxHelper.Watermark="Search in here"
                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                 ToolTip="Search"
                 Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=_EnableSearch}" />
@@ -228,10 +228,6 @@
                                 <TextBlock Text="标签字符串数:" />
                                 <TextBlock Text="{Binding Data.LabelStrCount}" />
                             </StackPanel>
-                            <StackPanel Margin="2,0" Orientation="Horizontal">
-                                <TextBlock Text="Visibility:" />
-                                <TextBlock Text="{Binding Data.Visibility}" />
-                            </StackPanel>
                         </StackPanel>
                     </Border>
                 </StackPanel>
@@ -239,4 +235,4 @@
         </StatusBar>
 
     </Grid>
-</Controls:MetroWindow>
+</ctrl:MetroWindow>
