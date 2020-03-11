@@ -107,7 +107,7 @@ namespace CSF.Model
 
         public static implicit operator (string, Value[])(Label label) => (label.LabelName, label.LabelValues);
         public static implicit operator Label((string, Value[]) kv) => new Label(kv.Item1, kv.Item2);
-        public void Changed(Label newLabel)
+        public void Change(Label newLabel)
         {
             this.LabelFlag = newLabel.LabelFlag;
             this.LabelStrCount = newLabel.LabelStrCount;

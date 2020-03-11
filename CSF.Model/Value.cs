@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace CSF.Model
@@ -7,13 +8,18 @@ namespace CSF.Model
     /// <summary>
     /// CSF Value struct
     /// </summary>
-    public sealed class Value
+    public sealed class Value : INotifyPropertyChanged
     {
         #region Public Fields
         public const string STRING = " RTS";
         public const string WSTRING = "WRTS";
         private string extraString;
         private string valueString;
+        private int valueLength;
+        private string valueFlag;
+        private int extraLength;
+
+        public event PropertyChangedEventHandler PropertyChanged;
         #endregion Public Fields
 
         #region Public Constructors
@@ -44,7 +50,14 @@ namespace CSF.Model
         /// If this value flag is WSTRING<para/>
         /// Else return 0
         /// </summary>
-        public int ExtraLength { get; set; }
+        public int ExtraLength
+        {
+            get => extraLength; set
+            {
+                extraLength = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ExtraLength)));
+            }
+        }
         /// <summary>
         /// Extra string content<para/><c>
         /// If this value flag is WSTRING<para/>
@@ -57,17 +70,32 @@ namespace CSF.Model
                 extraString = value;
                 ValueFlag = value is null ? STRING : WSTRING;
                 ExtraLength = value is null ? 0 : value.Length;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ExtraLength)));
             }
         }
         /// <summary>
         /// Value Flag have two content<para/>
         /// STRING(Str:Normal string) or WSTRING(StrW:Width string)
         /// </summary>
-        public string ValueFlag { get; set; }
+        public string ValueFlag
+        {
+            get => valueFlag; set
+            {
+                valueFlag = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ValueFlag)));
+            }
+        }
         /// <summary>
         /// Value string length
         /// </summary>
-        public int ValueLength { get; set; }
+        public int ValueLength
+        {
+            get => valueLength; set
+            {
+                valueLength = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ValueLength)));
+            }
+        }
         /// <summary>
         /// Value string content
         /// </summary>
@@ -77,6 +105,7 @@ namespace CSF.Model
             {
                 valueString = value;
                 ValueLength = value.Length;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ValueString)));
             }
         }
         #endregion Public Properties
