@@ -79,7 +79,7 @@ namespace CSF.Model
                     {
                         labelValues[j] = new Value(valueFlag, valueLength, valueString);
                     }
-                    else throw new Exception("喵喵喵???");
+                    else throw new FileLoadException("CSF文件不合法");
                 }
                 Labels[i] = new Label(labelFlag, labelCount, labelLength, labelName, labelValues);
             }

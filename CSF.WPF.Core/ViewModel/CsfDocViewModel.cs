@@ -68,14 +68,31 @@ namespace CSF.WPF.Core.ViewModel
         {
             FilePath = path;
             var typelist = new Model.TypeSet();
-            typelist.LoadFromFile(path);
-            TypeList = typelist;
+            try
+            {
+                typelist.LoadFromFile(path);
+                TypeList = typelist;
+            }
+            catch (System.IO.FileLoadException ex)
+            {
+                Logmgr.Logger.Warn("[{0}]\t非法CSF文件 \t{1}", "FileLoader",ex);
+                System.Windows.MessageBox.Show("非法CSF文件", "警告", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+            }
         }
         public (int, int) Merge(string path, bool cover = true)
         {
             var list = TypeList.Labels.ToList();
             var typelist = new Model.File();
-            typelist.LoadFromFile(path);
+            try
+            {
+                typelist.LoadFromFile(path);
+            }
+            catch (System.IO.FileLoadException ex)
+            {
+                Logmgr.Logger.Warn("[{0}]\t非法CSF文件 \t{1}", "FileLoader", ex);
+                System.Windows.MessageBox.Show("非法CSF文件", "警告", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                return (0, 0);
+            }
             int repetition = 0;
             int addnum = 0;
 

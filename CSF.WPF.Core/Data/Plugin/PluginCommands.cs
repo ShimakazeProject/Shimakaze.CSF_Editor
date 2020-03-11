@@ -67,7 +67,7 @@ namespace CSF.WPF.Core.Data.Plugin
                         }
                     }
                     (PluginManager.Documents.SelectDocument.Document.DatasList.SelectedItems[j] as Model.Label)
-                        .Changed(new Model.Label(item.LabelName, newValues));
+                        .Change(new Model.Label(item.LabelName, newValues));
                 }
                 PluginManager.Documents.SelectDocument.DocViewModel.Update();
             }
