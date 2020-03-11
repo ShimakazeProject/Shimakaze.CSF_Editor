@@ -57,7 +57,7 @@ namespace CSF.WPF.Core.ViewModel
             };
             if (ofd.ShowDialog() ?? false)
             {
-                var doc = new DocumentStruct(Window);
+                var doc = new DocumentStruct();
                 doc.DocViewModel.Open(ofd.FileName);
                 AddDocument(doc);
             }
@@ -80,7 +80,7 @@ namespace CSF.WPF.Core.ViewModel
             };
             if (sfd.ShowDialog() ?? false)
             {
-                var doc = new DocumentStruct(Window);
+                var doc = new DocumentStruct();
                 doc.DocViewModel.TypeList = Model.TypeSet.NewFile();
                 doc.DocViewModel.SaveAs(sfd.FileName);
                 AddDocument(doc);
@@ -147,15 +147,16 @@ namespace CSF.WPF.Core.ViewModel
         }
         internal void Import(Model.File file)
         {
+            Logger.Info("[Importer]\tStart.");
             var list = documents.ToList();
-            var doc = new DocumentStruct(Window);
+            var doc = new DocumentStruct();
             var typeSet = new Model.TypeSet();
             typeSet.MakeType(file);
             doc.DocViewModel.TypeList = typeSet;
             list.Add(doc);
             Documents = list.ToArray();
             SelectDocument = doc;
-            Logger.Info("Plugin : DONE.");
+            Logger.Info("[Importer]\tDone.");
         }
     }
 }
