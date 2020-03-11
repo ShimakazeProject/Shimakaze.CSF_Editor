@@ -184,7 +184,7 @@
             x:Name="Status"
             Grid.Row="2"
             Grid.ColumnSpan="2"
-            Background="{StaticResource MahApps.Brushes.Accent}"
+            Background="{Binding BorderBrush, ElementName=ThisWindow}"
             DataContext="{Binding Documents.SelectDocument.DocViewModel}">
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
@@ -233,6 +233,5 @@
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>
-
     </Grid>
 </ctrl:MetroWindow>
