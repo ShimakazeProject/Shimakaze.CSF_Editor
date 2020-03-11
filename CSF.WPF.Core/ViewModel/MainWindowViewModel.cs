@@ -157,12 +157,5 @@ namespace CSF.WPF.Core.ViewModel
 
             Documents.SelectDocument.DocViewModel.Search(s, mode);
         }
-
-        public void EditLabel(CsfDocViewModel thisVM, Model.Label label)
-        {
-            (Editor.DataContext as EditViewModel).BaseVM = thisVM;
-            (Editor.DataContext as EditViewModel).SetLabel(label);
-            ShowEditor = true;
-        }
     }
 }

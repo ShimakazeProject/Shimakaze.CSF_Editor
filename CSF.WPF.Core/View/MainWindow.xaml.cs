@@ -27,5 +27,9 @@ namespace CSF.WPF.Core.View
             InitializeComponent();
             (DataContext as ViewModel.MainWindowViewModel).Documents.Window = this;
         }
+        public async Task<Model.Label> EditLabel(Model.Label label)
+        {
+            return await EditDialog.EditLabel(this, label);
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace CSF.WPF.Core.ViewModel
         {
             TypeList = new Model.TypeSet();
             EditViewModel = new EditViewModel();
-            EditViewModel.BaseVM = this;
+            //EditViewModel.BaseVM = this;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -126,12 +126,16 @@ namespace CSF.WPF.Core.ViewModel
         public void AddLabel()
         {
             var label = new Model.Label("New:Label", new Model.Value[] {"New Value"});
-            ((System.Windows.Window.GetWindow(ThisView) as View.MainWindow).DataContext as MainWindowViewModel).EditLabel(this, label);
+            (System.Windows.Window.GetWindow(ThisView) as View.MainWindow).EditorFlyout.EditLabel(this, label);
+            //((System.Windows.Window.GetWindow(ThisView) as View.MainWindow).DataContext as MainWindowViewModel).EditLabel(this, label);
             TypeList.Add(label);
         }
-        public void EditLabel()
+        public async void EditLabel()
         {
-            ((System.Windows.Window.GetWindow(ThisView) as View.MainWindow).DataContext as MainWindowViewModel).EditLabel(this, Data);
+            var newLabel = await (System.Windows.Window.GetWindow(ThisView) as View.MainWindow).EditLabel(Data);
+            Data.Change(newLabel);
+            //(System.Windows.Window.GetWindow(ThisView) as View.MainWindow).EditorFlyout.EditLabel(this, Data);
+            //((System.Windows.Window.GetWindow(ThisView) as View.MainWindow).DataContext as MainWindowViewModel).EditLabel(this, Data);
         }
         public void DropLabel()
         {
