@@ -9,7 +9,7 @@ namespace CSF.WPF.Core
     {
         public const string GUID = "{FD25BA98-74C3-4793-976A-17A09CC7A2B6}";
 
-        public const ushort BUILD = 20038;
+        public const ushort BUILD = 20070;
 
         public static App App { get; private set; }= new App();
         /// <summary>
