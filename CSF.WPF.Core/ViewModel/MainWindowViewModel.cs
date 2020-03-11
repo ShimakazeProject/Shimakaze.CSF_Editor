@@ -154,8 +154,7 @@ namespace CSF.WPF.Core.ViewModel
             if (SearchModeFull) mode |= SearchMode.Full;
             if (SearchModeRegex) mode |= SearchMode.Regex;
             if (SearchIgnoreCase) mode |= SearchMode.IgnoreCase;
-
-            Documents.SelectDocument.DocViewModel.Search(s, mode);
+            Task.Run(() => Documents.SelectDocument.DocViewModel.Search(s, mode));
         }
     }
 }
