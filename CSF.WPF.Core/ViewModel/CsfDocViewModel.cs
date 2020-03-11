@@ -238,7 +238,7 @@ namespace CSF.WPF.Core.ViewModel
                 regexOptions |= System.Text.RegularExpressions.RegexOptions.IgnoreCase;
                 stringComparison = System.StringComparison.OrdinalIgnoreCase;
             }
-            if (sfull && vstr.Equals(s, stringComparison))// 全字匹配
+            if (sfull && (vstr?.Equals(s, stringComparison) ?? false))// 全字匹配
             {
                 label.Visibility = true;
                 return true;
@@ -248,7 +248,7 @@ namespace CSF.WPF.Core.ViewModel
                 label.Visibility = true;
                 return true;
             }
-            else if (vstr.Contains(s, stringComparison))// 关键字匹配
+            else if (vstr?.Contains(s, stringComparison) ?? false)// 关键字匹配
             {
                 label.Visibility = true;
                 return true;
