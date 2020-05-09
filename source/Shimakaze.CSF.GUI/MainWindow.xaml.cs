@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,5 +35,6 @@ namespace Shimakaze.CSF.GUI
                 (sender as Fluent.Button).Header = "DarkTheme";
 
         }
+
     }
 }
