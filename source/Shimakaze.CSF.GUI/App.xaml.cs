@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
+using Shimakaze.CSF.GUI.Theme;
 
 namespace Shimakaze.CSF.GUI
 {
@@ -17,8 +19,6 @@ namespace Shimakaze.CSF.GUI
     /// </summary>
     public partial class App
     {
-        private const string RegistryKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
-        private const string RegistryValueName = "AppsUseLightTheme";
 
         private bool isDarkTheme = GetWindowsTheme();
 
@@ -27,7 +27,7 @@ namespace Shimakaze.CSF.GUI
             get => isDarkTheme; set
             {
                 isDarkTheme = value;
-                ColorThemeChange(value);
+                this.ColorThemeChange(value);
             }
         } 
         public static App Application { get; private set; } = Current as App;
@@ -36,7 +36,8 @@ namespace Shimakaze.CSF.GUI
         }
         protected override void OnStartup(StartupEventArgs e)
         {
-            ColorThemeChange(isDarkTheme);
+            this.AccentColorChange(GetAccentColor());
+            this.ColorThemeChange(isDarkTheme);
 
             base.OnStartup(e);
             int timer = 3000;
@@ -67,30 +68,13 @@ namespace Shimakaze.CSF.GUI
                 });
             });
         }
-        private void ColorThemeChange(bool dark)
-        {
-            var paletteHelper = new PaletteHelper();
-            var theme = paletteHelper.GetTheme();
-            if (dark)
-            {
-                System.Diagnostics.Trace.WriteLine(string.Format("[{0}]\t暗色主题", nameof(ColorThemeChange)));
-                Fluent.ThemeManager.ChangeThemeBaseColor(this, Fluent.ThemeManager.BaseColorDark);
-                theme.SetBaseTheme(Theme.Dark);
-            }
-            else
-            {
-                System.Diagnostics.Trace.WriteLine(string.Format("[{0}]\t亮色主题", nameof(ColorThemeChange)));
-                Fluent.ThemeManager.ChangeThemeBaseColor(this, Fluent.ThemeManager.BaseColorLight);
-                theme.SetBaseTheme(Theme.Light);
-            }
-            paletteHelper.SetTheme(theme);
-        }
-
 
 
 
         private static bool GetWindowsTheme()
         {
+            const string RegistryKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+            const string RegistryValueName = "AppsUseLightTheme";
             using RegistryKey key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath);
             object registryValueObject = key?.GetValue(RegistryValueName);
             if (registryValueObject == null)
@@ -100,6 +84,17 @@ namespace Shimakaze.CSF.GUI
             int registryValue = (int)registryValueObject;
 
             return registryValue > 0 ? false : true;
+        }
+        private static System.Windows.Media.Color GetAccentColor()
+        {
+            const string RegistryKeyPath = @"SOFTWARE\Microsoft\Windows\DWM";
+            const string RegistryValueName = "AccentColor";
+            using RegistryKey key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath);
+            object registryValueObject = key?.GetValue(RegistryValueName);
+            var color = System.Drawing.Color.FromArgb((Int32)registryValueObject);
+
+
+            return System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
         }
     }
 }
