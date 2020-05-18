@@ -16,7 +16,7 @@
         WindowStartupLocation="CenterScreen"        
         Title="CSF Editor Kai 3" Height="450" Width="800" mc:Ignorable="d" >
     <Window.Background>
-        <ImageBrush ImageSource="/wallls.com_131279.jpg" Stretch="Uniform"/>
+        <ImageBrush ImageSource="/Assets/wallls.com_131279.jpg" Stretch="Uniform"/>
     </Window.Background>
     <Grid>
         <Grid.ColumnDefinitions>
