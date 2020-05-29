@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
+        <FileVersion>3.0.0.0</FileVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="wallls.com_131279.jpg" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Fluent.Ribbon" Version="7.1.0" />
+      <PackageReference Include="FluentWPF" Version="0.8.0" />
+      <PackageReference Include="MaterialDesignThemes" Version="3.1.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="String\Resource.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Resource.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="String\Resource.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="String\zh_hans\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="Assets\wallls.com_131279.jpg" />
+    </ItemGroup>
+
+</Project>

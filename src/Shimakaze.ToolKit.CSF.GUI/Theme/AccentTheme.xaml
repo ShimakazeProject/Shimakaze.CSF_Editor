@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Theme">
+
+    <!-- Accent colors -->
+    <Color x:Key="AccentBaseColor">#FF2B579A</Color>
+    <!--80%-->
+    <Color x:Key="AccentColor80">#CC2B579A</Color>
+    <!--60%-->
+    <Color x:Key="AccentColor60">#992B579A</Color>
+    <!--40%-->
+    <Color x:Key="AccentColor40">#662B579A</Color>
+    <!--20%-->
+    <Color x:Key="AccentColor20">#332B579A</Color>
+
+</ResourceDictionary>
