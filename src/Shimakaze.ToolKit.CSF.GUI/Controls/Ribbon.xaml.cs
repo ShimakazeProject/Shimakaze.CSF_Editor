@@ -34,24 +34,6 @@ namespace Shimakaze.ToolKit.CSF.GUI.Controls
                 (sender as Fluent.Button).Header = "LightTheme";
             else
                 (sender as Fluent.Button).Header = "DarkTheme";
-
-        }
-
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog ofd = new OpenFileDialog
-            {
-                Filter = "CSF 文件|*.csf"
-            };
-            if (ofd.ShowDialog() ?? false)
-            {
-                var stream = ofd.OpenFile();
-                var doc = new CsfClassFile();
-                await doc.ParseAsync(stream);
-                var vm = new CsfDocument(doc);
-                MainWindow.LastInstance.body.DataContext = vm;
-            }
-
         }
     }
 }

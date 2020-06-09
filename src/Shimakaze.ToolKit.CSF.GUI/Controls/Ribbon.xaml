@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Fluent="urn:fluent-ribbon"
+    xmlns:cmd="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Commands"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -34,7 +35,7 @@
     <Fluent:Ribbon.Menu>
         <Fluent:Backstage>
             <Fluent:BackstageTabControl>
-                <Fluent:Button Click="Button_Click" Header="打开" />
+                <Fluent:Button Command="{x:Static cmd:OpenFileCommand.Instance}" Header="打开" />
                 <Fluent:Button Header="保存" />
                 <Fluent:Button Header="另存为" />
                 <Fluent:Button Header="新建" />

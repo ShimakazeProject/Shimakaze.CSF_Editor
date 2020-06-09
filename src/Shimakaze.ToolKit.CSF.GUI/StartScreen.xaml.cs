@@ -16,11 +16,16 @@ namespace Shimakaze.ToolKit.CSF.GUI
     /// <summary>
     /// StartScreen.xaml 的交互逻辑
     /// </summary>
-    public partial class StartScreen 
+    public partial class StartScreen
     {
+        public new void Hide() => base.Hide();
         public StartScreen()
         {
             InitializeComponent();
+            btnExit.CommandParameter = this;
+            btnImport.CommandParameter = this;
+            btnOpen.CommandParameter = new Action(base.Hide);
+            btnNew.CommandParameter = this;
         }
     }
 }
