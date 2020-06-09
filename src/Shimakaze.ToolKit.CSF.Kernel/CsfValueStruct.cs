@@ -63,7 +63,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
             // 字符串主要内容长度
             length = BitConverter.ToInt32(await t2, 0);
             // 字符串主要内容
-            value.Content = content = Encoding.Unicode.GetString(Decoding(await stream.ReadAsync(length)));
+            value.Content = content = Encoding.Unicode.GetString(Decoding(await stream.ReadAsync(length << 1)));
             // 判断是否包含额外内容
             if (flag.Equals(CSF_VALUE_WSTR))// 存在额外内容
             {

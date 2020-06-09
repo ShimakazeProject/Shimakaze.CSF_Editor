@@ -36,20 +36,27 @@ namespace Shimakaze.ToolKit.CSF.Kernel
             set => csfClass[index] = value;
         }
 
-        public override void Add(CsfLabelStruct label)
+        public override void AddNoChangeHead(CsfLabelStruct label)
         {
             var type = label.Name.Split(':', '_')[0];
-            this[type].Add(label);
-            base.Add(label);
-            label.PropertyChanged += Class_PropertyChanged;
-            OnPropertyChanged(nameof(Class));
+            if (this[type] is CsfClassStruct ccs)
+            {
+                ccs.Add(label);
+                base.AddNoChangeHead(label);
+                label.PropertyChanged += Class_PropertyChanged;
+                OnPropertyChanged(nameof(Class));
+            }
+            else
+            {
+                Add(new CsfClassStruct(type));
+                AddNoChangeHead(label);
+            }
         }
 
         private void Class_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             OnPropertyChanged(nameof(Class));
         }
-
         public void Add(CsfClassStruct item)
         {
             csfClass.Add(item);
@@ -87,7 +94,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
 
         public bool Remove(CsfClassStruct item)
         {
-            var tmp= csfClass.Remove(item);
+            var tmp = csfClass.Remove(item);
             OnPropertyChanged(nameof(Class));
             return tmp;
         }
@@ -107,7 +114,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
         }
         public bool Remove(KeyValuePair<string, IReadOnlyList<CsfLabelStruct>> item)
         {
-            var tmp= csfClass.Remove(item);
+            var tmp = csfClass.Remove(item);
             OnPropertyChanged(nameof(Class));
             return tmp;
         }

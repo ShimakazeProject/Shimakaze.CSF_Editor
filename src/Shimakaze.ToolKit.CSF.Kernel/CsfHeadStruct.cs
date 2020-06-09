@@ -3,6 +3,7 @@
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -69,13 +70,13 @@ namespace Shimakaze.ToolKit.CSF.Kernel
         public static async Task<CsfHeadStruct> ParseAsync(Stream stream)
         {
             string flag = Encoding.ASCII.GetString(await stream.ReadAsync(4));
-            if (flag.Equals(CSF_FLAG)) throw new FormatException("Unknown File Format: Unknown Header");
-            return new CsfHeadStruct(
-                BitConverter.ToInt32(await stream.ReadAsync(4), 0),
-                BitConverter.ToInt32(await stream.ReadAsync(4), 0),
-                BitConverter.ToInt32(await stream.ReadAsync(4), 0),
-                BitConverter.ToInt32(await stream.ReadAsync(4), 0),
-                BitConverter.ToInt32(await stream.ReadAsync(4), 0));
+            if (!flag.Equals(CSF_FLAG)) throw new FormatException("Unknown File Format: Unknown Header");
+            var ver = BitConverter.ToInt32(await stream.ReadAsync(4), 0);
+            var lc = BitConverter.ToInt32(await stream.ReadAsync(4), 0);
+            var sc = BitConverter.ToInt32(await stream.ReadAsync(4), 0);
+            var uknow = BitConverter.ToInt32(await stream.ReadAsync(4), 0);
+            var lang = BitConverter.ToInt32(await stream.ReadAsync(4), 0);
+            return new CsfHeadStruct(ver,lc,sc,uknow,lang);
         }
 
         public const string CSF_FLAG = " FSC";// 标准CSF文件标识符
