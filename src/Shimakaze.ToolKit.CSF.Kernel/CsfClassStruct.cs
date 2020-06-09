@@ -1,24 +1,49 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace Shimakaze.ToolKit.CSF.Kernel
 {
-    public sealed class CsfClassStruct : IList<CsfLabelStruct>
+    public sealed class CsfClassStruct : IList<CsfLabelStruct>, INotifyPropertyChanged
     {
         /// <summary>
         /// 类型名
         /// </summary>
-        public string Name { get; set; }
+        public string Name
+        {
+            get => name; set
+            {
+                name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
         private readonly List<CsfLabelStruct> labels = new List<CsfLabelStruct>();
+        private string name;
+        private void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         /// <summary>
         /// 类型的标签
         /// </summary>
         public IReadOnlyList<CsfLabelStruct> Labels => labels.AsReadOnly();
         public CsfClassStruct()
         {
+            PropertyChanged += CsfClassStruct_PropertyChanged;
         }
+
+        private void CsfClassStruct_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(Labels):
+                    OnPropertyChanged(nameof(Count));
+                    break;
+            }
+        }
+
         public CsfClassStruct(string name)
         {
             Name = name;
@@ -37,14 +62,46 @@ namespace Shimakaze.ToolKit.CSF.Kernel
             set => labels[index] = value;
         }
 
-        public int IndexOf(CsfLabelStruct item) => labels.IndexOf(item);
-        public void Insert(int index, CsfLabelStruct item) => labels.Insert(index, item);
-        public void RemoveAt(int index) => labels.RemoveAt(index);
-        public void Add(CsfLabelStruct item) => labels.Add(item);
-        public void Clear() => labels.Clear();
+
+        public void Add(CsfLabelStruct item)
+        {
+            labels.Add(item);
+            item.PropertyChanged += Label_PropertyChanged;
+            OnPropertyChanged(nameof(Labels));
+        }
+
+        private void Label_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(Labels));
+        }
+
+        public void Clear()
+        {
+            labels.Clear();
+            OnPropertyChanged(nameof(Labels));
+        }
+
         public bool Contains(CsfLabelStruct item) => labels.Contains(item);
         public void CopyTo(CsfLabelStruct[] array, int arrayIndex) => labels.CopyTo(array, arrayIndex);
-        public bool Remove(CsfLabelStruct item) => labels.Remove(item);
+        public int IndexOf(CsfLabelStruct item) => labels.IndexOf(item);
+        public void Insert(int index, CsfLabelStruct item)
+        {
+            labels.Insert(index, item);
+            OnPropertyChanged(nameof(Labels));
+        }
+
+        public void RemoveAt(int index)
+        {
+            labels.RemoveAt(index);
+            OnPropertyChanged(nameof(Labels));
+        }
+        public bool Remove(CsfLabelStruct item)
+        {
+            var tmp= labels.Remove(item);
+            OnPropertyChanged(nameof(Labels));
+            return tmp;
+        }
+
         public IEnumerator<CsfLabelStruct> GetEnumerator() => labels.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 

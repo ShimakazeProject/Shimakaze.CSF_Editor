@@ -1,16 +1,44 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Shimakaze.ToolKit.CSF.Kernel
 {
-    public abstract class CsfFileStruct : IList<CsfLabelStruct>
+    public abstract class CsfFileStruct : IList<CsfLabelStruct>, INotifyPropertyChanged
     {
-        public CsfHeadStruct Head { get; set; } = new CsfHeadStruct();
+        public CsfHeadStruct Head
+        {
+            get => head; set
+            {
+                head = value;
+                OnPropertyChanged(nameof(Head));
+            }
+        }
         private readonly List<CsfLabelStruct> body = new List<CsfLabelStruct>();
+        private CsfHeadStruct head = new CsfHeadStruct();
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public CsfFileStruct()
+        {
+            PropertyChanged += CsfFileStruct_PropertyChanged;
+        }
+
+        private void CsfFileStruct_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(Body):
+                    OnPropertyChanged(nameof(Count));
+                    break;
+            }
+        }
+
+        protected void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         public IReadOnlyList<CsfLabelStruct> Body => body.AsReadOnly();
         public CsfLabelStruct this[int index]
         {
@@ -36,6 +64,13 @@ namespace Shimakaze.ToolKit.CSF.Kernel
             Head.LabelCount++;
             Head.StringCount += item.Count;
             body.Add(item);
+            item.PropertyChanged += Body_PropertyChanged;
+            OnPropertyChanged(nameof(Body));
+        }
+
+        private void Body_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(Body));
         }
 
         public virtual void Clear()
@@ -43,6 +78,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
             Head.LabelCount = 0;
             Head.StringCount = 0;
             body.Clear();
+            OnPropertyChanged(nameof(Body));
         }
 
         public virtual bool Contains(CsfLabelStruct item) => body.Contains(item);
@@ -57,13 +93,16 @@ namespace Shimakaze.ToolKit.CSF.Kernel
             body.Insert(index, item);
             Head.LabelCount++;
             Head.StringCount += item.Count;
+            OnPropertyChanged(nameof(Body));
         }
 
         public virtual bool Remove(CsfLabelStruct item)
         {
             Head.LabelCount++;
             Head.StringCount += item.Count;
-            return body.Remove(item);
+            var tmp = body.Remove(item);
+            OnPropertyChanged(nameof(Body));
+            return tmp;
         }
 
         public virtual void RemoveAt(int index)
@@ -72,6 +111,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
             Head.LabelCount++;
             Head.StringCount += tmp.Count;
             body.RemoveAt(index);
+            OnPropertyChanged(nameof(Body));
         }
         public virtual IEnumerator<CsfLabelStruct> GetEnumerator() => body.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

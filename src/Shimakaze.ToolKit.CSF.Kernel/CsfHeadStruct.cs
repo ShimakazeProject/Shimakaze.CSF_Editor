@@ -1,19 +1,55 @@
 ﻿using Shimakaze.ToolKit.CSF.Kernel.Extension;
 
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Shimakaze.ToolKit.CSF.Kernel
 {
-    public sealed class CsfHeadStruct
+    public sealed class CsfHeadStruct : INotifyPropertyChanged
     {
-        public int Version { get; set; } = CSF_VERSION_3;
-        public int LabelCount { get; set; } = 0;
-        public int StringCount { get; set; } = 0;
-        public int Unknown { get; set; } = 0;
-        public int Language { get; set; } = 0;
+        public int Version
+        {
+            get => version; set
+            {
+                version = value;
+                OnPropertyChanged(nameof(Version));
+            }
+        }
+        public int LabelCount
+        {
+            get => labelCount; set
+            {
+                labelCount = value;
+                OnPropertyChanged(nameof(LabelCount));
+            }
+        }
+        public int StringCount
+        {
+            get => stringCount; set
+            {
+                stringCount = value;
+                OnPropertyChanged(nameof(StringCount));
+            }
+        }
+        public int Unknown
+        {
+            get => unknown; set
+            {
+                unknown = value;
+                OnPropertyChanged(nameof(Unknown));
+            }
+        }
+        public int Language
+        {
+            get => language; set
+            {
+                language = value;
+                OnPropertyChanged(nameof(Language));
+            }
+        }
         /// <summary>
         /// 空的构造方法
         /// </summary>
@@ -28,6 +64,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
             Unknown = unknown;
             Language = lang;
         }
+        private void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
         public static async Task<CsfHeadStruct> ParseAsync(Stream stream)
         {
@@ -56,5 +93,12 @@ namespace Shimakaze.ToolKit.CSF.Kernel
         public const int Languages_ko = 8;
         public const int Languages_zh = 9;
         public const int Languages_Auto = -1;// Ares 某版本开始的特有的语言
+        private int language = 0;
+        private int unknown = 0;
+        private int stringCount = 0;
+        private int labelCount = 0;
+        private int version = CSF_VERSION_3;
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -41,10 +41,29 @@ namespace Shimakaze.ToolKit.CSF.Kernel
             var type = label.Name.Split(':', '_')[0];
             this[type].Add(label);
             base.Add(label);
+            label.PropertyChanged += Class_PropertyChanged;
+            OnPropertyChanged(nameof(Class));
         }
 
-        public void Add(CsfClassStruct item) => csfClass.Add(item);
-        public void Add(KeyValuePair<string, IReadOnlyList<CsfLabelStruct>> item) => csfClass.Add(item);
+        private void Class_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(Class));
+        }
+
+        public void Add(CsfClassStruct item)
+        {
+            csfClass.Add(item);
+            item.PropertyChanged += Class_PropertyChanged;
+            OnPropertyChanged(nameof(Class));
+        }
+
+        public void Add(KeyValuePair<string, IReadOnlyList<CsfLabelStruct>> item)
+        {
+            CsfClassStruct label = item;
+            csfClass.Add(label);
+            label.PropertyChanged += Class_PropertyChanged;
+            OnPropertyChanged(nameof(Class));
+        }
 
         public bool Contains(CsfClassStruct item) => csfClass.Contains(item);
         public bool Contains(KeyValuePair<string, IReadOnlyList<CsfLabelStruct>> item) => csfClass.Contains(item);
@@ -60,8 +79,18 @@ namespace Shimakaze.ToolKit.CSF.Kernel
 
         public int IndexOf(CsfClassStruct item) => csfClass.IndexOf(item);
 
-        public void Insert(int index, CsfClassStruct item) => csfClass.Insert(index, item);
-        public bool Remove(CsfClassStruct item) => csfClass.Remove(item);
+        public void Insert(int index, CsfClassStruct item)
+        {
+            csfClass.Insert(index, item);
+            OnPropertyChanged(nameof(Class));
+        }
+
+        public bool Remove(CsfClassStruct item)
+        {
+            var tmp= csfClass.Remove(item);
+            OnPropertyChanged(nameof(Class));
+            return tmp;
+        }
 
         public bool Remove(string key)
         {
@@ -70,12 +99,18 @@ namespace Shimakaze.ToolKit.CSF.Kernel
                 if (item.Name.Equals(key))
                 {
                     Remove(item);
+                    OnPropertyChanged(nameof(Class));
                     return true;
                 }
             }
             return false;
         }
-        public bool Remove(KeyValuePair<string, IReadOnlyList<CsfLabelStruct>> item) => csfClass.Remove(item);
+        public bool Remove(KeyValuePair<string, IReadOnlyList<CsfLabelStruct>> item)
+        {
+            var tmp= csfClass.Remove(item);
+            OnPropertyChanged(nameof(Class));
+            return tmp;
+        }
 
         public bool TryGetValue(string key, out CsfClassStruct value)
         {
