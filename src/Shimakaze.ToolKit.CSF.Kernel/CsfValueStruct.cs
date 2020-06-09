@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -46,7 +47,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
             }
         }
         private void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        [Obsolete("TODO: 这个方法可能有问题")]
+
         /// <summary>
         /// 异步解析
         /// </summary>
@@ -88,7 +89,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
             // 字符串主要内容长度
             length = BitConverter.ToInt32(stream.Read(4), 0);
             // 字符串主要内容
-            value.Content = content = Encoding.Unicode.GetString(Decoding(stream.Read(length)));
+            value.Content = content = Encoding.Unicode.GetString(Decoding(stream.Read(length << 1)));
             // 判断是否包含额外内容
             if (flag.Equals(CSF_VALUE_WSTR))// 存在额外内容
             {
