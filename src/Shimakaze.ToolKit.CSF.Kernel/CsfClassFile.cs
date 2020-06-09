@@ -8,7 +8,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
     {
         private List<CsfClassStruct> csfClass = new List<CsfClassStruct>();
         public IReadOnlyList<CsfClassStruct> Class => csfClass.AsReadOnly();
-
+        public override int Count => csfClass.Count;
         public CsfClassStruct this[string key]
         {
             get
