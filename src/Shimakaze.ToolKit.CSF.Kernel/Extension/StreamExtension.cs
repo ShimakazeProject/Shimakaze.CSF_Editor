@@ -14,5 +14,11 @@ namespace Shimakaze.ToolKit.CSF.Kernel.Extension
             await stream.ReadAsync(buffer, 0, length);
             return buffer;
         }
+        public static byte[] Read(this Stream stream, int length)
+        {
+            var buffer = new byte[length];
+            stream.Read(buffer, 0, length);
+            return buffer;
+        }
     }
 }
