@@ -36,6 +36,10 @@ namespace Shimakaze.ToolKit.CSF.Kernel
         {
             PropertyChanged += CsfLabelStruct_PropertyChanged;
         }
+        public CsfLabelStruct(string name) : this()
+        {
+            Name = name;
+        }
 
         private void CsfLabelStruct_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {

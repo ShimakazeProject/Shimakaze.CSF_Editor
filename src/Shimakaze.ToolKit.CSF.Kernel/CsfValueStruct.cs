@@ -21,7 +21,13 @@ namespace Shimakaze.ToolKit.CSF.Kernel
         private bool isWstr = false;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
+        public CsfValueStruct()
+        {
+        }
+        public CsfValueStruct(string content)
+        {
+            Content = content;
+        }
         public bool IsWstr
         {
             get => isWstr; set
