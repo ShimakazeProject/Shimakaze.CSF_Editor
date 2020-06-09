@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
 using Shimakaze.ToolKit.CSF.GUI.Theme;
+using Shimakaze.ToolKit.CSF.GUI.String;
 
 namespace Shimakaze.ToolKit.CSF.GUI
 {
@@ -19,25 +20,18 @@ namespace Shimakaze.ToolKit.CSF.GUI
     /// </summary>
     public partial class App
     {
+        public static App Instance { get; private set; } = Current as App;
 
-        private bool isDarkTheme = GetWindowsTheme();
 
-        public bool IsDarkTheme
-        {
-            get => isDarkTheme; set
-            {
-                isDarkTheme = value;
-                this.ColorThemeChange(value);
-            }
-        } 
-        public static App Application { get; private set; } = Current as App;
+
+
         public App()
         {
         }
         protected override void OnStartup(StartupEventArgs e)
         {
-            this.AccentColorChange(GetAccentColor());
-            this.ColorThemeChange(isDarkTheme);
+            this.AccentColorChange(ThemeManager.GetAccentColor());
+            this.ColorThemeChange(ThemeManager.IsDarkTheme);
 
             base.OnStartup(e);
             int timer = 3000;
@@ -70,31 +64,5 @@ namespace Shimakaze.ToolKit.CSF.GUI
         }
 
 
-
-        private static bool GetWindowsTheme()
-        {
-            const string RegistryKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
-            const string RegistryValueName = "AppsUseLightTheme";
-            using RegistryKey key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath);
-            object registryValueObject = key?.GetValue(RegistryValueName);
-            if (registryValueObject == null)
-                return false;
-
-
-            int registryValue = (int)registryValueObject;
-
-            return registryValue > 0 ? false : true;
-        }
-        private static System.Windows.Media.Color GetAccentColor()
-        {
-            const string RegistryKeyPath = @"SOFTWARE\Microsoft\Windows\DWM";
-            const string RegistryValueName = "AccentColor";
-            using RegistryKey key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath);
-            object registryValueObject = key?.GetValue(RegistryValueName);
-            var color = System.Drawing.Color.FromArgb((Int32)registryValueObject);
-
-
-            return System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
-        }
     }
 }

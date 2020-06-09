@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,20 +11,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Shimakaze.ToolKit.CSF.GUI
+namespace Shimakaze.ToolKit.CSF.GUI.Controls
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// CsfDataGrid.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow 
+    public partial class CsfDataGrid
     {
-        public static MainWindow LastInstance { get; private set; }
-        public MainWindow()
+        public CsfDataGrid()
         {
-            LastInstance = this;
             InitializeComponent();
         }
-
-
     }
 }

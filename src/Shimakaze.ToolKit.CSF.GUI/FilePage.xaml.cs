@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -17,17 +14,13 @@ using System.Windows.Shapes;
 namespace Shimakaze.ToolKit.CSF.GUI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// FilePage.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow 
+    public partial class FilePage : Page
     {
-        public static MainWindow LastInstance { get; private set; }
-        public MainWindow()
+        public FilePage()
         {
-            LastInstance = this;
             InitializeComponent();
         }
-
-
     }
 }

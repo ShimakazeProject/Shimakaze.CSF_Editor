@@ -3,12 +3,54 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
+using Microsoft.Win32;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
 
 namespace Shimakaze.ToolKit.CSF.GUI.Theme
 {
     public static class ThemeManager
     {
-        internal static void ColorThemeChange(this App app,bool dark)
+        private static bool isDarkTheme = GetWindowsTheme();
+
+        public static bool IsDarkTheme
+        {
+            get => isDarkTheme; set
+            {
+                isDarkTheme = value;
+                App.Instance.ColorThemeChange(value);
+            }
+        }
+        private static bool GetWindowsTheme()
+        {
+            const string RegistryKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+            const string RegistryValueName = "AppsUseLightTheme";
+            using RegistryKey key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath);
+            object registryValueObject = key?.GetValue(RegistryValueName);
+            if (registryValueObject == null)
+                return false;
+
+
+            int registryValue = (int)registryValueObject;
+
+            return registryValue > 0 ? false : true;
+        }
+        public static System.Windows.Media.Color GetAccentColor()
+        {
+            //const string RegistryKeyPath = @"SOFTWARE\Microsoft\Windows\DWM";
+            //const string RegistryValueName = "AccentColor";
+            //using RegistryKey key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath);
+            //object registryValueObject = key?.GetValue(RegistryValueName);
+            //var color = System.Drawing.Color.FromArgb((Int32)registryValueObject);
+
+            DwmGetColorizationParameters(out DWM_COLORIZATION_PARAMS dwmparams);
+            var color = System.Drawing.Color.FromArgb((Int32)dwmparams.clrColor);
+
+
+            return System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
+        }
+
+        internal static void ColorThemeChange(this App app, bool dark)
         {
             var paletteHelper = new MaterialDesignThemes.Wpf.PaletteHelper();
             var theme = paletteHelper.GetTheme();
@@ -31,7 +73,7 @@ namespace Shimakaze.ToolKit.CSF.GUI.Theme
             app.Resources.MergedDictionaries.Add(FluentAccentTheme);
         }
 
-        internal static void AccentColorChange(this App app,System.Windows.Media.Color AccentBaseColor)
+        internal static void AccentColorChange(this App app, System.Windows.Media.Color AccentBaseColor)
         {
             System.Windows.Media.Color AccentColor80, AccentColor60, AccentColor40, AccentColor20;
             AccentColor80 = System.Windows.Media.Color.FromArgb(0x80, AccentBaseColor.R, AccentBaseColor.G, AccentBaseColor.B);
@@ -42,7 +84,7 @@ namespace Shimakaze.ToolKit.CSF.GUI.Theme
             // you should replace FluentRibbonThemesSample with your application name
             // and correct place where your custom theme lives
             var resourceDictionary = new ResourceDictionary();
-            resourceDictionary.Source = new Uri("/Theme/AccentTheme.xaml",UriKind.Relative);
+            resourceDictionary.Source = new Uri("/Theme/AccentTheme.xaml", UriKind.Relative);
             resourceDictionary.Remove("AccentBaseColor");
             resourceDictionary.Remove("AccentColor80");
             resourceDictionary.Remove("AccentColor60");
@@ -62,6 +104,19 @@ namespace Shimakaze.ToolKit.CSF.GUI.Theme
             //// now change theme to the custom theme
             //Fluent.ThemeManager.ChangeTheme(this, Fluent.ThemeManager.GetTheme(FluentAccentTheme));
 
+        }
+        [DllImport("dwmapi.dll", EntryPoint = "#127", PreserveSig = false)]
+        private static extern void DwmGetColorizationParameters(out DWM_COLORIZATION_PARAMS parameters);
+
+        private struct DWM_COLORIZATION_PARAMS
+        {
+            public uint clrColor;
+            public uint clrAfterGlow;
+            public uint nIntensity;
+            public uint clrAfterGlowBalance;
+            public uint clrBlurBalance;
+            public uint clrGlassReflectionIntensity;
+            public bool fOpaque;
         }
     }
 }

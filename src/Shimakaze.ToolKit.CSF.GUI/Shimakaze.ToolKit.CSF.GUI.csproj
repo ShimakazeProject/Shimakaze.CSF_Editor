@@ -9,32 +9,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="wallls.com_131279.jpg" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="Fluent.Ribbon" Version="7.1.0" />
       <PackageReference Include="FluentWPF" Version="0.8.0" />
-      <PackageReference Include="MaterialDesignThemes" Version="3.1.1" />
+      <PackageReference Include="MaterialDesignThemes" Version="3.1.3" />
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="String\Resource.Designer.cs">
-        <DesignTime>True</DesignTime>
-        <AutoGen>True</AutoGen>
-        <DependentUpon>Resource.resx</DependentUpon>
-      </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Update="String\Resource.resx">
-        <Generator>PublicResXFileCodeGenerator</Generator>
-        <LastGenOutput>Resource.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="String\zh_hans\" />
+      <ProjectReference Include="..\Shimakaze.ToolKit.CSF.Kernel\Shimakaze.ToolKit.CSF.Kernel.csproj" />
     </ItemGroup>
 
     <ItemGroup>

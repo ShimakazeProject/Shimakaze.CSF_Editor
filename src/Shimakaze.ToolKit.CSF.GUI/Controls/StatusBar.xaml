@@ -1,0 +1,95 @@
+﻿<Fluent:StatusBar
+    x:Class="Shimakaze.ToolKit.CSF.GUI.Controls.StatusBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Fluent="urn:fluent-ribbon"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Grid.Row="2"
+    VerticalContentAlignment="Center"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="{DynamicResource Fluent.Ribbon.Brushes.Backstage.Background}"
+    mc:Ignorable="d">
+    <Fluent:StatusBar.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="Fluent:TextBox" />
+    </Fluent:StatusBar.Resources>
+    
+    <Fluent:StatusBarItem
+        Title="文件标记"
+        Margin="5,0,0,1"
+        HorizontalAlignment="Left"
+        Value="文件的版本和语言">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="5,0,0,0" Text="Version:" />
+            <Fluent:TextBox
+                Width="32"
+                HorizontalContentAlignment="Right"
+                Text="{Binding ClassList.Head.Version}" />
+            <TextBlock Margin="5,0,0,0" Text="Language:" />
+            <Fluent:TextBox
+                Width="80"
+                HorizontalContentAlignment="Right"
+                Text="{Binding ClassList.Head.Language}" />
+        </StackPanel>
+    </Fluent:StatusBarItem>
+
+    <Separator HorizontalAlignment="Left" />
+    <Fluent:StatusBarItem
+        Title="Second left placed item"
+        HorizontalAlignment="Left"
+        Content="Content shown in StatusBar"
+        ToolTip="Your ToolTip"
+        Value="Value shown in ContextMenu" />
+
+    <Separator HorizontalAlignment="Right" />
+
+    <Fluent:StatusBarItem
+        Title="文件信息"
+        Margin="0,0,5,0"
+        HorizontalAlignment="Right"
+        Value="统计信息">
+        <Border BorderBrush="White" BorderThickness="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="5,0,0,0" Text="类型数:" />
+                <TextBlock Margin="0,0,5,0" Text="{Binding ClassList.Count}" />
+                <TextBlock Margin="5,0,0,0" Text="标签数:" />
+                <TextBlock Margin="0,0,5,0" Text="{Binding ClassList.Head.LabelCount}" />
+                <TextBlock Margin="5,0,0,0" Text="字符串数:" />
+                <TextBlock Margin="0,0,5,0" Text="{Binding ClassList.Head.StringCount}" />
+            </StackPanel>
+        </Border>
+
+    </Fluent:StatusBarItem>
+    <Fluent:StatusBarItem
+        Title="类型信息"
+        Margin="0,0,5,0"
+        HorizontalAlignment="Right"
+        Value="统计信息">
+        <Border BorderBrush="White" BorderThickness="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="5,0,0,0" Text="标签数:" />
+                <TextBlock Margin="0,0,5,0" Text="{Binding LabelList.Count}" />
+                <TextBlock Margin="5,0,0,0" Text="字符串数:" />
+                <TextBlock Margin="0,0,5,0" Text="{Binding ClassStringCount}" />
+            </StackPanel>
+        </Border>
+
+    </Fluent:StatusBarItem>
+    <Fluent:StatusBarItem
+        Title="标签信息"
+        Margin="0,0,5,0"
+        HorizontalAlignment="Right"
+        Value="统计信息">
+        <Border BorderBrush="White" BorderThickness="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="5,0,0,0" Text="字符串数:" />
+                <TextBlock Margin="0,0,5,0" Text="{Binding Value.Count}" />
+            </StackPanel>
+        </Border>
+    </Fluent:StatusBarItem>
+</Fluent:StatusBar>

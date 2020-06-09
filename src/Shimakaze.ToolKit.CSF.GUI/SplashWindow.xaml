@@ -1,41 +1,48 @@
-﻿<Window x:Class="Shimakaze.ToolKit.CSF.GUI.SplashWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
-        Loaded="Window_Loaded"
-      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-      TextElement.FontWeight="Regular"
-      TextElement.FontSize="13"
-      TextOptions.TextFormattingMode="Ideal"
-      TextOptions.TextRenderingMode="Auto"
-      FontFamily="{DynamicResource MaterialDesignFont}"
-        WindowStyle="None"
-        AllowsTransparency="True"
-        WindowStartupLocation="CenterScreen"        
-        Title="CSF Editor Kai 3" Height="450" Width="800" mc:Ignorable="d" >
+﻿<Window
+    x:Class="Shimakaze.ToolKit.CSF.GUI.SplashWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="CSF Editor Kai 3"
+    Width="800"
+    Height="450"
+    AllowsTransparency="True"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    Loaded="Window_Loaded"
+    TextElement.FontSize="13"
+    TextElement.FontWeight="Regular"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextOptions.TextFormattingMode="Ideal"
+    TextOptions.TextRenderingMode="Auto"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d">
     <Window.Background>
-        <ImageBrush ImageSource="/Assets/wallls.com_131279.jpg" Stretch="Uniform"/>
+        <ImageBrush ImageSource="/Assets/wallls.com_131279.jpg" Stretch="Uniform" />
     </Window.Background>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
         <Grid Background="{StaticResource Fluent.Ribbon.Brushes.AccentColorBrush60}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="0"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="0" />
             </Grid.RowDefinitions>
-            <Border Padding="15 20 15 15" Background="{StaticResource Fluent.Ribbon.Brushes.AccentColorBrush60}">
-                <TextBlock Text="CSF Editor Kai 3" FontSize="30"/>                
+            <Border Padding="15,20,15,15" Background="{StaticResource Fluent.Ribbon.Brushes.AccentColorBrush60}">
+                <TextBlock FontSize="30" Text="CSF Editor Kai 3" />
             </Border>
 
-            <StackPanel Grid.Row="1" Margin="10 10">
-                <TextBlock Text="Copyright © 2019 - 2020" Margin="10 2"/>
-                <TextBlock Text="舰队的偶像-岛风酱!" HorizontalAlignment="Right" Margin="10 2"/>
+            <StackPanel Grid.Row="1" Margin="10,10">
+                <TextBlock Margin="10,2" Text="Copyright © 2019 - 2020" />
+                <TextBlock
+                    Margin="10,2"
+                    HorizontalAlignment="Right"
+                    Text="舰队的偶像-岛风酱!" />
             </StackPanel>
         </Grid>
     </Grid>
