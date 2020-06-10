@@ -27,13 +27,13 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
-        <Grid Background="{StaticResource Fluent.Ribbon.Brushes.AccentColorBrush60}">
+        <Grid Background="{StaticResource MahApps.Brushes.Accent3}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="0" />
             </Grid.RowDefinitions>
-            <Border Padding="15,20,15,15" Background="{StaticResource Fluent.Ribbon.Brushes.AccentColorBrush60}">
+            <Border Padding="15,20,15,15" Background="{StaticResource MahApps.Brushes.Accent3}">
                 <TextBlock FontSize="30" Text="CSF Editor Kai 3" />
             </Border>
 

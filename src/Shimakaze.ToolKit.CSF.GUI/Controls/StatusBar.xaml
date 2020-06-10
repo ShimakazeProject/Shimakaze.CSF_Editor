@@ -18,7 +18,7 @@
         </Style>
         <Style TargetType="Fluent:TextBox" />
     </Fluent:StatusBar.Resources>
-    
+
     <Fluent:StatusBarItem
         Title="文件标记"
         Margin="5,0,0,1"

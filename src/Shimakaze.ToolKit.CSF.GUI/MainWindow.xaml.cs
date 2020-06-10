@@ -26,8 +26,13 @@ namespace Shimakaze.ToolKit.CSF.GUI
         {
             LastInstance = this;
             InitializeComponent();
+            _ = WaitRing();
         }
-
+        private async Task WaitRing()
+        {
+            await Task.Delay(3000);
+            _progressRing.Visibility = Visibility.Collapsed;
+        }
 
     }
 }

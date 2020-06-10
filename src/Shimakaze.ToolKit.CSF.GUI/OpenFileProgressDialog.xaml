@@ -1,21 +1,35 @@
-﻿<fluent:AcrylicWindow x:Class="Shimakaze.ToolKit.CSF.GUI.OpenFileProgressDialog"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
-        xmlns:fluent="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
-        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="Loading..." Height="100" Width="200">
+﻿<fluent:AcrylicWindow
+    x:Class="Shimakaze.ToolKit.CSF.GUI.OpenFileProgressDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:fluent="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+    xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Loading..."
+    ResizeMode="NoResize"
+    WindowStyle="None"
+    ShowInTaskbar="False"
+    Width="200"
+    Height="100"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
     <Grid Margin="4">
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding StatusString,Mode=OneWay}"/>
-        <ProgressBar Value="{Binding Progress,Mode=OneWay}" Maximum="{Binding MaxProgress,Mode=OneWay}"
-                     IsIndeterminate="{Binding UnknowProgress,Mode=OneWay}" Grid.Row="1"/>
-        <Button Style="{DynamicResource ButtonRevealStyle}" Content="取消" Grid.Row="2" Click="Button_Click"/>
+        <TextBlock Text="{Binding StatusString, Mode=OneWay}" />
+        <ProgressBar
+            Grid.Row="1"
+            IsIndeterminate="{Binding UnknowProgress, Mode=OneWay}"
+            Maximum="{Binding MaxProgress, Mode=OneWay}"
+            Value="{Binding Progress, Mode=OneWay}" />
+        <Button
+            Grid.Row="2"
+            Click="Button_Click"
+            Content="取消"
+            Style="{DynamicResource ButtonRevealStyle}" />
     </Grid>
 </fluent:AcrylicWindow>
