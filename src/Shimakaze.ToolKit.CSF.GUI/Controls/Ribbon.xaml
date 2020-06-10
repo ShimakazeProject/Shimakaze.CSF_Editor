@@ -9,13 +9,11 @@
     xmlns:theme="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Theme"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:root="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
+    StartScreen="{x:Static root:StartScreen.Instance}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <!--  StartScreen  -->
-    <Fluent:Ribbon.StartScreen>
-        <root:StartScreen x:Name="startScreen" />
-    </Fluent:Ribbon.StartScreen>
 
     <Fluent:Ribbon.ContextualGroups>
         <Fluent:RibbonContextualTabGroup />

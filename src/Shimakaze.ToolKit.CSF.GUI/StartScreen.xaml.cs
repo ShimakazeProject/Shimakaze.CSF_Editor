@@ -18,7 +18,10 @@ namespace Shimakaze.ToolKit.CSF.GUI
     /// </summary>
     public partial class StartScreen
     {
+        //public static StartScreen Instance { get; private set; }
+        public static StartScreen Instance { get; } = new StartScreen();
         public new void Hide() => base.Hide();
+        public new void Show() => base.Show();
         public StartScreen()
         {
             InitializeComponent();
