@@ -1,15 +1,14 @@
 ﻿<Fluent:Ribbon
-    x:Class="Shimakaze.ToolKit.CSF.GUI.Controls.Ribbon"
+    x:Class="Shimakaze.ToolKit.CSF.GUI.Ribbon"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Fluent="urn:fluent-ribbon"
     xmlns:cmd="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Commands"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Controls"
     xmlns:theme="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Theme"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:root="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
-    StartScreen="{x:Static root:StartScreen.Instance}"
+    xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
+    StartScreen="{x:Static local:StartScreen.Instance}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">

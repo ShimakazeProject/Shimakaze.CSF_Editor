@@ -16,7 +16,7 @@ using Microsoft.Win32;
 using Shimakaze.ToolKit.CSF.GUI.ViewModel;
 using Shimakaze.ToolKit.CSF.Kernel;
 
-namespace Shimakaze.ToolKit.CSF.GUI.Controls
+namespace Shimakaze.ToolKit.CSF.GUI
 {
     /// <summary>
     /// Ribbon.xaml 的交互逻辑

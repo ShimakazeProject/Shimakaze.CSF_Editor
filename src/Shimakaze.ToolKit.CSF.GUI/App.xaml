@@ -2,8 +2,8 @@
     x:Class="Shimakaze.ToolKit.CSF.GUI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-    xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI">
+    xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -13,18 +13,21 @@
                 <ResourceDictionary Source="pack://application:,,,/Fluent;component/Themes/Styles.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Fluent;component/Themes/Themes/Dark.Blue.xaml" />
 
-                <!--MaterialDesignThemes-->
-                <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
+                <!--  MaterialDesignThemes  -->
+                <materialDesign:BundledTheme
+                    BaseTheme="Dark"
+                    PrimaryColor="DeepPurple"
+                    SecondaryColor="Lime" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
 
-                <!--Mahapps.Metro Resources-->
-                <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
+                <!--  Mahapps.Metro Resources  -->
+                <!--  MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive!  -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-                <!-- Accent and AppTheme setting -->
+                <!--  Accent and AppTheme setting  -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Blue.xaml" />
 
-                <ResourceDictionary Source="/Theme/MaterialDesignThemesSync.xaml"/>
+                <ResourceDictionary Source="/Theme/MaterialDesignThemesSync.xaml" />
                 <!--<ResourceDictionary Source="/Theme/FluentRibbonThemesSync.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

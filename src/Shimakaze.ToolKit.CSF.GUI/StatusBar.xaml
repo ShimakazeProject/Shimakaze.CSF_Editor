@@ -1,10 +1,10 @@
 ﻿<Fluent:StatusBar
-    x:Class="Shimakaze.ToolKit.CSF.GUI.Controls.StatusBar"
+    x:Class="Shimakaze.ToolKit.CSF.GUI.StatusBar"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Fluent="urn:fluent-ribbon"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Controls"
+    xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Grid.Row="2"
     VerticalContentAlignment="Center"

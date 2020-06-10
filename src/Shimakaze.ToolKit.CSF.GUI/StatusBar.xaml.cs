@@ -11,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Shimakaze.ToolKit.CSF.GUI.Controls
+namespace Shimakaze.ToolKit.CSF.GUI
 {
     /// <summary>
-    /// CsfDataGrid.xaml 的交互逻辑
+    /// StatusBar.xaml 的交互逻辑
     /// </summary>
-    public partial class CsfDataGrid
+    public partial class StatusBar 
     {
-        public CsfDataGrid()
+        public StatusBar()
         {
             InitializeComponent();
         }
