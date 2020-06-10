@@ -9,6 +9,7 @@
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
     Title="CSF Editor Kai 3"
     d:DesignHeight="480"
     d:DesignWidth="800"
@@ -22,8 +23,9 @@
     TitleBackground="{DynamicResource Fluent.Ribbon.Brushes.Backstage.Background}"
     TitleForeground="{DynamicResource Fluent.Ribbon.Brushes.Backstage.Foreground}"
     WindowStartupLocation="CenterScreen"
+
     mc:Ignorable="d">
-    <Grid>
+    <Grid fw:PointerTracker.Enabled="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

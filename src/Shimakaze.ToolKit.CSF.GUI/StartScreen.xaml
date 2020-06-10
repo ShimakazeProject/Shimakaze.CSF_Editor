@@ -5,6 +5,7 @@
     xmlns:Fluent="urn:fluent-ribbon"
     xmlns:cmd="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Commands"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
     xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="this"
@@ -54,15 +55,20 @@
         </Fluent:StartScreenTabControl.LeftContent>
 
         <Fluent:StartScreenTabControl.RightContent>
-            <!--<Image Source=""/>-->
-            <StackPanel Orientation="Vertical">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
-                    You can close the start screen by either clicking the button below or by pressing ESC
-                </TextBlock>
-                <Fluent:Button HorizontalAlignment="Center" IsDefinitive="True">
-                    Close start screen
-                </Fluent:Button>
-            </StackPanel>
+            <Grid>
+                <!--<Grid.Background>
+                    <ImageBrush ImageSource="/Assets/wallls.com_131279.jpg" Stretch="UniformToFill" />
+                </Grid.Background>-->
+                <StackPanel Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                        You can close the start screen by either clicking the button below or by pressing ESC
+                    </TextBlock>
+                    <Fluent:Button HorizontalAlignment="Center" IsDefinitive="True">
+                        Close start screen
+                    </Fluent:Button>
+                </StackPanel>
+
+            </Grid>
         </Fluent:StartScreenTabControl.RightContent>
     </Fluent:StartScreenTabControl>
 </Fluent:StartScreen>

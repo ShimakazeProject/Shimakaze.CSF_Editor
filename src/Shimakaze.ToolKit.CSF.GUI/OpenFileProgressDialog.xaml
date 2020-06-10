@@ -1,9 +1,9 @@
-﻿<fluent:AcrylicWindow
+﻿<fw:AcrylicWindow
     x:Class="Shimakaze.ToolKit.CSF.GUI.OpenFileProgressDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:fluent="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+    xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
     xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Loading..."
@@ -13,8 +13,9 @@
     Width="200"
     Height="100"
     WindowStartupLocation="CenterScreen"
+    fw:AcrylicWindow.AcrylicWindowStyle="NoIcon"
     mc:Ignorable="d">
-    <Grid Margin="4">
+    <Grid Margin="4" fw:PointerTracker.Enabled="True">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
@@ -32,4 +33,4 @@
             Content="取消"
             Style="{DynamicResource ButtonRevealStyle}" />
     </Grid>
-</fluent:AcrylicWindow>
+</fw:AcrylicWindow>
