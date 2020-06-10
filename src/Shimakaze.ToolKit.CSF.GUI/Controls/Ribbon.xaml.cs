@@ -26,10 +26,15 @@ namespace Shimakaze.ToolKit.CSF.GUI.Controls
         public Ribbon()
         {
             InitializeComponent();
+            ChangeToggleButtonName(btnToggleTheme);
         }
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
             Theme.ThemeManager.IsDarkTheme = !Theme.ThemeManager.IsDarkTheme;
+            ChangeToggleButtonName(sender);
+        }
+        private void ChangeToggleButtonName(object sender)
+        {
             if (Theme.ThemeManager.IsDarkTheme)
                 (sender as Fluent.Button).Header = "LightTheme";
             else

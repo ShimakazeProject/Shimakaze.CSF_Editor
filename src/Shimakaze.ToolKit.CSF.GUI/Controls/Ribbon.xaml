@@ -6,6 +6,7 @@
     xmlns:cmd="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Commands"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Controls"
+    xmlns:theme="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Theme"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:root="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
     d:DesignHeight="450"
@@ -71,7 +72,7 @@
 
 
         <Fluent:RibbonGroupBox Header="Others">
-            <Fluent:Button
+            <Fluent:Button x:Name="btnToggleTheme"
                 Click="ToggleButton_Click"
                 Header="DarkMode"
                 KeyTip="T" />

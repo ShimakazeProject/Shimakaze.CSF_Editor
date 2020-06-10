@@ -11,6 +11,8 @@ namespace Shimakaze.ToolKit.CSF.GUI.Theme
 {
     public static class ThemeManager
     {
+        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+
         private static bool isDarkTheme = GetWindowsTheme();
 
         public static bool IsDarkTheme
@@ -19,6 +21,7 @@ namespace Shimakaze.ToolKit.CSF.GUI.Theme
             {
                 isDarkTheme = value;
                 App.Instance.ColorThemeChange(value);
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(IsDarkTheme)));
             }
         }
         private static bool GetWindowsTheme()
