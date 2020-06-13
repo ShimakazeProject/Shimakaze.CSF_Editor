@@ -13,12 +13,14 @@ namespace Shimakaze.ToolKit.CSF.Kernel
         {
             get
             {
+                key = key.ToUpper();
                 foreach (var item in csfClass) if (item.Name.Equals(key)) return item;
                 return null;
             }
 
             set
             {
+                key = key.ToUpper();
                 for (int i = 0; i < csfClass.Count; i++)
                 {
                     if (csfClass[i].Name.Equals(key))
@@ -77,6 +79,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
 
         public bool ContainsKey(string key)
         {
+            key = key.ToUpper();
             foreach (var item in csfClass)
                 if (item.Name.Equals(key)) return true;
             return false;
@@ -101,6 +104,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
 
         public bool Remove(string key)
         {
+            key = key.ToUpper();
             foreach (var item in csfClass)
             {
                 if (item.Name.Equals(key))
@@ -121,6 +125,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
 
         public bool TryGetValue(string key, out CsfClassStruct value)
         {
+            key = key.ToUpper();
             foreach (var item in csfClass)
             {
                 if (item.Name.Equals(key))

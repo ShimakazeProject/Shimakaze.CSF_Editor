@@ -1,5 +1,6 @@
 ﻿<Fluent:Ribbon
     x:Class="Shimakaze.ToolKit.CSF.GUI.Ribbon"
+    x:Name="this"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Fluent="urn:fluent-ribbon"
@@ -33,7 +34,7 @@
     <Fluent:Ribbon.Menu>
         <Fluent:Backstage>
             <Fluent:BackstageTabControl>
-                <Fluent:Button Command="{x:Static cmd:OpenFileCommand.Instance}" Header="打开" />
+                <Fluent:Button Command="{x:Static cmd:OpenFileCommand.Instance}" CommandParameter="{Binding RootWindow,ElementName=this}" Header="打开" />
                 <Fluent:Button Header="保存" />
                 <Fluent:Button Header="另存为" />
                 <Fluent:Button Header="新建" />

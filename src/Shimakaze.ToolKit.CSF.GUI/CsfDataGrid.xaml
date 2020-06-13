@@ -26,7 +26,8 @@
             <DataGridTextColumn
                 Width="*"
                 Binding="{Binding Name}"
-                Header="Class" />
+                Header="Class"
+                SortDirection="Ascending"/>
         </DataGrid.Columns>
     </DataGrid>
     <GridSplitter
@@ -39,6 +40,9 @@
     <DataGrid
         Grid.Column="2"
         AutoGenerateColumns="False"
+        CanUserAddRows="True"
+        CanUserDeleteRows="True"
+        CanUserResizeRows="True"
         IsReadOnly="True"
         ItemsSource="{Binding LabelList}"
         SelectedItem="{Binding Value}">
@@ -47,7 +51,8 @@
                 Width="200"
                 MinWidth="50"
                 Binding="{Binding Name}"
-                Header="Label" />
+                Header="Label"
+                SortDirection="Ascending"/>
             <DataGridTextColumn
                 Width="*"
                 MinWidth="50"

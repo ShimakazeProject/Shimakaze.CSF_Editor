@@ -24,22 +24,22 @@ namespace Shimakaze.ToolKit.CSF.GUI
     /// </summary>
     public partial class OpenFileProgressDialog
     {
-        private ParseBackgroundWorker<CsfClassFile> CsfClassFileBW;
-        public event Action Finished;
+        public ParseBackgroundWorker<CsfClassFile> CsfClassFileBW { get; }
+        //public event Action Finished;
         public OpenFileProgressDialog()
         {
             InitializeComponent();
             DataContext = CsfClassFileBW = new ParseBackgroundWorker<CsfClassFile>();
-            CsfClassFileBW.Finished += CsfClassFileBW_Finished;
+            CsfClassFileBW.Finished += (o, e) => Close();
         }
 
-        private void CsfClassFileBW_Finished(ParseBackgroundWorker<CsfClassFile> sender, CsfClassFile result)
-        {
-            var vm = new CsfDocument(result);
-            Close();
-            MainWindow.LastInstance.body.DataContext = vm;
-            Finished?.Invoke();
-        }
+        //private void CsfClassFileBW_Finished(ParseBackgroundWorker<CsfClassFile> sender, CsfClassFile result)
+        //{
+        //    var vm = new CsfDocument(result);
+        //    Close();
+        //    MainWindow.LastInstance.Document.DataContext = vm;
+        //    Finished?.Invoke();
+        //}
 
 
         public void StartTask()

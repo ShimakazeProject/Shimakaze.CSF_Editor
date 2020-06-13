@@ -40,5 +40,19 @@ namespace Shimakaze.ToolKit.CSF.GUI
             else
                 (sender as Fluent.Button).Header = "DarkTheme";
         }
+
+
+
+        public MainWindow RootWindow
+        {
+            get { return (MainWindow)GetValue(RootWindowProperty); }
+            set { SetValue(RootWindowProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for RootWindow.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty RootWindowProperty =
+            DependencyProperty.Register("RootWindow", typeof(MainWindow), typeof(Ribbon), new PropertyMetadata(null));
+
+
     }
 }

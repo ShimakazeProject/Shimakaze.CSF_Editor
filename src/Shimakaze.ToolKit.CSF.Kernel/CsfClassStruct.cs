@@ -15,7 +15,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
         {
             get => name; set
             {
-                name = value;
+                name = value.ToUpper();
                 OnPropertyChanged(nameof(Name));
             }
         }

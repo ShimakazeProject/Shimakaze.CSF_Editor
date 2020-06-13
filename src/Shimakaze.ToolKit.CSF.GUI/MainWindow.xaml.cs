@@ -33,6 +33,5 @@ namespace Shimakaze.ToolKit.CSF.GUI
             await Task.Delay(3000);
             _progressRing.Visibility = Visibility.Collapsed;
         }
-
     }
 }
