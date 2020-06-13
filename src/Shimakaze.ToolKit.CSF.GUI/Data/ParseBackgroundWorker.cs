@@ -21,12 +21,13 @@ namespace Shimakaze.ToolKit.CSF.GUI.Data
         private bool unknowProgress = true;
         private Exception error;
         private T result;
+
         public string StatusString
         {
             get => statusString; private set
             {
                 statusString = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Error)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StatusString)));
             }
         }
         public TaskStatus TaskStatus
@@ -34,7 +35,7 @@ namespace Shimakaze.ToolKit.CSF.GUI.Data
             get => taskStatus; private set
             {
                 taskStatus = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Error)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TaskStatus)));
             }
         }
         public int MaxProgress
@@ -42,7 +43,7 @@ namespace Shimakaze.ToolKit.CSF.GUI.Data
             get => maxProgress; private set
             {
                 maxProgress = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Error)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MaxProgress)));
             }
         }
         public int Progress
@@ -50,7 +51,7 @@ namespace Shimakaze.ToolKit.CSF.GUI.Data
             get => progress; private set
             {
                 progress = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Error)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Progress)));
             }
         }
         public bool UnknowProgress
@@ -58,7 +59,7 @@ namespace Shimakaze.ToolKit.CSF.GUI.Data
             get => unknowProgress; private set
             {
                 unknowProgress = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Error)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UnknowProgress)));
             }
         }
         public Exception Error
@@ -174,6 +175,10 @@ namespace Shimakaze.ToolKit.CSF.GUI.Data
                 TaskStatus = TaskStatus.Faulted;
                 Finished?.Invoke(this, result);
                 return;
+            }
+            finally
+            {
+                await stream.DisposeAsync();
             }
             Error = null;
             TaskStatus = TaskStatus.RanToCompletion;
