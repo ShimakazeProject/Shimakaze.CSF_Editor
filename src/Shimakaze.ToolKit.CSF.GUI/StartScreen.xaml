@@ -9,19 +9,25 @@
     xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    x:Name="this"
+    x:Name="Instance"
     d:DesignHeight="450"
     d:DesignWidth="800"
     CloseOnEsc="False"
     IsOpen="True"
     mc:Ignorable="d">
     <Fluent:StartScreen.InputBindings>
-        <KeyBinding x:Name="EscKey"
-            Key="Esc" Command="{x:Static cmd:HideStartScreenCommand.Instance}"/>
+        <KeyBinding
+            Key="Esc"
+            x:Name="EscKey"
+            Command="{x:Static cmd:HideStartScreenCommand.Instance}" />
     </Fluent:StartScreen.InputBindings>
     <Fluent:StartScreenTabControl>
         <Fluent:StartScreenTabControl.LeftContent>
-            <materialDesign:TransitioningContent x:Name="left" Opacity="1" RunHint="All" OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromLeft}">
+            <materialDesign:TransitioningContent
+                x:Name="left"
+                Opacity="1"
+                OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromLeft}"
+                RunHint="All">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
@@ -46,10 +52,7 @@
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
                         <StackPanel>
-                            <Button
-                                Command="{x:Static cmd:OpenFileCommand.Instance}"
-                                CommandParameter="{Binding ElementName=this}"
-                                Content="打开" />
+                            <Button x:Name="btnOpen" Command="{x:Static cmd:OpenFileCommand.Instance}" Content="打开" />
                             <Button CommandParameter="{Binding ElementName=this}" Content="新建" />
                             <Button CommandParameter="{Binding ElementName=this}" Content="导入" />
                             <Button CommandParameter="{Binding ElementName=this}" Content="导入" />
@@ -63,35 +66,60 @@
         </Fluent:StartScreenTabControl.LeftContent>
 
         <Fluent:StartScreenTabControl.RightContent>
-            <materialDesign:TransitioningContent x:Name="right" Opacity="1" RunHint="All" OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromRight}">
-                <Grid>
-                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
-                        <!--<Grid.Background>
-                    <ImageBrush ImageSource="/Assets/wallls.com_131279.jpg" Stretch="UniformToFill" />
-                </Grid.Background>-->
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
-                                You can close the start screen by either clicking the button below or by pressing ESC
-                            </TextBlock>
-                        </StackPanel>
-                        <Fluent:RibbonScrollViewer HorizontalAlignment="Center" VerticalScrollBarVisibility="Auto">
-                            <StackPanel Orientation="Vertical" />
-                        </Fluent:RibbonScrollViewer>
-                        <TextBlock
-                            Grid.Row="2"
-                            Padding="16"
-                            HorizontalAlignment="Center"
-                            FontSize="18">
-                            <Hyperlink x:Name="NothingLink"  Command="{x:Static cmd:HideStartScreenCommand.Instance}">
-                                继续但不打开文件
-                            </Hyperlink>
+            <materialDesign:TransitioningContent
+                x:Name="right"
+                Opacity="1"
+                OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromRight}"
+                RunHint="All">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                            You can close the start screen by either clicking the button below or by pressing ESC
                         </TextBlock>
-                    </Grid>
+                    </StackPanel>
+
+
+                    <Fluent:RibbonScrollViewer
+                        Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        VerticalScrollBarVisibility="Auto">
+                        <ListView>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="5">
+                                        <TextBlock Text="内容" />
+                                        <Button Content="×" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Fluent:RibbonScrollViewer>
+
+                    <TextBlock
+                        Grid.Row="2"
+                        Padding="16"
+                        HorizontalAlignment="Center"
+                        FontSize="18">
+                        <Hyperlink x:Name="NothingLink" Command="{x:Static cmd:HideStartScreenCommand.Instance}">
+                            <Hyperlink.Style>
+                                <Style TargetType="Hyperlink">
+                                    <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Accent}" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Gray.MouseOver}" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Hyperlink.Style>
+                            <TextBlock Text="继续但不打开文件" />
+                        </Hyperlink>
+                    </TextBlock>
                 </Grid>
             </materialDesign:TransitioningContent>
         </Fluent:StartScreenTabControl.RightContent>

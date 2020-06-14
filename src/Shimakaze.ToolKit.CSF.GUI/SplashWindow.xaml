@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
+    xmlns:l18n="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Strings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="CSF Editor Kai 3"
     Width="800"
@@ -34,15 +35,12 @@
                 <RowDefinition Height="0" />
             </Grid.RowDefinitions>
             <Border Padding="15,20,15,15" Background="{StaticResource MahApps.Brushes.Accent3}">
-                <TextBlock FontSize="30" Text="CSF Editor Kai 3" />
+                <TextBlock FontSize="30" Text="{x:Static l18n:Resources.UI_SplashWindow_Title}" />
             </Border>
 
             <StackPanel Grid.Row="1" Margin="10,10">
-                <TextBlock Margin="10,2" Text="Copyright © 2019 - 2020" />
-                <TextBlock
-                    Margin="10,2"
-                    HorizontalAlignment="Right"
-                    Text="舰队的偶像-岛风酱!" />
+                <TextBlock Margin="10,2" TextWrapping="Wrap" TextAlignment="Left"  Text="{x:Static l18n:Resources.UI_Copyright_p1}"/>
+                <TextBlock Margin="10,2" TextWrapping="Wrap" TextAlignment="Right"  Text="{x:Static l18n:Resources.UI_Copyright_p2}"/>
             </StackPanel>
         </Grid>
     </Grid>

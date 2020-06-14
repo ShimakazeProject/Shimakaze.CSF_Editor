@@ -11,7 +11,6 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
 using Shimakaze.ToolKit.CSF.GUI.Theme;
-using Shimakaze.ToolKit.CSF.GUI.String;
 
 namespace Shimakaze.ToolKit.CSF.GUI
 {

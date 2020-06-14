@@ -57,6 +57,7 @@ namespace Shimakaze.ToolKit.CSF.GUI
         {
             InitializeComponent();
             NothingLink.CommandParameter = EscKey.CommandParameter = this;
+            btnOpen.CommandParameter = this;
         }
 
 

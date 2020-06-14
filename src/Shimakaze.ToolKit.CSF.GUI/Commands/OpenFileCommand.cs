@@ -34,6 +34,7 @@ namespace Shimakaze.ToolKit.CSF.GUI.Commands
                 MainWindow mainWindow => mainWindow.Document,
                 StartScreen startScreen => startScreen.RootWindow.Document,
                 CsfDocumentView csfDocumentView => csfDocumentView,
+                null => throw new NotImplementedException(),
                 _ => null,
             };
             (documentView, filePath) = parameter switch
@@ -97,15 +98,10 @@ namespace Shimakaze.ToolKit.CSF.GUI.Commands
                     case nameof(CsfClassFileBW.UnknowProgress):// 进度未知
                         if (CsfClassFileBW.UnknowProgress)
                         {
-                            //statusBlock.ProgressRing.IsActive = true;
-                            //statusBlock.ProgressRing.Visibility = Show;
-                            //statusBlock.ProgressBar.Visibility = Hide;
                             statusBlock.ProgressBar.IsIndeterminate = true;
                         }
                         else// 已知
                         {
-                            //statusBlock.ProgressRing.IsActive = false;
-                            //statusBlock.ProgressRing.Visibility = Hide;
                             statusBlock.ProgressBar.IsIndeterminate = false;
                             statusBlock.ProgressBar.Visibility = Show;
                             statusBlock.ProgressBar.Maximum = CsfClassFileBW.MaxProgress;
