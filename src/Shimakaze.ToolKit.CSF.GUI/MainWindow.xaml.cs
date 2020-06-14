@@ -31,7 +31,7 @@ namespace Shimakaze.ToolKit.CSF.GUI
         }
         public MainWindow(string filePath) : this()
         {
-            Ribbon.StartScreen.IsOpen = false;
+            Ribbon.startScreen.IsOpen = false;
             HideWaitScreen();
             Commands.OpenFileCommand.Instance.Execute((this, filePath));
         }

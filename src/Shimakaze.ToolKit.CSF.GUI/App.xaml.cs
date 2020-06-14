@@ -21,7 +21,7 @@ namespace Shimakaze.ToolKit.CSF.GUI
     {
         public static App Instance { get; private set; } = Current as App;
 
-
+        
         public App()
         {
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;

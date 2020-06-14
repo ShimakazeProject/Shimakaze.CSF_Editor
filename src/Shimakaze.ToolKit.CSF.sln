@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shimakaze.ToolKit.CSF.GUI",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shimakaze.ToolKit.CSF.PluginManager", "Shimakaze.ToolKit.CSF.PluginManager\Shimakaze.ToolKit.CSF.PluginManager.csproj", "{14E73E50-398C-47A1-8052-89143CCB9F08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shimakaze.ToolKit.CSF.Kernel", "Shimakaze.ToolKit.CSF.Kernel\Shimakaze.ToolKit.CSF.Kernel.csproj", "{5D5B08BC-3CD6-4EB2-ABE3-85567FBEABE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shimakaze.ToolKit.CSF.Kernel", "Shimakaze.ToolKit.CSF.Kernel\Shimakaze.ToolKit.CSF.Kernel.csproj", "{5D5B08BC-3CD6-4EB2-ABE3-85567FBEABE5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BD34E349-D7E4-4A2F-B8A6-FFE063DD2E67}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
