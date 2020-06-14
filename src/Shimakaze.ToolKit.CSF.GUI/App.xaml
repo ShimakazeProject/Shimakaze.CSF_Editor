@@ -14,10 +14,7 @@
                 <ResourceDictionary Source="pack://application:,,,/Fluent;component/Themes/Themes/Dark.Blue.xaml" />
 
                 <!--  MaterialDesignThemes  -->
-                <materialDesign:BundledTheme
-                    BaseTheme="Dark"
-                    PrimaryColor="DeepPurple"
-                    SecondaryColor="Lime" />
+                <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
 
                 <!--  Mahapps.Metro Resources  -->

@@ -30,7 +30,7 @@ namespace Shimakaze.ToolKit.CSF.GUI
 
         private void OpenFile_Drop(object sender, DragEventArgs e)
         {
-            Commands.OpenFileCommand.Instance.Execute((this, ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString()));
+            Commands.OpenFileCommand.Instance.Execute((this, ((Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString()));
         }
     }
 }

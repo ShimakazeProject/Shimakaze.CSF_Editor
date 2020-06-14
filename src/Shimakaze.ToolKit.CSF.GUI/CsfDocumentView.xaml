@@ -26,10 +26,7 @@
         ItemsSource="{Binding ClassList.Class}"
         SelectedItem="{Binding LabelList}">
         <DataGrid.Columns>
-            <DataGridTextColumn
-                Width="*"
-                Binding="{Binding Name}"
-                Header="Class"/>
+            <DataGridTextColumn Width="*" Binding="{Binding Name}" Header="Class"/>
         </DataGrid.Columns>
     </DataGrid>
     <GridSplitter
