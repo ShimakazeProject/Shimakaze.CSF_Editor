@@ -18,6 +18,26 @@
           <source>舰队的偶像-岛风酱!</source>
           <target state="new">舰队的偶像-岛风酱!</target>
         </trans-unit>
+        <trans-unit id="UI_ExitApplication" translate="yes" xml:space="preserve">
+          <source>退出</source>
+          <target state="new">退出</target>
+        </trans-unit>
+        <trans-unit id="UI_Import" translate="yes" xml:space="preserve">
+          <source>导入</source>
+          <target state="new">导入</target>
+        </trans-unit>
+        <trans-unit id="UI_NewFile" translate="yes" xml:space="preserve">
+          <source>新建</source>
+          <target state="new">新建</target>
+        </trans-unit>
+        <trans-unit id="UI_OpenFile" translate="yes" xml:space="preserve">
+          <source>打开</source>
+          <target state="new">打开</target>
+        </trans-unit>
+        <trans-unit id="UI_StartScreen_Continue" translate="yes" xml:space="preserve">
+          <source>继续但不打开文件  →</source>
+          <target state="new">继续但不打开文件  →</target>
+        </trans-unit>
       </group>
     </body>
   </file>

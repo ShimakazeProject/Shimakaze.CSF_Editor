@@ -61,15 +61,6 @@ namespace Shimakaze.ToolKit.CSF.GUI.Strings {
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        public static string UI_ {
-            get {
-                return ResourceManager.GetString("UI_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Copyright © 2019 - 2020 的本地化字符串。
         /// </summary>
         public static string UI_Copyright_p1 {
@@ -88,7 +79,34 @@ namespace Shimakaze.ToolKit.CSF.GUI.Strings {
         }
         
         /// <summary>
-        ///   查找类似 打开文件 的本地化字符串。
+        ///   查找类似 退出 的本地化字符串。
+        /// </summary>
+        public static string UI_ExitApplication {
+            get {
+                return ResourceManager.GetString("UI_ExitApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 导入 的本地化字符串。
+        /// </summary>
+        public static string UI_Import {
+            get {
+                return ResourceManager.GetString("UI_Import", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新建 的本地化字符串。
+        /// </summary>
+        public static string UI_NewFile {
+            get {
+                return ResourceManager.GetString("UI_NewFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 打开 的本地化字符串。
         /// </summary>
         public static string UI_OpenFile {
             get {
@@ -102,6 +120,15 @@ namespace Shimakaze.ToolKit.CSF.GUI.Strings {
         public static string UI_SplashWindow_Title {
             get {
                 return ResourceManager.GetString("UI_SplashWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 继续但不打开文件  → 的本地化字符串。
+        /// </summary>
+        public static string UI_StartScreen_Continue {
+            get {
+                return ResourceManager.GetString("UI_StartScreen_Continue", resourceCulture);
             }
         }
     }

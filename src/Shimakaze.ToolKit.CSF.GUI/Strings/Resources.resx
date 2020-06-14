@@ -117,19 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="UI_" xml:space="preserve">
-    <value />
-  </data>
   <data name="UI_Copyright_p1" xml:space="preserve">
     <value>Copyright © 2019 - 2020</value>
   </data>
   <data name="UI_Copyright_p2" xml:space="preserve">
     <value>舰队的偶像-岛风酱!</value>
   </data>
+  <data name="UI_ExitApplication" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="UI_Import" xml:space="preserve">
+    <value>导入</value>
+  </data>
+  <data name="UI_NewFile" xml:space="preserve">
+    <value>新建</value>
+  </data>
   <data name="UI_OpenFile" xml:space="preserve">
-    <value>打开文件</value>
+    <value>打开</value>
   </data>
   <data name="UI_SplashWindow_Title" xml:space="preserve">
     <value>CSF编辑器 改三</value>
+  </data>
+  <data name="UI_StartScreen_Continue" xml:space="preserve">
+    <value>继续但不打开文件  →</value>
   </data>
 </root>

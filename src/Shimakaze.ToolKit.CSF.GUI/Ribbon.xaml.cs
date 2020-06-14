@@ -50,7 +50,7 @@ namespace Shimakaze.ToolKit.CSF.GUI
             set
             {
                 SetValue(RootWindowProperty, value);
-                StartScreen.RootWindow = value;
+                startScreen.RootWindow = value;
                 //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RootWindow)));
             }
         }

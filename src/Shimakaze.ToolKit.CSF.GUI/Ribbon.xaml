@@ -14,7 +14,7 @@
     mc:Ignorable="d">
     <!--开始屏幕-->
     <Fluent:Ribbon.StartScreen>
-        <local:StartScreen x:Name="StartScreen"/>
+        <local:StartScreen x:Name="startScreen"/>
     </Fluent:Ribbon.StartScreen>
 
     <Fluent:Ribbon.ContextualGroups>

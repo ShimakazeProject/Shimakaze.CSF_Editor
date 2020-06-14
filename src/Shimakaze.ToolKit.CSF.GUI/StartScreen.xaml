@@ -8,6 +8,7 @@
     xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
     xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:l18n="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Strings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="Instance"
     d:DesignHeight="450"
@@ -52,13 +53,13 @@
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
                         <StackPanel>
-                            <Button x:Name="btnOpen" Command="{x:Static cmd:OpenFileCommand.Instance}" Content="打开" />
-                            <Button CommandParameter="{Binding ElementName=this}" Content="新建" />
-                            <Button CommandParameter="{Binding ElementName=this}" Content="导入" />
-                            <Button CommandParameter="{Binding ElementName=this}" Content="导入" />
+                            <Button x:Name="btnOpen" Command="{x:Static cmd:OpenFileCommand.Instance}" Content="{x:Static l18n:Resources.UI_OpenFile}" />
+                            <Button CommandParameter="{Binding ElementName=this}" Content="{x:Static l18n:Resources.UI_NewFile}" />
+                            <Button CommandParameter="{Binding ElementName=this}" Content="{x:Static l18n:Resources.UI_Import}" />
+                            <Button Content="XXX" />
                         </StackPanel>
                         <StackPanel Grid.Row="1">
-                            <Button x:Name="btnExit" Content="退出" />
+                            <Button x:Name="btnExit" Content="{x:Static l18n:Resources.UI_ExitApplication}" />
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -117,7 +118,7 @@
                                     </Style.Triggers>
                                 </Style>
                             </Hyperlink.Style>
-                            <TextBlock Text="继续但不打开文件" />
+                            <TextBlock Text="{x:Static l18n:Resources.UI_StartScreen_Continue}" />
                         </Hyperlink>
                     </TextBlock>
                 </Grid>
