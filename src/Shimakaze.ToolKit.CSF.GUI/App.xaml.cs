@@ -50,6 +50,18 @@ namespace Shimakaze.ToolKit.CSF.GUI
             this.MainWindow = splashScreen;
             splashScreen.Show();
 
+            var args = Environment.GetCommandLineArgs();
+            MainWindow mainWindow = null;
+            for (int i = 1; i < args.Length; i++)
+            {
+                if (args[i].Equals("-o") && args[i].Equals("--open"))
+                {
+                    i++;
+                    mainWindow = new MainWindow(args[i]);
+                }
+            }
+            if (mainWindow is null) mainWindow = new MainWindow();
+
             //in order to ensure the UI stays responsive, we need to
             //do the work on a different thread
             Task.Factory.StartNew(() =>
@@ -64,7 +76,7 @@ namespace Shimakaze.ToolKit.CSF.GUI
                 {
                     //initialize the main window, set it as the application main window
                     //and close the splash screen
-                    var mainWindow = new MainWindow();
+
                     this.MainWindow = mainWindow;
                     mainWindow.Show();
                     splashScreen.Close();

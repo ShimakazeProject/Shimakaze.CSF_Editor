@@ -27,6 +27,7 @@ namespace Shimakaze.ToolKit.CSF.GUI
         {
             InitializeComponent();
             ChangeToggleButtonName(btnToggleTheme);
+            btnShowStartScreen.CommandParameter = this;
         }
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {

@@ -35,7 +35,9 @@ namespace Shimakaze.ToolKit.CSF.GUI.Commands
                 MainWindow mainWindow => mainWindow.Document,
                 StartScreen startScreen => startScreen.RootWindow.Document,
                 CsfDocumentView csfDocumentView => csfDocumentView,
+                ValueTuple<MainWindow, string> datatuple => datatuple.Item1.Document,
                 ValueTuple<CsfDocumentView, string> datatuple => datatuple.Item1,
+                ValueTuple<StartScreen, string> datatuple => datatuple.Item1.RootWindow.Document,
                 _ => throw new NotImplementedException(),
             };
             // 显示状态块
@@ -44,7 +46,7 @@ namespace Shimakaze.ToolKit.CSF.GUI.Commands
             statusBlock.ProgressBar.IsIndeterminate = true;
             statusBlock.ProgressBar.Visibility = Show;
 
-            if (parameter is ValueTuple<CsfDocumentView, string> tuple)
+            if (parameter is ValueTuple<object, string> tuple)
             {
                 filePath = tuple.Item2;
             }

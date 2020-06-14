@@ -29,6 +29,12 @@ namespace Shimakaze.ToolKit.CSF.GUI
             Ribbon.RootWindow = this;
             ShowWaitScreen();
         }
+        public MainWindow(string filePath) : this()
+        {
+            Ribbon.StartScreen.IsOpen = false;
+            HideWaitScreen();
+            Commands.OpenFileCommand.Instance.Execute((this, filePath));
+        }
         public void ShowWaitScreen()
         {
             StatusBlock.Button.Visibility

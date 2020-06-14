@@ -20,7 +20,7 @@ namespace Shimakaze.ToolKit.CSF.GUI.Commands
             switch (parameter)
             {
                 case Ribbon ribbon:
-                    (ribbon.StartScreen as StartScreen).ShowPub();
+                    ribbon.StartScreen.ShowPub();
                     break;
                 case StartScreen startScreen:
                     startScreen.ShowPub();

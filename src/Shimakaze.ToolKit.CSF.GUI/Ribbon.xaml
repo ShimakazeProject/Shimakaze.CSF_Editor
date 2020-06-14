@@ -76,7 +76,7 @@
                 Click="ToggleButton_Click"
                 Header="DarkMode"
                 KeyTip="T" />
-            <Fluent:Button Header="启动窗口" Command="{x:Static cmd:ShowStartScreenCommand.Instance}" CommandParameter="{Binding ElementName=this}"/>
+            <Fluent:Button x:Name="btnShowStartScreen" Header="启动窗口" Command="{x:Static cmd:ShowStartScreenCommand.Instance}"/>
         </Fluent:RibbonGroupBox>
     </Fluent:RibbonTabItem>
 </Fluent:Ribbon>
