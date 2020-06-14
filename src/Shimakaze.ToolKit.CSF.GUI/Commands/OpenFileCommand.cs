@@ -26,7 +26,7 @@ namespace Shimakaze.ToolKit.CSF.GUI.Commands
         private const System.Windows.Visibility Show = System.Windows.Visibility.Visible;
         public void Execute(object parameter)
         {
-            string filePath=string.Empty;
+            string filePath = string.Empty;
 
             CsfClassFileBW = new ParseBackgroundWorker<CsfClassFile>();
             // 模式匹配
@@ -59,7 +59,11 @@ namespace Shimakaze.ToolKit.CSF.GUI.Commands
                 };
                 //
                 if (ofd.ShowDialog() ?? false) filePath = ofd.FileName;
-                else return;
+                else
+                {
+                    statusBlock.ProgressBar.Visibility = Hide;
+                    return;
+                }
             }
             // 设置取消按钮
             statusBlock.TextBlock.Text = "正在读取中, 请稍候...";
