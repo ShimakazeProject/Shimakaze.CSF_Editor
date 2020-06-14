@@ -26,19 +26,22 @@ namespace Shimakaze.ToolKit.CSF.GUI.Commands
         private const System.Windows.Visibility Show = System.Windows.Visibility.Visible;
         public void Execute(object parameter)
         {
-            string filePath = string.Empty;
-
             CsfClassFileBW = new ParseBackgroundWorker<CsfClassFile>();
             // 模式匹配
+            string filePath = null;
             CsfDocumentView documentView = parameter switch
             {
                 MainWindow mainWindow => mainWindow.Document,
                 StartScreen startScreen => startScreen.RootWindow.Document,
                 CsfDocumentView csfDocumentView => csfDocumentView,
-                ValueTuple<MainWindow, string> datatuple => datatuple.Item1.Document,
-                ValueTuple<CsfDocumentView, string> datatuple => datatuple.Item1,
-                ValueTuple<StartScreen, string> datatuple => datatuple.Item1.RootWindow.Document,
-                _ => throw new NotImplementedException(),
+                _ => null,
+            };
+            (documentView, filePath) = parameter switch
+            {
+                ValueTuple<MainWindow, string> datatuple => (datatuple.Item1.Document, datatuple.Item2),
+                ValueTuple<CsfDocumentView, string> datatuple => (datatuple.Item1, datatuple.Item2),
+                ValueTuple<StartScreen, string> datatuple => (datatuple.Item1.RootWindow.Document, datatuple.Item2),
+                _ => (documentView, null)
             };
             // 显示状态块
             StatusBlock statusBlock = documentView.StatusBlock;
@@ -46,11 +49,7 @@ namespace Shimakaze.ToolKit.CSF.GUI.Commands
             statusBlock.ProgressBar.IsIndeterminate = true;
             statusBlock.ProgressBar.Visibility = Show;
 
-            if (parameter is ValueTuple<object, string> tuple)
-            {
-                filePath = tuple.Item2;
-            }
-            else
+            if (string.IsNullOrEmpty(filePath))
             {
                 // 创建打开文件对话框
                 OpenFileDialog ofd = new OpenFileDialog
