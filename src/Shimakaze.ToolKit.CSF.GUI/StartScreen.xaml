@@ -21,7 +21,7 @@
     </Fluent:StartScreen.InputBindings>
     <Fluent:StartScreenTabControl>
         <Fluent:StartScreenTabControl.LeftContent>
-            <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromLeft}">
+            <materialDesign:TransitioningContent x:Name="left" Opacity="1" RunHint="All" OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromLeft}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
@@ -63,8 +63,7 @@
         </Fluent:StartScreenTabControl.LeftContent>
 
         <Fluent:StartScreenTabControl.RightContent>
-            <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromRight}">
-
+            <materialDesign:TransitioningContent x:Name="right" Opacity="1" RunHint="All" OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromRight}">
                 <Grid>
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Grid.RowDefinitions>
@@ -97,4 +96,5 @@
             </materialDesign:TransitioningContent>
         </Fluent:StartScreenTabControl.RightContent>
     </Fluent:StartScreenTabControl>
+
 </Fluent:StartScreen>

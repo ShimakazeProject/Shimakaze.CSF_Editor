@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -10,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 using Fluent;
 
 namespace Shimakaze.ToolKit.CSF.GUI
@@ -20,10 +23,20 @@ namespace Shimakaze.ToolKit.CSF.GUI
     public partial class StartScreen
     {
         public void HidePub() => Hide();
-        protected override void Hide()
+        protected override async void Hide()
         {
             if (RootWindow is MainWindow) RootWindow.HideWaitScreen();
+            while (true)
+            {
+                left.Opacity = right.Opacity -= 0.05;
+                if (left.Opacity > 0) await Task.Delay(5);
+                else break;
+            }
             base.Hide();
+            left.Visibility
+                = right.Visibility
+                = Visibility.Hidden; 
+            left.Opacity = right.Opacity = 1;
         }
         public void ShowPub() => Show();
         protected override bool Show()
@@ -31,6 +44,12 @@ namespace Shimakaze.ToolKit.CSF.GUI
             IsOpen = true;
             Shown = false;
             if (RootWindow is MainWindow) RootWindow.ShowWaitScreen();
+            if(left != null)
+            {
+                left.Visibility
+                    = right.Visibility
+                    = Visibility.Visible;
+            }
             return base.Show();
         }
 
