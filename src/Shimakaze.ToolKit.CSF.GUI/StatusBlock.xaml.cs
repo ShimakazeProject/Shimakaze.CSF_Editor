@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,11 +15,11 @@ using System.Windows.Shapes;
 namespace Shimakaze.ToolKit.CSF.GUI
 {
     /// <summary>
-    /// CsfDataGrid.xaml 的交互逻辑
+    /// StatusBlock.xaml 的交互逻辑
     /// </summary>
-    public partial class CsfDataGrid
+    public partial class StatusBlock
     {
-        public CsfDataGrid()
+        public StatusBlock()
         {
             InitializeComponent();
         }

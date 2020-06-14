@@ -23,7 +23,6 @@
     TitleBackground="{DynamicResource Fluent.Ribbon.Brushes.Backstage.Background}"
     TitleForeground="{DynamicResource Fluent.Ribbon.Brushes.Backstage.Foreground}"
     WindowStartupLocation="CenterScreen"
-
     mc:Ignorable="d">
     <Grid fw:PointerTracker.Enabled="True">
         <Grid.RowDefinitions>
@@ -31,20 +30,13 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <local:Ribbon x:Name="Ribbon" />
 
-        <local:Ribbon RootWindow="{Binding ElementName=this}"/>
-
-        <local:CsfDataGrid x:Name="Document" Grid.Row="1" />
+        <local:CsfDocumentView x:Name="Document" Grid.Row="1" />
         <!--  状态栏  -->
         <local:StatusBar DataContext="{Binding DataContext, ElementName=Document}" />
-
-        <Border
-            x:Name="_progressRing"
-            Grid.RowSpan="3"
-            Background="{DynamicResource Fluent.Ribbon.Brushes.Backstage.Background}"
-            Visibility="Visible">
-            <mah:ProgressRing IsActive="True" />
-        </Border>
+        
+        <local:StatusBlock x:Name="StatusBlock" Grid.RowSpan="3"/>
     </Grid>
 
 </Fluent:RibbonWindow>

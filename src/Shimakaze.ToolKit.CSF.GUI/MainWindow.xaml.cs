@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Fluent;
+using MahApps.Metro.Controls;
 
 namespace Shimakaze.ToolKit.CSF.GUI
 {
@@ -21,17 +23,25 @@ namespace Shimakaze.ToolKit.CSF.GUI
     /// </summary>
     public partial class MainWindow 
     {
-        public static MainWindow LastInstance { get; private set; }
         public MainWindow()
         {
-            LastInstance = this;
             InitializeComponent();
-            _ = WaitRing();
+            Ribbon.RootWindow = this;
+            ShowWaitScreen();
         }
-        private async Task WaitRing()
+        public void ShowWaitScreen()
         {
-            await Task.Delay(3000);
-            _progressRing.Visibility = Visibility.Collapsed;
+            StatusBlock.Button.Visibility
+                = StatusBlock.ProgressBar.Visibility
+                = Visibility.Collapsed;
+            StatusBlock.ProgressRing.IsActive = true;
+            StatusBlock.ProgressRing.Visibility = Visibility.Visible;
+            StatusBlock.TextBlock.Text = "正在准备中...";
+            StatusBlock.Visibility = Visibility.Visible;
+        }
+        public void HideWaitScreen()
+        {
+            StatusBlock.Visibility = Visibility.Collapsed;
         }
     }
 }

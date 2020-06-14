@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Fluent;
 
 namespace Shimakaze.ToolKit.CSF.GUI
 {
@@ -18,17 +19,36 @@ namespace Shimakaze.ToolKit.CSF.GUI
     /// </summary>
     public partial class StartScreen
     {
-        //public static StartScreen Instance { get; private set; }
-        public static StartScreen Instance { get; } = new StartScreen();
-        public new void Hide() => base.Hide();
-        public new void Show() => base.Show();
+        public void HidePub() => Hide();
+        protected override void Hide()
+        {
+            if (RootWindow is MainWindow) RootWindow.HideWaitScreen();
+            base.Hide();
+        }
+        public void ShowPub() => Show();
+        protected override bool Show()
+        {
+            IsOpen = true;
+            Shown = false;
+            if (RootWindow is MainWindow) RootWindow.ShowWaitScreen();
+            return base.Show();
+        }
+
         public StartScreen()
         {
             InitializeComponent();
-            btnExit.CommandParameter = this;
-            btnImport.CommandParameter = this;
-            btnOpen.CommandParameter = new Action(base.Hide);
-            btnNew.CommandParameter = this;
+            NothingLink.CommandParameter = EscKey.CommandParameter = this;
         }
+
+
+        public MainWindow RootWindow
+        {
+            get { return (MainWindow)GetValue(RootWindowProperty); }
+            set { SetValue(RootWindowProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for RootWindow.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty RootWindowProperty =
+            DependencyProperty.Register("RootWindow", typeof(MainWindow), typeof(StartScreen), new PropertyMetadata(null));
     }
 }

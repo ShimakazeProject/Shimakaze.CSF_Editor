@@ -9,11 +9,13 @@
     xmlns:theme="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Theme"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
-    StartScreen="{x:Static local:StartScreen.Instance}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <!--  StartScreen  -->
+    <!--开始屏幕-->
+    <Fluent:Ribbon.StartScreen>
+        <local:StartScreen x:Name="StartScreen"/>
+    </Fluent:Ribbon.StartScreen>
 
     <Fluent:Ribbon.ContextualGroups>
         <Fluent:RibbonContextualTabGroup />
@@ -74,6 +76,7 @@
                 Click="ToggleButton_Click"
                 Header="DarkMode"
                 KeyTip="T" />
+            <Fluent:Button Header="启动窗口" Command="{x:Static cmd:ShowStartScreenCommand.Instance}" CommandParameter="{Binding ElementName=this}"/>
         </Fluent:RibbonGroupBox>
     </Fluent:RibbonTabItem>
 </Fluent:Ribbon>

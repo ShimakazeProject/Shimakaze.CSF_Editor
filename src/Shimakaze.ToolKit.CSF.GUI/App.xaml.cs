@@ -23,11 +23,20 @@ namespace Shimakaze.ToolKit.CSF.GUI
         public static App Instance { get; private set; } = Current as App;
 
 
-
-
         public App()
         {
+            this.DispatcherUnhandledException += App_DispatcherUnhandledException;
         }
+
+        private async void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            using var fs = new System.IO.FileStream($"{DateTime.Now:yyyy-MM-dd_HH+mm+ss}.log", System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write, System.IO.FileShare.Read);
+            using var sw = new System.IO.StreamWriter(fs);
+            await sw.WriteLineAsync(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ms"));
+            await sw.WriteLineAsync(e.Exception.ToString());
+            MessageBox.Show($"异常信息: {e.Exception}", "内部错误");
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             this.AccentColorChange(ThemeManager.GetAccentColor());

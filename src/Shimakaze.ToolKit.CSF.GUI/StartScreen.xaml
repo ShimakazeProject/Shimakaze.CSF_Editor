@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
     xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="this"
     d:DesignHeight="450"
@@ -14,61 +15,86 @@
     CloseOnEsc="False"
     IsOpen="True"
     mc:Ignorable="d">
+    <Fluent:StartScreen.InputBindings>
+        <KeyBinding x:Name="EscKey"
+            Key="Esc" Command="{x:Static cmd:HideStartScreenCommand.Instance}"/>
+    </Fluent:StartScreen.InputBindings>
     <Fluent:StartScreenTabControl>
         <Fluent:StartScreenTabControl.LeftContent>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <TextBlock
-                    Grid.Row="0"
-                    FontSize="48"
-                    Foreground="{DynamicResource Fluent.Ribbon.Brushes.IdealForegroundColorBrush}"
-                    Text="Start" />
-                <Grid Grid.Row="1" Margin="10,20,10,0">
-                    <Grid.Resources>
-                        <Style BasedOn="{StaticResource ButtonAccentRevealStyle}" TargetType="Button">
-                            <Setter Property="FontSize" Value="18" />
-                            <Setter Property="Margin" Value="5" />
-                            <Setter Property="Padding" Value="5" />
-                            <Setter Property="BorderThickness" Value="2" />
-                        </Style>
-                    </Grid.Resources>
+            <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromLeft}">
+                <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
                         <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <StackPanel>
-                        <Button
-                            x:Name="btnOpen"
-                            Command="{x:Static cmd:OpenFileCommand.Instance}"
-                            Content="打开" />
-                        <Button x:Name="btnNew" Content="新建" />
-                        <Button x:Name="btnImport" Content="导入" />
-                    </StackPanel>
-                    <StackPanel Grid.Row="1">
-                        <Button x:Name="btnExit" Content="退出" />
-                    </StackPanel>
+                    <TextBlock
+                        Grid.Row="0"
+                        FontSize="48"
+                        Foreground="{DynamicResource Fluent.Ribbon.Brushes.IdealForegroundColorBrush}"
+                        Text="Start" />
+                    <Grid Grid.Row="1" Margin="10,20,10,0">
+                        <Grid.Resources>
+                            <Style BasedOn="{StaticResource ButtonAccentRevealStyle}" TargetType="Button">
+                                <Setter Property="FontSize" Value="18" />
+                                <Setter Property="Margin" Value="5" />
+                                <Setter Property="Padding" Value="5" />
+                                <Setter Property="BorderThickness" Value="2" />
+                            </Style>
+                        </Grid.Resources>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <StackPanel>
+                            <Button
+                                Command="{x:Static cmd:OpenFileCommand.Instance}"
+                                CommandParameter="{Binding ElementName=this}"
+                                Content="打开" />
+                            <Button CommandParameter="{Binding ElementName=this}" Content="新建" />
+                            <Button CommandParameter="{Binding ElementName=this}" Content="导入" />
+                            <Button CommandParameter="{Binding ElementName=this}" Content="导入" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="1">
+                            <Button x:Name="btnExit" Content="退出" />
+                        </StackPanel>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </materialDesign:TransitioningContent>
         </Fluent:StartScreenTabControl.LeftContent>
 
         <Fluent:StartScreenTabControl.RightContent>
-            <Grid>
-                <!--<Grid.Background>
+            <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromRight}">
+
+                <Grid>
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <!--<Grid.Background>
                     <ImageBrush ImageSource="/Assets/wallls.com_131279.jpg" Stretch="UniformToFill" />
                 </Grid.Background>-->
-                <StackPanel Orientation="Vertical">
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
-                        You can close the start screen by either clicking the button below or by pressing ESC
-                    </TextBlock>
-                    <Fluent:Button HorizontalAlignment="Center" IsDefinitive="True">
-                        Close start screen
-                    </Fluent:Button>
-                </StackPanel>
-
-            </Grid>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                                You can close the start screen by either clicking the button below or by pressing ESC
+                            </TextBlock>
+                        </StackPanel>
+                        <Fluent:RibbonScrollViewer HorizontalAlignment="Center" VerticalScrollBarVisibility="Auto">
+                            <StackPanel Orientation="Vertical" />
+                        </Fluent:RibbonScrollViewer>
+                        <TextBlock
+                            Grid.Row="2"
+                            Padding="16"
+                            HorizontalAlignment="Center"
+                            FontSize="18">
+                            <Hyperlink x:Name="NothingLink"  Command="{x:Static cmd:HideStartScreenCommand.Instance}">
+                                继续但不打开文件
+                            </Hyperlink>
+                        </TextBlock>
+                    </Grid>
+                </Grid>
+            </materialDesign:TransitioningContent>
         </Fluent:StartScreenTabControl.RightContent>
     </Fluent:StartScreenTabControl>
 </Fluent:StartScreen>
