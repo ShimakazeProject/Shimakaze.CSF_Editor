@@ -38,8 +38,7 @@ namespace Shimakaze.ToolKit.CSF.GUI
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            this.AccentColorChange(ThemeManager.GetAccentColor());
-            this.ColorThemeChange(ThemeManager.IsDarkTheme);
+            ThemeManager.Initialize();
 
             base.OnStartup(e);
             int timer = 3000;

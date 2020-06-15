@@ -21,6 +21,7 @@ namespace Shimakaze.ToolKit.CSF.GUI
         public SplashWindow()
         {
             InitializeComponent();
+            SourceInitialized += Theme.ThemeManager.Window_SourceInitialized;
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
