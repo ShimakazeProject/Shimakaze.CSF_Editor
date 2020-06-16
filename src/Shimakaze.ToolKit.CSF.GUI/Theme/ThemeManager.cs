@@ -145,7 +145,7 @@ namespace Shimakaze.ToolKit.CSF.GUI.Theme
 
         internal static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            Debug.WriteLine("[WndProc]捕获到消息:" + msg);
+            Debug.WriteLine($"[WndProc]捕获到消息:0x{msg.ToString("x").PadRight(8, '0')}");
             switch (msg)
             {
                 case WM_DWMCOLORIZATIONCOLORCHANGED:
@@ -171,8 +171,7 @@ namespace Shimakaze.ToolKit.CSF.GUI.Theme
                 throw new InvalidOperationException("Could not get window handle.");
             }
             hsource = HwndSource.FromHwnd(hwnd);
-            hsource.AddHook(Theme.ThemeManager.WndProc);
+            hsource.AddHook(WndProc);
         }
     }
-
 }
