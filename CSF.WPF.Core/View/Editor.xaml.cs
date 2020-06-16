@@ -18,16 +18,36 @@ namespace CSF.WPF.Core.View
     /// <summary>
     /// EditorDialog.xaml 的交互逻辑
     /// </summary>
-    public partial class Editor 
+    public partial class Editor
     {
         public Editor()
         {
             InitializeComponent();
+            (DataContext as ViewModel.EditViewModel).PropertyChanged += Editor_PropertyChanged;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private Model.Label label;
+
+        private void Editor_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            ((Window.GetWindow(this) as MainWindow).DataContext as ViewModel.MainWindowViewModel).ShowEditor = false;
+            if (e.PropertyName == "Label")
+            {
+                label = (DataContext as ViewModel.EditViewModel).Label;
+            }
+        }
+
+        public void EditLabel(ViewModel.CsfDocViewModel docVM, Model.Label label)
+        {
+            (DataContext as ViewModel.EditViewModel).SetLabel(label);
+        }
+
+        public void AddLabel(ViewModel.CsfDocViewModel docVM)
+        {
+            var label = new Model.Label("New:Label", new Model.Value[] { "New Value" });
+            (DataContext as ViewModel.EditViewModel).SetLabel(label);
+            Task.Run(() =>
+            {
+            });
         }
     }
 }

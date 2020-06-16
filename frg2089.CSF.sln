@@ -19,6 +19,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSF.Plugin", "CSF.Plugin\CS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSF.Plugin.Convert", "CSF.Plugin.Convert\CSF.Plugin.Convert.csproj", "{469D426D-A3A7-40AE-BC82-27A21DCB08E6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GUI", "GUI", "{F2FC69A6-584A-4468-8960-E95DAC24110B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSF.GUI.WPF", "CSF.GUI.WPF\CSF.GUI.WPF.csproj", "{B99150F9-5DB8-4720-B1E5-523200302964}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -133,9 +137,32 @@ Global
 		{469D426D-A3A7-40AE-BC82-27A21DCB08E6}.Release|x64.Build.0 = Release|Any CPU
 		{469D426D-A3A7-40AE-BC82-27A21DCB08E6}.Release|x86.ActiveCfg = Release|Any CPU
 		{469D426D-A3A7-40AE-BC82-27A21DCB08E6}.Release|x86.Build.0 = Release|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Debug|ARM.Build.0 = Debug|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Debug|x64.Build.0 = Debug|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Debug|x86.Build.0 = Debug|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Release|ARM.ActiveCfg = Release|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Release|ARM.Build.0 = Release|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Release|ARM64.Build.0 = Release|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Release|x64.ActiveCfg = Release|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Release|x64.Build.0 = Release|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Release|x86.ActiveCfg = Release|Any CPU
+		{B99150F9-5DB8-4720-B1E5-523200302964}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B99150F9-5DB8-4720-B1E5-523200302964} = {F2FC69A6-584A-4468-8960-E95DAC24110B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A8CBAEF7-FF0D-4212-BC6A-A2E32BC26469}

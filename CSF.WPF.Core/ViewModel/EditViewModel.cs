@@ -10,12 +10,11 @@ namespace CSF.WPF.Core.ViewModel
     {
         #region Private Fields
         private bool canRemove;
-        private Model.Label label;
         private string labelName;
         private ValueStruct selectedItem;
-        private List<ValueStruct> values;
+        private ValueStruct[] values;
         private bool visibility = false;
-        private bool needRefresh = false;
+        private Model.Label label;
         #endregion Private Fields
 
         #region Public Constructors
@@ -25,7 +24,7 @@ namespace CSF.WPF.Core.ViewModel
             {
                 if (e.PropertyName is nameof(Values) || e.PropertyName is nameof(SelectedItem))
                 {
-                    CanRemove = (SelectedItem is null || values is null) ? false : values.Count > 1 ? true : false;
+                    CanRemove = (SelectedItem is null || values is null) ? false : values.Length > 1 ? true : false;
                 }
             };
         }
@@ -50,12 +49,21 @@ namespace CSF.WPF.Core.ViewModel
         {
             get => labelName; set
             {
+                //System.Text.RegularExpressions.Regex.
                 labelName = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LabelName)));
             }
         }
 
 
+        public Model.Label Label
+        {
+            get => label; set
+            {
+                label = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Label)));
+            }
+        }
         public ValueStruct SelectedItem
         {
             get => selectedItem; set
@@ -65,7 +73,7 @@ namespace CSF.WPF.Core.ViewModel
             }
         }
 
-        public List<ValueStruct> Values
+        public ValueStruct[] Values
         {
             get => values; set
             {
@@ -82,7 +90,6 @@ namespace CSF.WPF.Core.ViewModel
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Visibility)));
             }
         }
-        public CsfDocViewModel BaseVM { get; set; }
         #endregion Public Properties
 
         #region Commands
@@ -95,45 +102,49 @@ namespace CSF.WPF.Core.ViewModel
         #region Public Methods
         public void Add()
         {
-            Values.Add(new ValueStruct { Value = "New Value", ID = values?.Count is null ? 0 : values.Count });
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Values)));
+            var valueList = new List<ValueStruct>(values);
+            valueList.Add(new ValueStruct { Value = "New Value", ID = values?.Length is null ? 0 : values.Length });
+            Values = valueList.ToArray();
         }
+        
 
         public void Cancel()
         {
             Visibility = false;
             LabelName = null;
-            Values.Clear();
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Values)));
+            Values = null;
         }
 
         public void OK()
         {
-            var values = new Model.Value[Values.Count];
-            for (int i = 0; i < Values.Count; i++)
+            var values = new Model.Value[Values.Length];
+            for (int i = 0; i < Values.Length; i++)
             {
                 values[i] = this.values[i];
             }
-            label.Changed(new Model.Label(labelName, values));
-            BaseVM.ReCount();
-            if (needRefresh)
-            {
-                BaseVM.TypeList.MakeType();
-                needRefresh = false;
-            }
+            //label.Changed(new Model.Label(labelName, values));
+            //BaseVM.ReCount();
+            //BaseVM.TypeList.MakeType();
             Cancel();
+        }
+        public static void StaticMethod()
+        {
+        }
+
+        public virtual void VirtualMethod()
+        {
         }
 
         public void Remove()
         {
-            Values.Remove(SelectedItem);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Values)));
+            var valueList = new List<ValueStruct>(values);
+            valueList.Remove(SelectedItem);
+            Values = valueList.ToArray();
         }
 
-        public void SetLabel(Model.Label value, bool needRefresh = false)
+        public void SetLabel(Model.Label value)
         {
-            this.needRefresh = needRefresh;
-            label = value;
+            Label = value;
             if (value is null) return;
             LabelName = value.LabelName;
             List<ValueStruct> values = new List<ValueStruct>(value.LabelValues.Length);
@@ -141,7 +152,7 @@ namespace CSF.WPF.Core.ViewModel
             {
                 values.Add(new ValueStruct { Extra = v.ExtraString, Value = v.ValueString, ID = values?.Count is null ? 0 : values.Count });
             }
-            Values = values;
+            Values = values.ToArray();
             SelectedItem = Values[0];
             Visibility = true;
         }

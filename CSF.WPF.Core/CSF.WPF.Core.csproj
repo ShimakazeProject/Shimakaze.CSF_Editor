@@ -8,6 +8,8 @@
     <StartupObject>CSF.WPF.Core.Program</StartupObject>
     <ApplicationIcon>Shimakaze.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <FileVersion>1.0.0.1</FileVersion>
+    <AssemblyVersion>1.0.0.20038</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,6 +30,21 @@
     <ProjectReference Include="..\CSF.Logmgr\CSF.Logmgr.csproj" />
     <ProjectReference Include="..\CSF.Model\CSF.Model.csproj" />
     <ProjectReference Include="..\CSF.Plugin\CSF.Plugin.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\Strings\Zh_Hans\Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Strings\Zh_Hans\Resource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
