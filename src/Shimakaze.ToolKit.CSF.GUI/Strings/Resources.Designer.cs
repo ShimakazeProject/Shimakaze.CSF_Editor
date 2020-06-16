@@ -61,6 +61,15 @@ namespace Shimakaze.ToolKit.CSF.GUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 关闭 的本地化字符串。
+        /// </summary>
+        public static string UI_Close {
+            get {
+                return ResourceManager.GetString("UI_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Copyright © 2019 - 2020 的本地化字符串。
         /// </summary>
         public static string UI_Copyright_p1 {
@@ -88,6 +97,15 @@ namespace Shimakaze.ToolKit.CSF.GUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 导出 的本地化字符串。
+        /// </summary>
+        public static string UI_Export {
+            get {
+                return ResourceManager.GetString("UI_Export", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 导入 的本地化字符串。
         /// </summary>
         public static string UI_Import {
@@ -97,20 +115,56 @@ namespace Shimakaze.ToolKit.CSF.GUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 合并 的本地化字符串。
+        /// </summary>
+        public static string UI_Merge {
+            get {
+                return ResourceManager.GetString("UI_Merge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 新建 的本地化字符串。
         /// </summary>
-        public static string UI_NewFile {
+        public static string UI_New {
             get {
-                return ResourceManager.GetString("UI_NewFile", resourceCulture);
+                return ResourceManager.GetString("UI_New", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 打开 的本地化字符串。
         /// </summary>
-        public static string UI_OpenFile {
+        public static string UI_Open {
             get {
-                return ResourceManager.GetString("UI_OpenFile", resourceCulture);
+                return ResourceManager.GetString("UI_Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 开始 的本地化字符串。
+        /// </summary>
+        public static string UI_Ribbon_Start {
+            get {
+                return ResourceManager.GetString("UI_Ribbon_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 保存 的本地化字符串。
+        /// </summary>
+        public static string UI_Save {
+            get {
+                return ResourceManager.GetString("UI_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 另存为 的本地化字符串。
+        /// </summary>
+        public static string UI_SaveAs {
+            get {
+                return ResourceManager.GetString("UI_SaveAs", resourceCulture);
             }
         }
         
@@ -129,6 +183,33 @@ namespace Shimakaze.ToolKit.CSF.GUI.Strings {
         public static string UI_StartScreen_Continue {
             get {
                 return ResourceManager.GetString("UI_StartScreen_Continue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 您可以通过单击下面的超链接或按ESC键关闭“开始”屏幕 的本地化字符串。
+        /// </summary>
+        public static string UI_StartScreen_Message {
+            get {
+                return ResourceManager.GetString("UI_StartScreen_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 深色模式 的本地化字符串。
+        /// </summary>
+        public static string UI_Theme_Dark {
+            get {
+                return ResourceManager.GetString("UI_Theme_Dark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 浅色模式 的本地化字符串。
+        /// </summary>
+        public static string UI_Theme_Light {
+            get {
+                return ResourceManager.GetString("UI_Theme_Light", resourceCulture);
             }
         }
     }

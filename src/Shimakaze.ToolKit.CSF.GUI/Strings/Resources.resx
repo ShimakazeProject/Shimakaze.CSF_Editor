@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="UI_Close" xml:space="preserve">
+    <value>关闭</value>
+  </data>
   <data name="UI_Copyright_p1" xml:space="preserve">
     <value>Copyright © 2019 - 2020</value>
   </data>
@@ -126,19 +129,43 @@
   <data name="UI_ExitApplication" xml:space="preserve">
     <value>退出</value>
   </data>
+  <data name="UI_Export" xml:space="preserve">
+    <value>导出</value>
+  </data>
   <data name="UI_Import" xml:space="preserve">
     <value>导入</value>
   </data>
-  <data name="UI_NewFile" xml:space="preserve">
+  <data name="UI_Merge" xml:space="preserve">
+    <value>合并</value>
+  </data>
+  <data name="UI_New" xml:space="preserve">
     <value>新建</value>
   </data>
-  <data name="UI_OpenFile" xml:space="preserve">
+  <data name="UI_Open" xml:space="preserve">
     <value>打开</value>
+  </data>
+  <data name="UI_Ribbon_Start" xml:space="preserve">
+    <value>开始</value>
+  </data>
+  <data name="UI_Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="UI_SaveAs" xml:space="preserve">
+    <value>另存为</value>
   </data>
   <data name="UI_SplashWindow_Title" xml:space="preserve">
     <value>CSF编辑器 改三</value>
   </data>
   <data name="UI_StartScreen_Continue" xml:space="preserve">
     <value>继续但不打开文件  →</value>
+  </data>
+  <data name="UI_StartScreen_Message" xml:space="preserve">
+    <value>您可以通过单击下面的超链接或按ESC键关闭“开始”屏幕</value>
+  </data>
+  <data name="UI_Theme_Dark" xml:space="preserve">
+    <value>深色模式</value>
+  </data>
+  <data name="UI_Theme_Light" xml:space="preserve">
+    <value>浅色模式</value>
   </data>
 </root>

@@ -12,4 +12,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="UI_SplashWindow_Title" xml:space="preserve">
+    <value>CSF Editor Kai 3</value>
+  </data>
+  <data name="UI_ExitApplication" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="UI_Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="UI_StartScreen_Continue" xml:space="preserve">
+    <value>Continue and Not Open  →</value>
+  </data>
+  <data name="UI_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="UI_Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="UI_Merge" xml:space="preserve">
+    <value>Merge</value>
+  </data>
+  <data name="UI_New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="UI_Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="UI_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="UI_SaveAs" xml:space="preserve">
+    <value>Save As</value>
+  </data>
+  <data name="UI_Ribbon_Start" xml:space="preserve">
+    <value>Home</value>
+  </data>
 </root>

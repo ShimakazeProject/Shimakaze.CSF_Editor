@@ -8,7 +8,7 @@
       <group id="SHIMAKAZE.TOOLKIT.CSF.GUI/STRINGS/RESOURCES.RESX">
         <trans-unit id="UI_SplashWindow_Title" translate="yes" xml:space="preserve">
           <source>CSF编辑器 改三</source>
-          <target state="new">CSF编辑器 改三</target>
+          <target state="translated">CSF Editor Kai 3</target>
         </trans-unit>
         <trans-unit id="UI_Copyright_p1" translate="yes" xml:space="preserve">
           <source>Copyright © 2019 - 2020</source>
@@ -20,23 +20,59 @@
         </trans-unit>
         <trans-unit id="UI_ExitApplication" translate="yes" xml:space="preserve">
           <source>退出</source>
-          <target state="new">退出</target>
+          <target state="translated">Exit</target>
         </trans-unit>
         <trans-unit id="UI_Import" translate="yes" xml:space="preserve">
           <source>导入</source>
-          <target state="new">导入</target>
-        </trans-unit>
-        <trans-unit id="UI_NewFile" translate="yes" xml:space="preserve">
-          <source>新建</source>
-          <target state="new">新建</target>
-        </trans-unit>
-        <trans-unit id="UI_OpenFile" translate="yes" xml:space="preserve">
-          <source>打开</source>
-          <target state="new">打开</target>
+          <target state="translated">Import</target>
         </trans-unit>
         <trans-unit id="UI_StartScreen_Continue" translate="yes" xml:space="preserve">
           <source>继续但不打开文件  →</source>
-          <target state="new">继续但不打开文件  →</target>
+          <target state="translated">Continue and Not Open  →</target>
+        </trans-unit>
+        <trans-unit id="UI_StartScreen_Message" translate="yes" xml:space="preserve">
+          <source>您可以通过单击下面的超链接或按ESC键关闭“开始”屏幕</source>
+          <target state="new">您可以通过单击下面的超链接或按ESC键关闭“开始”屏幕</target>
+        </trans-unit>
+        <trans-unit id="UI_Close" translate="yes" xml:space="preserve">
+          <source>关闭</source>
+          <target state="translated">Close</target>
+        </trans-unit>
+        <trans-unit id="UI_Export" translate="yes" xml:space="preserve">
+          <source>导出</source>
+          <target state="translated">Export</target>
+        </trans-unit>
+        <trans-unit id="UI_Merge" translate="yes" xml:space="preserve">
+          <source>合并</source>
+          <target state="translated">Merge</target>
+        </trans-unit>
+        <trans-unit id="UI_New" translate="yes" xml:space="preserve">
+          <source>新建</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">New</target>
+        </trans-unit>
+        <trans-unit id="UI_Open" translate="yes" xml:space="preserve">
+          <source>打开</source>
+          <target state="translated">Open</target>
+        </trans-unit>
+        <trans-unit id="UI_Save" translate="yes" xml:space="preserve">
+          <source>保存</source>
+          <target state="translated">Save</target>
+        </trans-unit>
+        <trans-unit id="UI_SaveAs" translate="yes" xml:space="preserve">
+          <source>另存为</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Save As</target>
+        </trans-unit>
+        <trans-unit id="UI_Ribbon_Start" translate="yes" xml:space="preserve">
+          <source>开始</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Home</target>
+        </trans-unit>
+        <trans-unit id="UI_Theme_Dark" translate="yes" xml:space="preserve">
+          <source>深色模式</source>
+          <target state="new">深色模式</target>
+        </trans-unit>
+        <trans-unit id="UI_Theme_Light" translate="yes" xml:space="preserve">
+          <source>浅色模式</source>
+          <target state="new">浅色模式</target>
         </trans-unit>
       </group>
     </body>
