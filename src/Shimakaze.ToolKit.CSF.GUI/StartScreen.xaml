@@ -8,7 +8,7 @@
     xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
     xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-    xmlns:l18n="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Strings"
+    xmlns:i18n="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Strings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="Instance"
     d:DesignHeight="450"
@@ -35,10 +35,9 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <TextBlock
-                        Grid.Row="0"
                         FontSize="48"
                         Foreground="{DynamicResource Fluent.Ribbon.Brushes.IdealForegroundColorBrush}"
-                        Text="Start" />
+                        Text="{x:Static i18n:Resources.UI_SplashWindow_Title}" />
                     <Grid Grid.Row="1" Margin="10,20,10,0">
                         <Grid.Resources>
                             <Style BasedOn="{StaticResource ButtonAccentRevealStyle}" TargetType="Button">
@@ -53,13 +52,13 @@
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
                         <StackPanel>
-                            <Button x:Name="btnOpen" Command="{x:Static cmd:OpenFileCommand.Instance}" Content="{x:Static l18n:Resources.UI_OpenFile}" />
-                            <Button CommandParameter="{Binding ElementName=this}" Content="{x:Static l18n:Resources.UI_NewFile}" />
-                            <Button CommandParameter="{Binding ElementName=this}" Content="{x:Static l18n:Resources.UI_Import}" />
+                            <Button x:Name="btnOpen" Command="{x:Static cmd:OpenFileCommand.Instance}" Content="{x:Static i18n:Resources.UI_Open}" />
+                            <Button CommandParameter="{Binding ElementName=this}" Content="{x:Static i18n:Resources.UI_New}" />
+                            <Button CommandParameter="{Binding ElementName=this}" Content="{x:Static i18n:Resources.UI_Import}" />
                             <Button Content="XXX" />
                         </StackPanel>
                         <StackPanel Grid.Row="1">
-                            <Button x:Name="btnExit" Content="{x:Static l18n:Resources.UI_ExitApplication}" />
+                            <Button x:Name="btnExit" Content="{x:Static i18n:Resources.UI_ExitApplication}" />
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -79,9 +78,9 @@
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
 
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
-                            You can close the start screen by either clicking the button below or by pressing ESC
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="{x:Static i18n:Resources.UI_StartScreen_Message}">
+                            
                         </TextBlock>
                     </StackPanel>
 
@@ -118,7 +117,7 @@
                                     </Style.Triggers>
                                 </Style>
                             </Hyperlink.Style>
-                            <TextBlock Text="{x:Static l18n:Resources.UI_StartScreen_Continue}" />
+                            <TextBlock Text="{x:Static i18n:Resources.UI_StartScreen_Continue}" />
                         </Hyperlink>
                     </TextBlock>
                 </Grid>

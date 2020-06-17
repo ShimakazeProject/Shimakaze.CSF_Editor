@@ -9,7 +9,7 @@
     xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
     mc:Ignorable="d"
     d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="{DynamicResource Fluent.Ribbon.Brushes.Backstage.Background}">
+    <Grid Background="{DynamicResource MahApps.Brushes.Flyout.Background}">
         <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect ExpandIn}">
             <StackPanel VerticalAlignment="Center">
                 <mah:ProgressRing x:Name="ProgressRing" Margin="16" Visibility="Collapsed"/>

@@ -17,7 +17,7 @@ namespace Shimakaze.ToolKit.CSF.GUI.Commands
 
         public void Execute(object parameter)
         {
-            Theme.ThemeManager.IsDarkTheme = !Theme.ThemeManager.IsDarkTheme;
+            Theme.ThemeManager.IsLightTheme = !Theme.ThemeManager.IsLightTheme;
         }
     }
 }
