@@ -11,7 +11,7 @@ namespace Shimakaze.CSF.Kernel
     /// <summary>
     /// CSF文件的标签结构
     /// </summary>
-    public class Label
+    public struct Label
     {
         public const string CSF_LABEL_FLAG = " LBL";
         public string Flag;

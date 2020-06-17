@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shimakaze.CSF.Kernel", "Shimakaze.CSF.Kernel\Shimakaze.CSF.Kernel.csproj", "{2552299E-E01A-46D8-80F9-4591ABEC8D99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shimakaze.CSF.Kernel", "Shimakaze.CSF.Kernel\Shimakaze.CSF.Kernel.csproj", "{2552299E-E01A-46D8-80F9-4591ABEC8D99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shimakaze.CSF.GUI", "Shimakaze.CSF.GUI\Shimakaze.CSF.GUI.csproj", "{6C6159DD-DBCF-4789-B5B4-E919238D47BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shimakaze.CSF.GUI", "Shimakaze.CSF.GUI\Shimakaze.CSF.GUI.csproj", "{6C6159DD-DBCF-4789-B5B4-E919238D47BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shimakaze.CSF.PluginManager", "Shimakaze.CSF.PluginManager\Shimakaze.CSF.PluginManager.csproj", "{14E73E50-398C-47A1-8052-89143CCB9F08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,26 @@ Global
 		{6C6159DD-DBCF-4789-B5B4-E919238D47BC}.Release|x64.Build.0 = Release|Any CPU
 		{6C6159DD-DBCF-4789-B5B4-E919238D47BC}.Release|x86.ActiveCfg = Release|Any CPU
 		{6C6159DD-DBCF-4789-B5B4-E919238D47BC}.Release|x86.Build.0 = Release|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Debug|ARM.Build.0 = Debug|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Debug|x64.Build.0 = Debug|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Debug|x86.Build.0 = Debug|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Release|ARM.ActiveCfg = Release|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Release|ARM.Build.0 = Release|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Release|ARM64.Build.0 = Release|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Release|x64.ActiveCfg = Release|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Release|x64.Build.0 = Release|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Release|x86.ActiveCfg = Release|Any CPU
+		{14E73E50-398C-47A1-8052-89143CCB9F08}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
