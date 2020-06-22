@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Text;
 
 namespace Shimakaze.ToolKit.CSF.Kernel
@@ -35,7 +36,11 @@ namespace Shimakaze.ToolKit.CSF.Kernel
         CsfClassStruct IList<CsfClassStruct>.this[int index]
         {
             get => csfClass[index];
-            set => csfClass[index] = value;
+            set
+            {
+                csfClass[index] = value;
+                OnCollectionChanged(NotifyCollectionChangedAction.Replace, value, index);
+            }
         }
 
         public override void AddNoChangeHead(CsfLabelStruct label)
@@ -47,6 +52,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
                 base.AddNoChangeHead(label);
                 label.PropertyChanged += Class_PropertyChanged;
                 OnPropertyChanged(nameof(Class));
+                OnCollectionChanged(NotifyCollectionChangedAction.Add, label);
             }
             else
             {
@@ -55,15 +61,13 @@ namespace Shimakaze.ToolKit.CSF.Kernel
             }
         }
 
-        private void Class_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            OnPropertyChanged(nameof(Class));
-        }
+        private void Class_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) => OnPropertyChanged(nameof(Class));
         public void Add(CsfClassStruct item)
         {
             csfClass.Add(item);
             item.PropertyChanged += Class_PropertyChanged;
             OnPropertyChanged(nameof(Class));
+            OnCollectionChanged(NotifyCollectionChangedAction.Add, item);
         }
 
         public void Add(KeyValuePair<string, IReadOnlyList<CsfLabelStruct>> item)
@@ -72,6 +76,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
             csfClass.Add(label);
             label.PropertyChanged += Class_PropertyChanged;
             OnPropertyChanged(nameof(Class));
+            OnCollectionChanged(NotifyCollectionChangedAction.Add, item);
         }
 
         public bool Contains(CsfClassStruct item) => csfClass.Contains(item);
@@ -93,12 +98,14 @@ namespace Shimakaze.ToolKit.CSF.Kernel
         {
             csfClass.Insert(index, item);
             OnPropertyChanged(nameof(Class));
+            OnCollectionChanged(NotifyCollectionChangedAction.Add, item, index);
         }
 
         public bool Remove(CsfClassStruct item)
         {
             var tmp = csfClass.Remove(item);
             OnPropertyChanged(nameof(Class));
+            OnCollectionChanged(NotifyCollectionChangedAction.Remove, item);
             return tmp;
         }
 
@@ -111,6 +118,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
                 {
                     Remove(item);
                     OnPropertyChanged(nameof(Class));
+                    OnCollectionChanged(NotifyCollectionChangedAction.Remove, item);
                     return true;
                 }
             }
@@ -120,6 +128,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
         {
             var tmp = csfClass.Remove(item);
             OnPropertyChanged(nameof(Class));
+            OnCollectionChanged(NotifyCollectionChangedAction.Remove, item);
             return tmp;
         }
 

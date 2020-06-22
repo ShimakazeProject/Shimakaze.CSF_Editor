@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Text;
@@ -14,7 +15,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
     /// <summary>
     /// CSF文件的标签结构
     /// </summary>
-    public sealed class CsfLabelStruct : IList<CsfValueStruct>, INotifyPropertyChanged
+    public sealed class CsfLabelStruct : IList<CsfValueStruct>, INotifyPropertyChanged, INotifyCollectionChanged
     {
         public const string CSF_LABEL_FLAG = " LBL";
 
@@ -22,6 +23,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
         private string name = string.Empty;
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         public IReadOnlyList<CsfValueStruct> Values => values.AsReadOnly();
         public string Name
@@ -34,28 +36,23 @@ namespace Shimakaze.ToolKit.CSF.Kernel
         }
         public CsfLabelStruct()
         {
-            PropertyChanged += CsfLabelStruct_PropertyChanged;
-        }
-        public CsfLabelStruct(string name) : this()
-        {
-            Name = name;
-        }
-
-        private void CsfLabelStruct_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
+            PropertyChanged += (_, e) =>
             {
-                case nameof(Values):
-                    OnPropertyChanged(nameof(Count));
-                    break;
-            }
+                switch (e.PropertyName)
+                {
+                    case nameof(Values):
+                        OnPropertyChanged(nameof(Count));
+                        break;
+                }
+            };
         }
-        private void Value_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            OnPropertyChanged(nameof(Values));
-        }
+        public CsfLabelStruct(string name) : this() => Name = name;
 
         private void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        private void OnCollectionChanged(NotifyCollectionChangedAction action, object item, int index) => CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action, item, index));
+        private void OnCollectionChanged(NotifyCollectionChangedAction action, object item) => CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action, item));
+        private void OnCollectionChanged(NotifyCollectionChangedAction action) => CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action));
+
         public static async Task<CsfLabelStruct> ParseAsync(Stream stream)
         {
             var lbl = new CsfLabelStruct();
@@ -83,14 +80,16 @@ namespace Shimakaze.ToolKit.CSF.Kernel
             {
                 values[index] = value;
                 OnPropertyChanged(nameof(Values));
+                OnCollectionChanged(NotifyCollectionChangedAction.Replace, value, index);
             }
         }
         public int Count => values.Count;
         public void Add(CsfValueStruct item)
         {
             values.Add(item);
-            item.PropertyChanged += Value_PropertyChanged;
+            item.PropertyChanged += (_, _) => OnPropertyChanged(nameof(Values));
             OnPropertyChanged(nameof(Values));
+            OnCollectionChanged(NotifyCollectionChangedAction.Add, item);
         }
 
 
@@ -98,6 +97,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
         {
             values.Clear();
             OnPropertyChanged(nameof(Values));
+            OnCollectionChanged(NotifyCollectionChangedAction.Reset);
         }
 
         public bool Contains(CsfValueStruct item) => values.Contains(item);
@@ -107,24 +107,27 @@ namespace Shimakaze.ToolKit.CSF.Kernel
         {
             values.Insert(index, item);
             OnPropertyChanged(nameof(Values));
+            OnCollectionChanged(NotifyCollectionChangedAction.Add, item, index);
         }
 
         public bool Remove(CsfValueStruct item)
         {
             var tmp = values.Remove(item);
             OnPropertyChanged(nameof(Values));
+            OnCollectionChanged(NotifyCollectionChangedAction.Remove, item);
             return tmp;
         }
 
         public void RemoveAt(int index)
         {
             values.RemoveAt(index);
+            OnCollectionChanged(NotifyCollectionChangedAction.Remove);
             OnPropertyChanged(nameof(Values));
         }
 
         public IEnumerator<CsfValueStruct> GetEnumerator() => values.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         [Obsolete("这个不被使用")]
-        public bool IsReadOnly => throw new NotImplementedException();
+        public bool IsReadOnly => false;
     }
 }
