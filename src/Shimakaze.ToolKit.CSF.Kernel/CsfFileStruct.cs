@@ -65,6 +65,11 @@ namespace Shimakaze.ToolKit.CSF.Kernel
                 AddNoChangeHead(await CsfLabelStruct.ParseAsync(stream));
         }
 
+        public virtual async Task DeparseAsync(Stream stream)
+        {
+            await Head.DeparseAsync(stream);
+            foreach (var item in Body) await item.DeparseAsync(stream);
+        }
         public virtual int Count => body.Count;
         [Obsolete("不被使用")]
         public bool IsReadOnly => throw new NotImplementedException();

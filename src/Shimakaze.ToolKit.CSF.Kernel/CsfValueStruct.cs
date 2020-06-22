@@ -83,6 +83,27 @@ namespace Shimakaze.ToolKit.CSF.Kernel
             return value;
         }
         /// <summary>
+        /// 异步还原
+        /// </summary>
+        /// <param name="stream">流</param>
+        public async Task DeparseAsync(Stream stream)
+        {
+            // 字符串标记
+            await stream.WriteAsync(Encoding.ASCII.GetBytes(IsWstr ? CSF_VALUE_WSTR : CSF_VALUE_STR));
+            // 字符串主要内容长度
+            await stream.WriteAsync(BitConverter.GetBytes(Content.Length << 1));
+            // 字符串主要内容
+            await stream.WriteAsync(Decoding(Encoding.Unicode.GetBytes(Content)));
+            // 判断是否包含额外内容
+            if (IsWstr)// 存在额外内容
+            {
+                // 额外内容长度
+                await stream.WriteAsync(BitConverter.GetBytes(Extra.Length));
+                // 额外内容
+                await stream.WriteAsync(Encoding.ASCII.GetBytes(Extra));
+            }
+        }
+        /// <summary>
         /// 同步解析
         /// </summary>
         public static CsfValueStruct Parse(Stream stream)
@@ -106,6 +127,29 @@ namespace Shimakaze.ToolKit.CSF.Kernel
                 value.Extra = extra = Encoding.ASCII.GetString(stream.Read(extraLength));
             }
             return value;
+        }
+        /// <summary>
+        /// 同步还原
+        /// </summary>
+        public byte[] Deparse()
+        {
+            var bytes = new MemoryStream();
+            // 字符串标记
+            bytes.Write(Encoding.ASCII.GetBytes(IsWstr ? CSF_VALUE_WSTR : CSF_VALUE_STR));
+            // 字符串主要内容长度
+            bytes.Write(BitConverter.GetBytes(Content.Length << 1));
+            // 字符串主要内容
+            bytes.Write(Decoding(Encoding.Unicode.GetBytes(Content)));
+            // 判断是否包含额外内容
+            if (IsWstr)// 存在额外内容
+            {
+                // 额外内容长度
+                bytes.Write(BitConverter.GetBytes(Extra.Length));
+                // 额外内容
+                bytes.Write(Encoding.ASCII.GetBytes(Extra));
+            }
+            bytes.Position = 0;
+            return bytes.ToArray();
         }
 
 

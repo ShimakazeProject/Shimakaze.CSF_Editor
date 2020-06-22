@@ -52,7 +52,9 @@ namespace Shimakaze.ToolKit.CSF.Kernel
         private void OnCollectionChanged(NotifyCollectionChangedAction action, object item, int index) => CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action, item, index));
         private void OnCollectionChanged(NotifyCollectionChangedAction action, object item) => CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action, item));
         private void OnCollectionChanged(NotifyCollectionChangedAction action) => CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action));
-
+        /// <summary>
+        /// 异步解析
+        /// </summary>
         public static async Task<CsfLabelStruct> ParseAsync(Stream stream)
         {
             var lbl = new CsfLabelStruct();
@@ -72,7 +74,22 @@ namespace Shimakaze.ToolKit.CSF.Kernel
                 lbl.Add(await CsfValueStruct.ParseAsync(stream));
             return lbl;
         }
+        /// <summary>
+        /// 异步还原
+        /// </summary>
+        public async Task DeparseAsync(Stream stream)
+        {
+            // 标签头
+            await stream.WriteAsync(Encoding.ASCII.GetBytes(CSF_LABEL_FLAG));
+            // 字符串数量 
+            await stream.WriteAsync(BitConverter.GetBytes(Count));
+            // 标签名长度
+            await stream.WriteAsync(BitConverter.GetBytes(Name.Length));
+            // 标签名
+            await stream.WriteAsync(Encoding.ASCII.GetBytes(Name));
 
+            foreach (var item in Values) await item.DeparseAsync(stream);
+        }
         public CsfValueStruct this[int index]
         {
             get => values[index];

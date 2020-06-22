@@ -76,7 +76,16 @@ namespace Shimakaze.ToolKit.CSF.Kernel
             var sc = BitConverter.ToInt32(await stream.ReadAsync(4), 0);
             var uknow = BitConverter.ToInt32(await stream.ReadAsync(4), 0);
             var lang = BitConverter.ToInt32(await stream.ReadAsync(4), 0);
-            return new CsfHeadStruct(ver,lc,sc,uknow,lang);
+            return new CsfHeadStruct(ver, lc, sc, uknow, lang);
+        }
+        public async Task DeparseAsync(Stream stream)
+        {
+            await stream.WriteAsync(Encoding.ASCII.GetBytes(CSF_FLAG));
+            await stream.WriteAsync(BitConverter.GetBytes(Version));
+            await stream.WriteAsync(BitConverter.GetBytes(LabelCount));
+            await stream.WriteAsync(BitConverter.GetBytes(StringCount));
+            await stream.WriteAsync(BitConverter.GetBytes(Unknown));
+            await stream.WriteAsync(BitConverter.GetBytes(LabelCount));
         }
 
         public const string CSF_FLAG = " FSC";// 标准CSF文件标识符
