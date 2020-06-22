@@ -26,8 +26,28 @@
     TitleForeground="{DynamicResource Fluent.Ribbon.Brushes.Backstage.Foreground}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static cmd:CsfMainWindowCommands.OpenFile}" CanExecute="OpenFile_CanExecute" Executed="OpenFile_Execute"/>
+        <CommandBinding Command="{x:Static cmd:CsfMainWindowCommands.SaveFile}" CanExecute="SaveFile_CanExecute" Executed="SaveFile_Execute"/>
+        <CommandBinding Command="{x:Static cmd:CsfMainWindowCommands.SaveAsFile}" CanExecute="SaveAsFile_CanExecute" Executed="SaveAsFile_Execute"/>
+        <CommandBinding Command="{x:Static cmd:CsfMainWindowCommands.NewFile}" CanExecute="NewFile_CanExecute" Executed="NewFile_Execute"/>
+
+        <CommandBinding Command="{x:Static cmd:CsfMainWindowCommands.ImportFile}" CanExecute="ImportFile_CanExecute" Executed="ImportFile_Execute"/>
+        <CommandBinding Command="{x:Static cmd:CsfMainWindowCommands.ExportFile}" CanExecute="ExportFile_CanExecute" Executed="ExportFile_Execute"/>
+        <CommandBinding Command="{x:Static cmd:CsfMainWindowCommands.MergeFile}" CanExecute="MergeFile_CanExecute" Executed="MergeFile_Execute"/>
+
+        <CommandBinding Command="{x:Static cmd:CsfMainWindowCommands.CloseFile}" CanExecute="CloseFile_CanExecute" Executed="CloseFile_Execute"/>
+
+        <CommandBinding Command="{x:Static cmd:CsfMainWindowCommands.CloseWindow}" CanExecute="CloseWindow_CanExecute" Executed="CloseWindow_Execute"/>
+    </Window.CommandBindings>
     <Window.InputBindings>
-        <KeyBinding Gesture="Control+Shift+O" Command="{x:Static cmd:OpenFileCommand.Instance}" CommandParameter="{Binding ElementName=this}"/>
+        <KeyBinding Gesture="Control+O" Command="{x:Static cmd:CsfMainWindowCommands.OpenFile}"/>
+        <KeyBinding Gesture="Control+S" Command="{x:Static cmd:CsfMainWindowCommands.SaveFile}"/>
+        <KeyBinding Gesture="Control+Shift+S" Command="{x:Static cmd:CsfMainWindowCommands.SaveAsFile}"/>
+        <KeyBinding Gesture="Control+N" Command="{x:Static cmd:CsfMainWindowCommands.NewFile}"/>
+
+        <KeyBinding Gesture="Control+I" Command="{x:Static cmd:CsfMainWindowCommands.ImportFile}"/>
+        <KeyBinding Gesture="Control+E" Command="{x:Static cmd:CsfMainWindowCommands.ExportFile}"/>
     </Window.InputBindings>
     <Grid fw:PointerTracker.Enabled="True">
         <Grid.RowDefinitions>

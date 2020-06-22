@@ -22,6 +22,7 @@ namespace Shimakaze.ToolKit.CSF.GUI
         public StatusBlock()
         {
             InitializeComponent();
+            Hide();
         }
         public void ShowProgressBar() => ProgressBar.Visibility = Visibility.Visible;
         public void HideProgressBar() => ProgressBar.Visibility = Visibility.Collapsed;
@@ -34,7 +35,7 @@ namespace Shimakaze.ToolKit.CSF.GUI
         public void HideTextBlock() => TextBlock.Visibility = Visibility.Collapsed;
 
 
-        public void ShowButton(string s=null)
+        public void ShowButton(string s = null)
         {
             Button.Visibility = Visibility.Visible;
             if (!string.IsNullOrEmpty(s)) BtnContent = s;
@@ -43,13 +44,15 @@ namespace Shimakaze.ToolKit.CSF.GUI
         public void HideButton() => Button.Visibility = Visibility.Collapsed;
 
 
-        public void Show(Control control = Control.None)
+        public void Show(Control control = Control.None, string text = null)
         {
+            Hide();
             Visibility = Visibility.Visible;
             if ((control & Control.ProgressBar) != Control.None) ShowProgressBar();
             if ((control & Control.ProgressRing) != Control.None) ShowProgressRing();
             if ((control & Control.TextBlock) != Control.None) ShowTextBlock();
             if ((control & Control.Button) != Control.None) ShowButton();
+            if (!string.IsNullOrEmpty(text)) Text = text;
         }
         public void Hide() => Visibility = ProgressBar.Visibility = ProgressRing.Visibility = TextBlock.Visibility = Button.Visibility = Visibility.Collapsed;
 
