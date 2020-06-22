@@ -21,7 +21,7 @@ namespace Shimakaze.ToolKit.CSF.GUI
     {
         public static App Instance { get; private set; } = Current as App;
 
-        
+
         public App()
         {
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
@@ -53,10 +53,7 @@ namespace Shimakaze.ToolKit.CSF.GUI
             for (int i = 1; i < args.Length; i++)
             {
                 if (args[i].Equals("-o") && args[i].Equals("--open"))
-                {
-                    i++;
-                    mainWindow = new MainWindow(args[i]);
-                }
+                    mainWindow = new MainWindow(args[++i]);
             }
             if (mainWindow is null) mainWindow = new MainWindow();
 

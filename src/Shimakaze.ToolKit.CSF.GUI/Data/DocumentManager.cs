@@ -2,53 +2,30 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Windows.Input;
 
 using Microsoft.Win32;
 
-using Shimakaze.ToolKit.CSF.GUI.Data;
 using Shimakaze.ToolKit.CSF.GUI.ViewModel;
 using Shimakaze.ToolKit.CSF.Kernel;
 
-namespace Shimakaze.ToolKit.CSF.GUI.Commands
+namespace Shimakaze.ToolKit.CSF.GUI.Data
 {
-    public class OpenFileCommand : ICommand
+    public static class DocumentManager
     {
-        public static OpenFileCommand Instance { get; } = new OpenFileCommand();
-        public event EventHandler CanExecuteChanged;
-        private ParseBackgroundWorker<CsfClassFile> CsfClassFileBW;
+        private static ParseBackgroundWorker<CsfClassFile> CsfClassFileBW;
 
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
         private const System.Windows.Visibility Hide = System.Windows.Visibility.Collapsed;
         private const System.Windows.Visibility Show = System.Windows.Visibility.Visible;
-        public void Execute(object parameter)
+        public static void OpenFile(CsfDocumentView documentView, string filePath = null)
+
         {
             CsfClassFileBW = new ParseBackgroundWorker<CsfClassFile>();
             // 模式匹配
-            string filePath = null;
-            CsfDocumentView documentView = parameter switch
-            {
-                MainWindow mainWindow => mainWindow.Document,
-                StartScreen startScreen => startScreen.RootWindow.Document,
-                CsfDocumentView csfDocumentView => csfDocumentView,
-                null => throw new NotImplementedException(),
-                _ => null,
-            };
-            (documentView, filePath) = parameter switch
-            {
-                ValueTuple<MainWindow, string> datatuple => (datatuple.Item1.Document, datatuple.Item2),
-                ValueTuple<CsfDocumentView, string> datatuple => (datatuple.Item1, datatuple.Item2),
-                ValueTuple<StartScreen, string> datatuple => (datatuple.Item1.RootWindow.Document, datatuple.Item2),
-                _ => (documentView, null)
-            };
+
             // 显示状态块
             StatusBlock statusBlock = documentView.StatusBlock;
-            statusBlock.Visibility = Show;
+            statusBlock.Show(StatusBlock.Control.ProgressBar | StatusBlock.Control.TextBlock);
             statusBlock.ProgressBar.IsIndeterminate = true;
-            statusBlock.ProgressBar.Visibility = Show;
 
             if (string.IsNullOrEmpty(filePath))
             {
@@ -61,22 +38,19 @@ namespace Shimakaze.ToolKit.CSF.GUI.Commands
                 if (ofd.ShowDialog() ?? false) filePath = ofd.FileName;
                 else
                 {
-                    statusBlock.ProgressBar.Visibility = Hide;
+                    statusBlock.HideProgressBar();
                     return;
                 }
             }
-            // 用花括号限制变量的作用域
-            { if (parameter is StartScreen startScreen) startScreen.HidePub(); }
             // 设置取消按钮
-            statusBlock.TextBlock.Text = "正在读取中, 请稍候...";
-            statusBlock.Button.Content = "取消";
-            statusBlock.Button.Visibility = Show;
+            statusBlock.Text = "正在读取中, 请稍候...";
+            statusBlock.ShowButton("取消");
             statusBlock.Button.Click += (o, e) =>
             {
                 CsfClassFileBW.Cancel();
-                statusBlock.TextBlock.Text = "用户已取消";
-                statusBlock.ProgressBar.Visibility = Hide;
-                statusBlock.Button.Visibility = Hide;
+                statusBlock.Text = "用户已取消";
+                statusBlock.HideProgressBar();
+                statusBlock.HideButton();
             };
             // 属性变更通知
             CsfClassFileBW.PropertyChanged += (o, e) =>
@@ -84,17 +58,16 @@ namespace Shimakaze.ToolKit.CSF.GUI.Commands
                 switch (e.PropertyName)
                 {
                     case nameof(CsfClassFileBW.StatusString):// 字符串变更
-                        lock (statusBlock.TextBlock)
-                            statusBlock.TextBlock.Text = CsfClassFileBW.StatusString;
+                        lock (statusBlock)
+                            statusBlock.Text = CsfClassFileBW.StatusString;
                         break;
                     case nameof(CsfClassFileBW.Error):// 发生异常
                         if (CsfClassFileBW.Error is Exception exception)
                         {
-                            lock (statusBlock.TextBlock)
-                                statusBlock.TextBlock.Text = exception.Message;
-                            statusBlock.ProgressBar.Visibility = Hide;
-                            //statusBlock.ProgressRing.Visibility = Hide;
-                            statusBlock.Button.Visibility = Hide;
+                            lock (statusBlock)
+                                statusBlock.Text = exception.Message;
+                            statusBlock.HideProgressBar();
+                            statusBlock.HideButton();
                         }
                         break;
                     case nameof(CsfClassFileBW.UnknowProgress):// 进度未知
@@ -120,7 +93,6 @@ namespace Shimakaze.ToolKit.CSF.GUI.Commands
             {
                 documentView.DataContext = new CsfDocument(result);
                 if (result != null) statusBlock.Visibility = Hide;
-                if (parameter is StartScreen startScreen) startScreen.HidePub();
             };
 
             // 加载文件

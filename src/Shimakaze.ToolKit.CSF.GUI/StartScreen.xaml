@@ -17,10 +17,8 @@
     IsOpen="True"
     mc:Ignorable="d">
     <Fluent:StartScreen.InputBindings>
-        <KeyBinding
-            Key="Esc"
-            x:Name="EscKey"
-            Command="{x:Static cmd:HideStartScreenCommand.Instance}" />
+        <KeyBinding Key="Esc" x:Name="EscKey" Command="{x:Static cmd:HideStartScreenCommand.Instance}" />
+        <KeyBinding Key="O" Command="{x:Static cmd:OpenFileCommand.Instance}" CommandParameter="{Binding ElementName=Instance}"/>
     </Fluent:StartScreen.InputBindings>
     <Fluent:StartScreenTabControl>
         <Fluent:StartScreenTabControl.LeftContent>
@@ -52,7 +50,8 @@
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
                         <StackPanel>
-                            <Button x:Name="btnOpen" Command="{x:Static cmd:OpenFileCommand.Instance}" Content="{x:Static i18n:Resources.UI_Open}" />
+                            <Button x:Name="btnOpen" Command="{x:Static cmd:OpenFileCommand.Instance}" Content="{x:Static i18n:Resources.UI_Open}" >
+                            </Button>
                             <Button CommandParameter="{Binding ElementName=this}" Content="{x:Static i18n:Resources.UI_New}" />
                             <Button CommandParameter="{Binding ElementName=this}" Content="{x:Static i18n:Resources.UI_Import}" />
                             <Button Content="XXX" />

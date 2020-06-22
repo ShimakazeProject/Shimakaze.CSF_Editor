@@ -7,6 +7,7 @@
     xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
     xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
     xmlns:i18n="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Strings"
+    xmlns:cmd="clr-namespace:Shimakaze.ToolKit.CSF.GUI.Commands"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -25,6 +26,9 @@
     TitleForeground="{DynamicResource Fluent.Ribbon.Brushes.Backstage.Foreground}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+    <Window.InputBindings>
+        <KeyBinding Gesture="Control+Shift+O" Command="{x:Static cmd:OpenFileCommand.Instance}" CommandParameter="{Binding ElementName=this}"/>
+    </Window.InputBindings>
     <Grid fw:PointerTracker.Enabled="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
