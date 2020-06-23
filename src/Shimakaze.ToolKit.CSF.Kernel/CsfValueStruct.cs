@@ -91,7 +91,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
             // 字符串标记
             await stream.WriteAsync(Encoding.ASCII.GetBytes(IsWstr ? CSF_VALUE_WSTR : CSF_VALUE_STR));
             // 字符串主要内容长度
-            await stream.WriteAsync(BitConverter.GetBytes(Content.Length << 1));
+            await stream.WriteAsync(BitConverter.GetBytes(Content.Length));
             // 字符串主要内容
             await stream.WriteAsync(Decoding(Encoding.Unicode.GetBytes(Content)));
             // 判断是否包含额外内容
@@ -137,7 +137,7 @@ namespace Shimakaze.ToolKit.CSF.Kernel
             // 字符串标记
             bytes.Write(Encoding.ASCII.GetBytes(IsWstr ? CSF_VALUE_WSTR : CSF_VALUE_STR));
             // 字符串主要内容长度
-            bytes.Write(BitConverter.GetBytes(Content.Length << 1));
+            bytes.Write(BitConverter.GetBytes(Content.Length));
             // 字符串主要内容
             bytes.Write(Decoding(Encoding.Unicode.GetBytes(Content)));
             // 判断是否包含额外内容
