@@ -70,8 +70,8 @@ namespace Shimakaze.ToolKit.CSF.GUI.Data
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Error)));
             }
         }
-        public delegate void ParseBackgroundWorkerFinishedHander(CsfBackgroundWorker<T> sender, T result);
-        public event ParseBackgroundWorkerFinishedHander Finished;
+        public delegate void CsfBackgroundWorkerFinishedHander(CsfBackgroundWorker<T> sender, T result);
+        public event CsfBackgroundWorkerFinishedHander Finished;
         public event PropertyChangedEventHandler PropertyChanged;
         public async void BeginParse(Stream stream)
         {
