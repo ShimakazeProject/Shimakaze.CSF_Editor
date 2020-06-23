@@ -16,7 +16,7 @@ namespace Shimakaze.ToolKit.CSF.GUI.Commands
     {
         public static OpenFileCommand Instance { get; } = new OpenFileCommand();
         public event EventHandler CanExecuteChanged;
-        private ParseBackgroundWorker<CsfClassFile> CsfClassFileBW;
+        private CsfBackgroundWorker<CsfClassFile> CsfClassFileBW;
 
         public bool CanExecute(object parameter)
         {
@@ -26,7 +26,7 @@ namespace Shimakaze.ToolKit.CSF.GUI.Commands
         private const System.Windows.Visibility Show = System.Windows.Visibility.Visible;
         public void Execute(object parameter)
         {
-            CsfClassFileBW = new ParseBackgroundWorker<CsfClassFile>();
+            CsfClassFileBW = new CsfBackgroundWorker<CsfClassFile>();
             // 模式匹配
             string filePath = null;
             CsfDocumentView documentView = parameter switch

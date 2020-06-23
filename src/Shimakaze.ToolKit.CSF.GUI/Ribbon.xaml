@@ -37,12 +37,9 @@
     <Fluent:Ribbon.Menu>
         <Fluent:Backstage>
             <Fluent:BackstageTabControl>
-                <Fluent:Button
-                    Command="{x:Static cmd:OpenFileCommand.Instance}"
-                    CommandParameter="{Binding RootWindow, ElementName=this}"
-                    Header="{x:Static i18n:Resources.UI_Open}" />
-                <Fluent:Button Header="{x:Static i18n:Resources.UI_Save}" />
-                <Fluent:Button Header="{x:Static i18n:Resources.UI_SaveAs}" />
+                <Fluent:Button Header="{x:Static i18n:Resources.UI_Open}" Command="{x:Static cmd:CsfMainWindowCommands.OpenFile}"/>
+                <Fluent:Button Header="{x:Static i18n:Resources.UI_Save}" Command="{x:Static cmd:CsfMainWindowCommands.SaveFile}"/>
+                <Fluent:Button Header="{x:Static i18n:Resources.UI_SaveAs}" Command="{x:Static cmd:CsfMainWindowCommands.SaveAsFile}"/>
                 <Fluent:Button Header="{x:Static i18n:Resources.UI_New}" />
                 <Fluent:SeparatorTabItem />
                 <Fluent:Button Header="{x:Static i18n:Resources.UI_Import}" />

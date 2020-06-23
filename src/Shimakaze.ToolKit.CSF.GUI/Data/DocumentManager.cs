@@ -12,14 +12,14 @@ namespace Shimakaze.ToolKit.CSF.GUI.Data
 {
     public static class DocumentManager
     {
-        private static ParseBackgroundWorker<CsfClassFile> CsfClassFileBW;
+        private static CsfBackgroundWorker<CsfClassFile> CsfClassFileBW;
 
         private const System.Windows.Visibility Hide = System.Windows.Visibility.Collapsed;
         private const System.Windows.Visibility Show = System.Windows.Visibility.Visible;
         public static void OpenFile(CsfDocumentView documentView, string filePath = null)
 
         {
-            CsfClassFileBW = new ParseBackgroundWorker<CsfClassFile>();
+            CsfClassFileBW = new CsfBackgroundWorker<CsfClassFile>();
             // 模式匹配
 
             // 显示状态块

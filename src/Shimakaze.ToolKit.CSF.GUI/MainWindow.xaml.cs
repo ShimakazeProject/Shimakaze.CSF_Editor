@@ -78,7 +78,7 @@ namespace Shimakaze.ToolKit.CSF.GUI
 
         private void SaveFile_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-
+            Document.SaveFile(Document.FilePath);
         }
 
         private void SaveAsFile_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -88,7 +88,22 @@ namespace Shimakaze.ToolKit.CSF.GUI
 
         private void SaveAsFile_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-
+            StatusBlock statusBlock = Document.StatusBlock;
+            statusBlock.ProgressBar.IsIndeterminate = true;
+            statusBlock.Show(StatusBlock.Control.ProgressBar | StatusBlock.Control.TextBlock, "正在等待...");
+            // 创建保存文件对话框
+            var ofd = new Microsoft.Win32.SaveFileDialog
+            {
+                Filter = "CSF 文件|*.csf",
+                FileName = "ra2md.csf"
+            };
+            if (ofd.ShowDialog() ?? false) Document.SaveFile(ofd.FileName);
+            else
+            {
+                statusBlock.TextBlock.Text = "已取消";
+                statusBlock.HideProgressBar();
+                return;
+            }
         }
 
         private void NewFile_CanExecute(object sender, CanExecuteRoutedEventArgs e)
