@@ -16,7 +16,7 @@ namespace CSF.WPF.Core.View
     /// <summary>
     /// ButtomBar.xaml 的交互逻辑
     /// </summary>
-    public partial class ButtomBar : UserControl
+    public partial class ButtomBar 
     {
         public ButtomBar()
         {
