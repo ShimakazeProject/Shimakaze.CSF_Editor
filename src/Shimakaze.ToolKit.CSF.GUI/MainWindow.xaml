@@ -29,7 +29,7 @@
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static cmd:CsfMainWindowCommands.OpenFile}" CanExecute="OpenFile_CanExecute" Executed="OpenFile_Execute"/>
         <CommandBinding Command="{x:Static cmd:CsfMainWindowCommands.SaveFile}" CanExecute="SaveFile_CanExecute" Executed="SaveFile_Execute"/>
-        <CommandBinding Command="{x:Static cmd:CsfMainWindowCommands.SaveAsFile}" CanExecute="SaveAsFile_CanExecute" Executed="SaveAsFile_Execute"/>
+        <CommandBinding Command="{x:Static cmd:CsfMainWindowCommands.SaveAsFile}" CanExecute="SaveFile_CanExecute" Executed="SaveAsFile_Execute"/>
         <CommandBinding Command="{x:Static cmd:CsfMainWindowCommands.NewFile}" CanExecute="NewFile_CanExecute" Executed="NewFile_Execute"/>
 
         <CommandBinding Command="{x:Static cmd:CsfMainWindowCommands.ImportFile}" CanExecute="ImportFile_CanExecute" Executed="ImportFile_Execute"/>

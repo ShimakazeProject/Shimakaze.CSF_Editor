@@ -81,11 +81,6 @@ namespace Shimakaze.ToolKit.CSF.GUI
             Document.SaveFile(Document.FilePath);
         }
 
-        private void SaveAsFile_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = Document.IsOpenedFile;
-        }
-
         private void SaveAsFile_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             StatusBlock statusBlock = Document.StatusBlock;

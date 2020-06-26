@@ -35,8 +35,50 @@
         HorizontalAlignment="Center"
         VerticalAlignment="Stretch"
         Background="LightGray" />
-    
-    <DataGrid
+    <ListView ItemsSource="{Binding LabelList}" Grid.Column="2">
+        <ListView.View>
+            <GridView>
+                <!--标签-->
+                <GridViewColumn Header="Label" Width="auto">
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Name}" Style="{DynamicResource MaterialDesignTextBoxBase}"/>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+                <!--内容-->
+                <GridViewColumn Header="Value" Width="600" >
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <ListView ItemsSource="{Binding Values}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBox TextWrapping="WrapWithOverflow" Text="{Binding Content}" Style="{DynamicResource MaterialDesignTextBoxBase}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+                <!--额外值-->
+                <GridViewColumn Header="Extra" Width="auto" >
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <ListView ItemsSource="{Binding Values}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Extra}" Style="{DynamicResource MaterialDesignTextBoxBase}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+            </GridView>
+        </ListView.View>
+    </ListView>
+    <!--弃用的旧实现-->
+    <!--<DataGrid
         Grid.Column="2"
         AutoGenerateColumns="False"
         CanUserAddRows="True"
@@ -45,12 +87,12 @@
         IsReadOnly="True"
         ItemsSource="{Binding LabelList}"
         SelectedItem="{Binding Value}">
-        <DataGrid.Columns>
-            <DataGridTextColumn Width="200" MinWidth="50" Binding="{Binding Name}" Header="Label"/>
-            <DataGridTextColumn Width="*" MinWidth="50" Binding="{Binding Values[0].Content}" Header="Value" />
-            <DataGridTextColumn Width="200" MinWidth="10" Binding="{Binding Values[0].Extra}" Header="Extra" />
-        </DataGrid.Columns>
-    </DataGrid>
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="200" MinWidth="50" Binding="{Binding Name}" Header="Label"/>
+                <DataGridTextColumn Width="*" MinWidth="50" Binding="{Binding Values[0].Content}" Header="Value" />
+                <DataGridTextColumn Width="200" MinWidth="10" Binding="{Binding Values[0].Extra}" Header="Extra" />
+            </DataGrid.Columns>
+        </DataGrid>-->
 
     <local:StatusBlock x:Name="StatusBlock" Grid.ColumnSpan="3"/>
 </Grid>
