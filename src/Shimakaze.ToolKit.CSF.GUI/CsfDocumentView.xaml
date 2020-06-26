@@ -35,64 +35,61 @@
         HorizontalAlignment="Center"
         VerticalAlignment="Stretch"
         Background="LightGray" />
-    <ListView ItemsSource="{Binding LabelList}" Grid.Column="2">
-        <ListView.View>
-            <GridView>
-                <!--标签-->
-                <GridViewColumn Header="Label" Width="auto">
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Name}" Style="{DynamicResource MaterialDesignTextBoxBase}"/>
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
-                <!--内容-->
-                <GridViewColumn Header="Value" Width="600" >
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate>
-                            <ListView ItemsSource="{Binding Values}">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBox TextWrapping="WrapWithOverflow" Text="{Binding Content}" Style="{DynamicResource MaterialDesignTextBoxBase}"/>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
-                <!--额外值-->
-                <GridViewColumn Header="Extra" Width="auto" >
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate>
-                            <ListView ItemsSource="{Binding Values}">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding Extra}" Style="{DynamicResource MaterialDesignTextBoxBase}"/>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
-            </GridView>
-        </ListView.View>
-    </ListView>
-    <!--弃用的旧实现-->
-    <!--<DataGrid
+    <DataGrid
         Grid.Column="2"
+        AlternationCount="2"
+        AlternatingRowBackground="{DynamicResource AttentionToActionBrush}"
         AutoGenerateColumns="False"
         CanUserAddRows="True"
         CanUserDeleteRows="True"
         CanUserResizeRows="True"
-        IsReadOnly="True"
         ItemsSource="{Binding LabelList}"
         SelectedItem="{Binding Value}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Width="200" MinWidth="50" Binding="{Binding Name}" Header="Label"/>
-                <DataGridTextColumn Width="*" MinWidth="50" Binding="{Binding Values[0].Content}" Header="Value" />
-                <DataGridTextColumn Width="200" MinWidth="10" Binding="{Binding Values[0].Extra}" Header="Extra" />
-            </DataGrid.Columns>
-        </DataGrid>-->
+        <DataGrid.CellStyle>
+            <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                <Style.Triggers>
+                    <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                            <Condition Property="IsMouseOver" Value="True" />
+                        </MultiTrigger.Conditions>
+                        <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.DataGrid.Selection.Background.MouseOver}" />
+                        <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.DataGrid.Selection.BorderBrush.MouseOver}" />
+                    </MultiTrigger>
+                </Style.Triggers>
+            </Style>
+        </DataGrid.CellStyle>
+        <DataGrid.Columns>
+            <DataGridTextColumn Width="200" MinWidth="50" Binding="{Binding Name}" Header="Label"
+        mah:DataGridHelper.EnableCellEditAssist="True"/>
+            <DataGridTemplateColumn Width="*" MinWidth="50" Header="Value">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <ListBox ItemsSource="{Binding Values}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Content}" Style="{DynamicResource MaterialDesignTextBoxBase}" TextWrapping="Wrap" AcceptsReturn="True" HorizontalScrollBarVisibility="Disabled"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <DataGridTemplateColumn Width="200" MinWidth="50" Header="Value">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <ListBox ItemsSource="{Binding Values}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Extra}" Style="{DynamicResource MaterialDesignTextBoxBase}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+        </DataGrid.Columns>
+    </DataGrid>
 
     <local:StatusBlock x:Name="StatusBlock" Grid.ColumnSpan="3"/>
 </Grid>
