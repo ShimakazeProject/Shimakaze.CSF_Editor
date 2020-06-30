@@ -39,6 +39,7 @@ namespace Shimakaze.ToolKit.CSF.GUI
         protected override void OnStartup(StartupEventArgs e)
         {
             ThemeManager.Initialize();
+            Data.Plugins.PluginManager.Init();
 
             base.OnStartup(e);
             int timer = 3000;

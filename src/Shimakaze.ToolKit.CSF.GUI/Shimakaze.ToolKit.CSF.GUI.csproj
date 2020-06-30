@@ -31,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shimakaze.ToolKit.CSF.Kernel\Shimakaze.ToolKit.CSF.Kernel.csproj" />
+    <ProjectReference Include="..\Shimakaze.ToolKit.CSF.Plugin.Kernel\Shimakaze.ToolKit.CSF.Plugin.Interfaces.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\wallls.com_131279.jpg" />
