@@ -43,6 +43,7 @@
         CanUserAddRows="True"
         CanUserDeleteRows="True"
         CanUserResizeRows="True"
+        IsReadOnly="True"
         ItemsSource="{Binding LabelList}"
         SelectedItem="{Binding Value}">
         <DataGrid.CellStyle>
@@ -58,10 +59,20 @@
                 </Style.Triggers>
             </Style>
         </DataGrid.CellStyle>
+        <DataGrid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="复制"/>
+                <MenuItem Header="粘贴"/>
+                <MenuItem Header="重命名"/>
+                <MenuItem Header="添加新值"/>
+                <MenuItem Header="移除值"/>
+            </ContextMenu>
+        </DataGrid.ContextMenu>
         <DataGrid.Columns>
-            <DataGridTextColumn Width="200" MinWidth="50" Binding="{Binding Name}" Header="Label"
-        mah:DataGridHelper.EnableCellEditAssist="True"/>
-            <DataGridTemplateColumn Width="*" MinWidth="50" Header="Value">
+            <DataGridTextColumn Width="200" MinWidth="50" Binding="{Binding Name}" Header="Label"/>
+            <DataGridTextColumn Width="*" Binding="{Binding Values[0].Content}" Header="Value"/>
+            <DataGridTextColumn Width="200" MinWidth="50" Binding="{Binding Values[0].Extra}" Header="Extra"/>
+            <!--<DataGridTemplateColumn Width="*" MinWidth="50" Header="Value">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <ListBox ItemsSource="{Binding Values}">
@@ -87,7 +98,7 @@
                         </ListBox>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
+            </DataGridTemplateColumn>-->
         </DataGrid.Columns>
     </DataGrid>
 
