@@ -1,8 +1,8 @@
-﻿<Fluent:RibbonWindow
+﻿<mah:MetroWindow
     x:Class="Shimakaze.ToolKit.CSF.GUI.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Fluent="urn:fluent-ribbon"
+    xmlns:ribbon="urn:fluent-ribbon"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
     xmlns:local="clr-namespace:Shimakaze.ToolKit.CSF.GUI"
@@ -22,10 +22,13 @@
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     TextOptions.TextFormattingMode="Ideal"
     TextOptions.TextRenderingMode="Auto"
-    TitleBackground="{DynamicResource Fluent.Ribbon.Brushes.Backstage.Background}"
-    TitleForeground="{DynamicResource Fluent.Ribbon.Brushes.Backstage.Foreground}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+    <mah:MetroWindow.TitleTemplate>
+        <DataTemplate>
+            <ribbon:RibbonTitleBar x:Name="RibbonTitleBar" Header="{Binding Path=Title, RelativeSource={RelativeSource AncestorType=Window}}"/>
+        </DataTemplate>
+    </mah:MetroWindow.TitleTemplate>
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static cmd:CsfMainWindowCommands.OpenFile}" CanExecute="OpenFile_CanExecute" Executed="OpenFile_Execute"/>
         <CommandBinding Command="{x:Static cmd:CsfMainWindowCommands.SaveFile}" CanExecute="SaveFile_CanExecute" Executed="SaveFile_Execute"/>
@@ -55,13 +58,87 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <local:Ribbon x:Name="Ribbon" />
+        <ribbon:Ribbon>
+            <!--  开始屏幕  -->
+            <ribbon:Ribbon.StartScreen>
+                <local:StartScreen x:Name="startScreen" RootWindow="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+            </ribbon:Ribbon.StartScreen>
 
-        <local:CsfDocumentView x:Name="Document" Grid.Row="1" />
+            <ribbon:Ribbon.ContextualGroups>
+                <ribbon:RibbonContextualTabGroup />
+            </ribbon:Ribbon.ContextualGroups>
+
+            <!--  Quick Access Toolbar Items  -->
+            <ribbon:Ribbon.QuickAccessItems>
+                <!--  Use Content or Target Property to set QAT item  -->
+                <ribbon:QuickAccessMenuItem IsChecked="true">
+                    <ribbon:Button Header="Pink" />
+                </ribbon:QuickAccessMenuItem>
+
+                <!--  You Can Just Bind with Any Control  -->
+                <ribbon:QuickAccessMenuItem Target="{Binding ElementName=buttonGreen}" />
+            </ribbon:Ribbon.QuickAccessItems>
+
+            <!--  Backstage  -->
+            <ribbon:Ribbon.Menu>
+                <ribbon:Backstage>
+                    <ribbon:BackstageTabControl>
+                        <ribbon:Button Header="{x:Static i18n:Resources.UI_Open}" Command="{x:Static cmd:CsfMainWindowCommands.OpenFile}"/>
+                        <ribbon:Button Header="{x:Static i18n:Resources.UI_Save}" Command="{x:Static cmd:CsfMainWindowCommands.SaveFile}"/>
+                        <ribbon:Button Header="{x:Static i18n:Resources.UI_SaveAs}" Command="{x:Static cmd:CsfMainWindowCommands.SaveAsFile}"/>
+                        <ribbon:Button Header="{x:Static i18n:Resources.UI_New}" />
+                        <ribbon:SeparatorTabItem />
+                        <ribbon:Button Header="{x:Static i18n:Resources.UI_Import}" />
+                        <ribbon:Button Header="{x:Static i18n:Resources.UI_Export}" />
+                        <ribbon:Button Header="{x:Static i18n:Resources.UI_Merge}" />
+                        <ribbon:SeparatorTabItem />
+                        <ribbon:Button Header="{x:Static i18n:Resources.UI_Close}" />
+                        <ribbon:SeparatorTabItem />
+                        <ribbon:Button Header="{x:Static i18n:Resources.UI_ExitApplication}" />
+                    </ribbon:BackstageTabControl>
+                </ribbon:Backstage>
+            </ribbon:Ribbon.Menu>
+
+            <!--  Tabs  -->
+            <ribbon:RibbonTabItem Header="编辑" KeyTip="E">
+                <ribbon:RibbonGroupBox Header="类型">
+                    <ribbon:Button Header="新建类型" KeyTip="C" />
+                    <!--  危险操作  -->
+                    <!--  可以重命名整个类型的标签如"Name:" 无底深坑预定  -->
+                    <ribbon:Button Header="重命名类型" KeyTip="F2" />
+                    <!--  直接Drop掉整个类型 包括所有的标签和字符串  -->
+                    <ribbon:Button Header="移除类型" KeyTip="M" />
+                </ribbon:RibbonGroupBox>
+
+                <ribbon:RibbonGroupBox Header="标签">
+                    <ribbon:Button Header="增加标签" KeyTip="L" />
+                    <ribbon:Button Header="编辑标签" KeyTip="A" />
+                    <!--  直接Drop掉整个标签 包括任何字符串  -->
+                    <ribbon:Button Header="删除标签" KeyTip="D" />
+                </ribbon:RibbonGroupBox>
+
+
+                <ribbon:RibbonGroupBox Header="Others">
+                    <ribbon:Button
+                x:Name="btnToggleTheme"
+                Command="{x:Static cmd:ToggleThemeCommand.Instance}"
+                Header="DarkMode"
+                KeyTip="T" />
+                    <ribbon:Button
+                x:Name="btnShowStartScreen"
+                Command="{x:Static cmd:ShowStartScreenCommand.Instance}"
+                Header="启动窗口" />
+                    <ribbon:Button Header="设置" Click="SettingsButton_Click"/>
+                </ribbon:RibbonGroupBox>
+            </ribbon:RibbonTabItem>
+        </ribbon:Ribbon>
+
+        <Frame Grid.Row="1" Name="Frame" NavigationUIVisibility="Hidden"/>
+        <!--<local:CsfDocumentView x:Name="Document" Grid.Row="1" />-->
         <!--  状态栏  -->
         <local:StatusBar DataContext="{Binding DataContext, ElementName=Document}" />
 
         <local:StatusBlock x:Name="StatusBlock" Grid.RowSpan="3" />
     </Grid>
 
-</Fluent:RibbonWindow>
+</mah:MetroWindow>

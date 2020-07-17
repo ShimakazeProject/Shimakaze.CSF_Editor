@@ -12,20 +12,22 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace Shimakaze.ToolKit.CSF.GUI
 {
     /// <summary>
-    /// CsfDocumentView.xaml 的交互逻辑
+    /// DocumentPage.xaml 的交互逻辑
     /// </summary>
-    public partial class CsfDocumentView
+    public partial class DocumentPage : Page
     {
-        public CsfDocumentView()
+        public DocumentPage()
         {
             InitializeComponent();
             StatusBlock.Show(StatusBlock.Control.TextBlock, "请拖放或打开一个文件以继续");
         }
         public string FilePath { get; set; } = string.Empty;
         public bool IsOpenedFile { get; set; } = false;
+
 
 
         private void OpenFile_Drop(object sender, DragEventArgs e) => OpenFile(((Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString());
@@ -193,8 +195,9 @@ namespace Shimakaze.ToolKit.CSF.GUI
             CsfClassFileBW.Finished += finished;
 
             // 加载文件
-            CsfClassFileBW.BeginDeparse(fs,(DataContext as ViewModel.CsfDocument)?.ClassList);
+            CsfClassFileBW.BeginDeparse(fs, (DataContext as ViewModel.CsfDocument)?.ClassList);
         }
 
-    }
+    
+}
 }
