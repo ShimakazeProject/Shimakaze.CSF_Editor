@@ -12,9 +12,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shimakaze.ToolKit.CSF.Plugin.Interfaces", "Shimakaze.ToolKit.CSF.Plugin.Kernel\Shimakaze.ToolKit.CSF.Plugin.Interfaces.csproj", "{FAE1304D-F5D1-4D6A-8135-C3228F63D939}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shimakaze.ToolKit.CSF.Plugin.Interfaces", "Shimakaze.ToolKit.CSF.Plugin.Kernel\Shimakaze.ToolKit.CSF.Plugin.Interfaces.csproj", "{FAE1304D-F5D1-4D6A-8135-C3228F63D939}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shimakaze.ToolKit.CSF.Plugin.JsonExtension", "Shimakaze.ToolKit.CSF.Plugin.JsonExtension\Shimakaze.ToolKit.CSF.Plugin.JsonExtension.csproj", "{63F2B0F2-0FF3-45DC-B9FF-66C2E6CF86C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shimakaze.ToolKit.CSF.Plugin.JsonExtension", "Shimakaze.ToolKit.CSF.Plugin.JsonExtension\Shimakaze.ToolKit.CSF.Plugin.JsonExtension.csproj", "{63F2B0F2-0FF3-45DC-B9FF-66C2E6CF86C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

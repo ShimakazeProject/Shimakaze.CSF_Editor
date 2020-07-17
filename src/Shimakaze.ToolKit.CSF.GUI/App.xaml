@@ -9,14 +9,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <!--  FluentWPF Controls  -->
                 <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml" />
-                <!--  Attach default Theme  -->
-                <ResourceDictionary Source="pack://application:,,,/Fluent;component/Themes/Styles.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Fluent;component/Themes/Themes/Dark.Blue.xaml" />
-
                 <!--  MaterialDesignThemes  -->
                 <materialDesign:BundledTheme
                     BaseTheme="Dark"
-                    PrimaryColor="DeepPurple"
+                    PrimaryColor="Blue"
                     SecondaryColor="Lime" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
 
@@ -27,8 +23,9 @@
                 <!--  Accent and AppTheme setting  -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Blue.xaml" />
 
-                <ResourceDictionary Source="/Theme/MaterialDesignThemesSync.xaml" />
-                <!--<ResourceDictionary Source="/Theme/FluentRibbonThemesSync.xaml"/>-->
+                <!-- Attach default Theme -->
+                <ResourceDictionary Source="pack://application:,,,/Fluent;Component/Themes/Generic.xaml" />
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

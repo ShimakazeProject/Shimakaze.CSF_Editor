@@ -31,15 +31,15 @@ namespace Shimakaze.ToolKit.CSF.GUI
         }
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
-            Theme.ThemeManager.IsLightTheme = !Theme.ThemeManager.IsLightTheme;
-            ChangeToggleButtonName(sender);
+            //Theme.ThemeManager.IsLightTheme = !Theme.ThemeManager.IsLightTheme;
+            //ChangeToggleButtonName(sender);
         }
         private void ChangeToggleButtonName(object sender)
         {
-            if (Theme.ThemeManager.IsLightTheme)
-                (sender as Fluent.Button).Header = Strings.Resources.UI_Theme_Dark;
-            else
-                (sender as Fluent.Button).Header = Strings.Resources.UI_Theme_Light;
+            //if (Theme.ThemeManager.IsLightTheme)
+            //    (sender as Fluent.Button).Header = Strings.Resources.UI_Theme_Dark;
+            //else
+            //    (sender as Fluent.Button).Header = Strings.Resources.UI_Theme_Light;
         }
 
 

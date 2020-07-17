@@ -75,13 +75,14 @@
         <Fluent:RibbonGroupBox Header="Others">
             <Fluent:Button
                 x:Name="btnToggleTheme"
-                Click="ToggleButton_Click"
+                Command="{x:Static cmd:ToggleThemeCommand.Instance}"
                 Header="DarkMode"
                 KeyTip="T" />
             <Fluent:Button
                 x:Name="btnShowStartScreen"
                 Command="{x:Static cmd:ShowStartScreenCommand.Instance}"
                 Header="启动窗口" />
+            <Fluent:Button Header="设置" />
         </Fluent:RibbonGroupBox>
     </Fluent:RibbonTabItem>
 </Fluent:Ribbon>
